@@ -4,6 +4,7 @@ require.config({
       paths: {
         jquery: 'js/lib/jquery-2.1.1',
         underscore: 'js/lib/underscore',
+        mustache: 'js/lib/mustache',
         jasmine: '../test/lib/jasmine',
         'jasmine-html': '../test/lib/jasmine-html',
         'jasmine-jquery': '../test/lib/jasmine-jquery',
@@ -39,7 +40,7 @@ require.config({
     });
 
     var specs = [
-      // '../test/spec/models/PhotoTest',
+      '../test/spec/screens/ScreenTest'
     ];
 
     require(['boot'], function () {
