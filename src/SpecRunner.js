@@ -39,7 +39,7 @@ require.config({
     });
 
     var specs = [
-      '../test/spec/models/PhotoTest',
+      // '../test/spec/models/PhotoTest',
     ];
 
     require(['boot'], function () {
