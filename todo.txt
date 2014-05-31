@@ -1,0 +1,17 @@
+turn-based game loop
+terrain features (impenetrable)
+activeAgents queue
+Agents class
+	isActive --> on queue: 1) pop(), 2) if isActive, add back and act() 
+	act()
+drunk walk guy
+arrows
+seeds/child worlds (seeds are like child world futures)
+commands
+	l - look (which direction?)
+	a - attack
+	i - inventory
+	t - talk
+visible zone/active zone/inactive zone
+town/fortress/shrine/temple/graveyard/catacombs
+start on shrine

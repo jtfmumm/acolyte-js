@@ -3,7 +3,7 @@ define(function(require) {
     var Input = {
         events: [],
         addEvent: function(event) {
-            this.events.unshift(event);
+            if (this.events.length < 11) this.events.unshift(event);
         },
         reset: function() {
             this.events = [];

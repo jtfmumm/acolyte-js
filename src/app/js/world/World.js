@@ -6,7 +6,10 @@ define(function(require) {
     var terrainCodeTable = require("js/data/terrainCodeTable");
     var walledMap = require("js/maps/walledMap");
 
-    function World(genAlg) {
+    function World(genAlg, selfPosition, parent) {
+        this.parent = parent || null;
+        this.selfPosition = selfPosition || {x: 0, y: 0};
+
         var genAlg = genAlg || generateWorldMap;
         this.worldMap = genAlg(50, 50, terrainCodeTable);
         this.addMapAt(10, 10, new Matrix(walledMap));

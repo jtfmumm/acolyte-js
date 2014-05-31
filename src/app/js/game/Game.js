@@ -42,16 +42,16 @@ define(function(require) {
         if (nextInput) console.log(nextInput);
         switch (nextInput) {
             case "UP":
-                Self.move(0, -1, world);
+                Self.move({x: 0, y: -1}, world);
                 break;
             case "DOWN":
-                Self.move(0, 1, world);
+                Self.move({x: 0, y: 1}, world);
                 break;
             case "LEFT":
-                Self.move(-1, 0, world);
+                Self.move({x: -1, y: 0}, world);
                 break;
             case "RIGHT":
-                Self.move(1, 0, world);
+                Self.move({x: 1, y: 0}, world);
                 break;
             case "PAUSE":
                 Game.pause();

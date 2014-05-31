@@ -2,23 +2,25 @@ define(function(require) {
     var config = require("js/data/config");
 
     var Self = {
-        xPosition: 25,
-        yPosition: 25,
+        position: {x: 25, y: 25},
 
         init: function(world) {
-            world.addOccupant(this.xPosition, this.yPosition, this);
+            this.position = world.selfPosition;
+            world.addOccupant(this.position.x, this.position.y, this);
         },
-        move: function(xChange, yChange, world) {
-            var newX = this.xPosition + xChange;
-            var newY = this.yPosition + yChange;
-            this.moveTo(newX, newY, world);
+        move: function(posChange, world) {
+            var newPos = {
+                x: this.position.x + posChange.x,
+                y: this.position.y + posChange.y
+            };
+            this.moveTo(newPos, world);
         },
-        moveTo: function(newX, newY, world) {
-            if (!withinBoundaries(newX, newY)) return void 0;
-            world.removeOccupant(this.xPosition, this.yPosition);
-            world.addOccupant(newX, newY, this);
-            this.xPosition = newX;
-            this.yPosition = newY;
+        moveTo: function(newPos, world) {
+            if (!withinBoundaries(newPos.x, newPos.y)) return void 0;
+            world.removeOccupant(this.position.x, this.position.y);
+            world.addOccupant(newPos.x, newPos.y, this);
+            this.position.x = newPos.x;
+            this.position.y = newPos.y;
         },
         getCode: function() {
             return "self";
