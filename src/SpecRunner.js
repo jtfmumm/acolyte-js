@@ -40,7 +40,11 @@ require.config({
     });
 
     var specs = [
-      '../test/spec/screens/ScreenTest'
+      '../test/spec/screens/ScreenTest',
+      '../test/spec/displays/HTMLDisplayTest',
+      '../test/spec/utils/ArrayUtilsTest',
+      '../test/spec/utils/MatrixUtilsTest',
+      '../test/spec/world/WorldTest'
     ];
 
     require(['boot'], function () {

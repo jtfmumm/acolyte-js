@@ -1,0 +1,7 @@
+.display {
+    font-family: monospace;
+}
+
+#display {
+    border: 2px solid;
+}

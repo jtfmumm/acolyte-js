@@ -12,8 +12,10 @@ require.config({
     }
 });
 
-require(["js/screens/Screen"], 
-        function (Screen) {
-            var screen = new Screen();
-            screen.render();
+require(["js/game/Game", "js/world/World", "js/displays/HTMLDisplay", "js/generators/RandomMapGenerator", "js/input/Keyboard"], 
+        function (Game, World, HTMLDisplay, RandomMapGenerator, Keyboard) {
+            Game.init(Keyboard);
+            // var display = new HTMLDisplay();
+            // var world = new World();//(RandomMapGenerator.uniform);
+            // world.displayMap(display);
 });
