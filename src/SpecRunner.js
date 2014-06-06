@@ -42,8 +42,10 @@ require.config({
     var specs = [
       '../test/spec/screens/ScreenTest',
       '../test/spec/displays/HTMLDisplayTest',
-      '../test/spec/utils/ArrayUtilsTest',
-      '../test/spec/utils/MatrixUtilsTest',
+      '../test/spec/agents/ActiveAgentsTest',
+      '../test/spec/utils/CoordsTest',
+      // '../test/spec/utils/ArrayUtilsTest',
+      // '../test/spec/utils/MatrixUtilsTest',
       '../test/spec/world/WorldTest'
     ];
 

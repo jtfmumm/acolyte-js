@@ -1,19 +1,28 @@
 define(function(require) {
     return {
         "main": {
-            code: "main"
+            code: "main",
+            impenetrable: false
         },
         "wall": {
-            code: "wall"
+            code: "wall",
+            impenetrable: true
         },
         "palm": {
-            code: "palm"
+            code: "palm",
+            impenetrable: false
         },
         "plains": {
-            code: "plains"
+            code: "plains",
+            impenetrable: false
         },
         "forest": {
-            code: "forest"
+            code: "forest",
+            impenetrable: false
+        },
+        "guy": {
+            code: "guy",
+            impenetrable: true
         }
     }
 });

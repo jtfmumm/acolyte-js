@@ -1,4 +1,7 @@
 define(function(require) {
+    "use strict"
+    var Coords = require("js/utils/Coords");
+
     var $ = require("jquery");
     var mustache = require("mustache");
     var Matrix = require("js/utils/Matrix");
@@ -6,44 +9,114 @@ define(function(require) {
     var terrainCodeTable = require("js/data/terrainCodeTable");
     var walledMap = require("js/maps/walledMap");
 
-    function World(genAlg, selfPosition, parent) {
+    function World(genAlg, focus, parent) {
         this.parent = parent || null;
-        this.selfPosition = selfPosition || {x: 0, y: 0};
+        this.focus = focus || new Coords(0, 0);
+        this.width = 100;
+        this.height = 100;
+        this.activeRadius = 35;
+        this.activeZone = new Matrix();
+        this.visibleRadius = 25;
+        this.visibleZone = new Matrix();
 
         var genAlg = genAlg || generateWorldMap;
-        this.worldMap = genAlg(50, 50, terrainCodeTable);
-        this.addMapAt(10, 10, new Matrix(walledMap));
+        this.worldMap = genAlg(this.width, this.height, terrainCodeTable);
+        this.addMapAt(new Coords(10, 10), new Matrix(walledMap));
+        this.activeZone = this.getActiveZone();
+        this.visibleZone = this.getVisibleZone();
     }
-    World.prototype.getTile = function(x, y) {
-        return this.worldMap.getCell(x, y);
+    World.prototype.getTile = function(position) {
+        return this.worldMap.getCell(position.x, position.y);
+    }
+    World.prototype.removeOccupant = function(position) {
+        this.getTile(position).occupant = null;
+    }
+    World.prototype.addOccupant = function(position, newOccupant) {
+        this.getTile(position).occupant = newOccupant;
+    }
+    World.prototype.isImpenetrable = function(position) {
+        if (!this.isWithinBoundaries(position)) return true;
+        var tile = this.getTile(position);
+
+        if (tile.occupant) {
+            return tile.occupant.isImpenetrable();
+        } else {
+            var occupantCode = getTileCode(tile);
+            return terrainCodeTable[occupantCode].impenetrable;
+        }
+    }
+    World.prototype.isWithinBoundaries = function(position) {
+        return (position.x >= 0 && position.y >= 0 && position.x < this.width && position.y < this.height);
+    }
+    World.prototype.withinBoundaries = function(position) {
+        var x = position.x, y = position.y;
+        var legitPos = new Coords(x, y);
+        switch (true) {
+            case x < 0:
+                legitPos.x = 0;
+            case x > this.width - 1:
+                legitPos.x = this.width - 1;
+            case y < 0:
+                legitPos.y = 0;
+            case y > this.height - 1:
+                legitPos.y = this.height - 1;
+        }
+        return legitPos;
     }
     World.prototype.displayMap = function(display) {
-        var codeMap = this.worldMap.map(getTileCode);
+        var codeMap = this.visibleZone.map(getTileCode);
         display.renderMap(codeMap);
     }
-    World.prototype.removeOccupant = function(x, y) {
-        this.getTile(x, y).occupant = null;
+    World.prototype.getSurroundings = function(radius, position) {
+        var position = position || this.focus;
+        var top = this.withinBoundaries(position.minus(radius, radius))
+        var bottom = this.withinBoundaries(position.plus(radius, radius));
+        return this.worldMap.getSubMatrixByCoords(top.x, top.y, bottom.x, bottom.y);        
     }
-    World.prototype.addOccupant = function(x, y, newOccupant) {
-        this.getTile(x, y).occupant = newOccupant;
+    World.prototype.getVisibleZone = function() {
+        var offsetPosition = this.focus.offsetGiven(this.visibleRadius, this.width, this.height);
+        return this.getSurroundings(this.visibleRadius, offsetPosition);
     }
-    World.prototype.changeTerrainTo = function(x, y, terrain) {
-        this.getTile(x, y).terrain = terrain;
+    World.prototype.getActiveZone = function() {
+        return this.getSurroundings(this.activeRadius);
     }
-    World.prototype.addMapAt = function(x, y, newMap) {
+    World.prototype.updateFocus = function(newPos) {
+        var oldPos = this.focus;
+        this.focus = newPos;
+        this.activeZone = this.getActiveZone();
+        this.visibleZone = this.getVisibleZone();
+        var newActive = this.worldMap.getBoundaryByDirection(oldPos.directionTo(newPos));
+        var newInactive = this.worldMap.getBoundaryByDirection(oldPos.directionFrom(newPos));
+        this.updateActivations(newActive, newInactive);
+    }
+    World.prototype.updateActivations = function(newActive, newInactive) {
+        newActive.forEach(function(tile) {
+            if (tile.occupant) tile.occupant.activate();
+        });
+        newInactive.forEach(function(tile) {
+            if (tile.occupant) tile.occupant.deactivate();
+        });
+    }
+    World.prototype.changeTerrainTo = function(position, terrain) {
+        this.getTile(position).terrain = terrain;
+    }
+    World.prototype.addMapAt = function(position, newMap) {
         var width = newMap.getWidth();
         var height = newMap.getHeight();
-        var subWorld = this.worldMap.getSubMatrix(x, y, width, height);
+        var subWorld = this.worldMap.getSubMatrix(position.x, position.y, width, height);
         Matrix.copyObjectsWith(subWorld, newMap, copyTerrainByCode);
+    }
+    World.prototype.initializeAgents = function() {
+        this.activeZone.forEach(function(tile) {
+            if (tile.occupant) tile.occupant.activate();
+        });
     }
 
     function copyTerrain(oldTile, newTile) {
-        console.log(oldTile, newTile);
         oldTile.terrain = newTile.terrain;
     }
 
     function copyTerrainByCode(oldTile, newTileCode) {
-        console.log(oldTile, newTileCode);
         oldTile.terrain = terrainCodeTable[newTileCode];
     }
 

@@ -4,6 +4,7 @@ define(function(require) {
         "wall": " #",
         "palm": " (",
         "plains": " .",
-        "forest": " F"
+        "forest": " F",
+        "drunk": " &"
     }
 });

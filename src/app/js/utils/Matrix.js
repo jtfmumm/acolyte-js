@@ -65,6 +65,39 @@ define(function(require) {
         }
         return new Matrix(subMatrix);
     }
+    Matrix.prototype.getSubMatrixByCoords = function(topX, topY, bottomX, bottomY) {
+        var width = bottomX - topX + 1;
+        var height = bottomY - topY + 1;
+        return this.getSubMatrix(topX, topY, width, height);
+    }
+    Matrix.prototype.getBoundaryByDirection = function(direction) {
+        switch (direction) {
+            case "north":
+                return this.getNorthBoundary();
+            case "south":
+                return this.getSouthBoundary();
+            case "west":
+                return this.getWestBoundary();
+            case "east":
+                return this.getEastBoundary();   
+            default:
+                throw new Error("getBoundaryByDirection requires a direction!");             
+        }
+    }
+    Matrix.prototype.getNorthBoundary = function() {
+        return this.getSubMatrix(0, 0, this.getWidth() - 1, 1);
+    }
+    Matrix.prototype.getSouthBoundary = function() {
+        var last = this.getHeight() - 1;
+        return this.getSubMatrix(0, last, this.getWidth() - 1, 1);
+    }
+    Matrix.prototype.getWestBoundary = function() {
+        return this.getSubMatrix(0, 0, 1, this.getHeight() - 1);
+    }
+    Matrix.prototype.getEastBoundary = function() {
+        var last = this.getWidth() - 1;
+        return this.getSubMatrix(last, 0, 1, this.getHeight() - 1);
+    }
 
     //Static methods
     Matrix.copyObjectsWith =function(oldSubMatrix, newSubMatrix, copyFn) {

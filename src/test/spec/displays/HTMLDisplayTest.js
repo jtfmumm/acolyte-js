@@ -3,6 +3,7 @@ define(function(require) {
     require("jasmine-jquery");
     var HTMLDisplay = require("js/displays/HTMLDisplay");
     var HTMLCodeTable = require("js/data/HTMLCodeTable");
+    var Matrix = require("js/utils/Matrix");
 
     var $hangar = null;
     var display = new HTMLDisplay();
@@ -17,7 +18,7 @@ define(function(require) {
         }); 
 
         it('should display a map from a 2D array of object codes', function() {
-            var map = [["self", "wall", "palm"],["self", "wall", "palm"]];
+            var map = new Matrix([["self", "wall", "palm"],["self", "wall", "palm"]]);
             display.renderMap(map);
             console.log($hangar[0]);
 
