@@ -2,9 +2,9 @@ define(function(require) {
     var Directions = require("js/movement/Directions");
     var Rand = require("js/utils/Rand");
     
-    var cardinalDirections = [Directions.up, Directions.down, Directions.left, Directions.right];
-    var ordinalDirections = [Directions.upLeft, Directions.downLeft, Directions.upRight, Directions.downRight];
-    var allDirections = [Directions.up, Directions.down, Directions.left, Directions.right];
+    var cardinalDirections = [Directions.north, Directions.south, Directions.west, Directions.east];
+    var ordinalDirections = [Directions.northWest, Directions.southWest, Directions.northEast, Directions.southEast];
+    var allDirections = [Directions.north, Directions.south, Directions.west, Directions.east];
 
     var MovementAlgs = {
         drunk: function() {

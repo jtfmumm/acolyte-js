@@ -14,8 +14,8 @@ define(function(require) {
 
         describe('addAgent', function() {
             it('adds to waitList queue', function() {
-                var newAgent = {};
-                var newAgent2 = {};
+                var newAgent = {isActive: function() { return true; }, deactivate: function() {}, activate: function() {} };
+                var newAgent2 = {isActive: function() { return true; }, deactivate: function() {}, activate: function() {} };
                 ActiveAgents.addAgent(newAgent);
                 ActiveAgents.addAgent(newAgent2);
                 expect(ActiveAgents.waitList[0]).toBe(newAgent2);
@@ -25,10 +25,10 @@ define(function(require) {
 
         describe('moveToActive', function() {
             it('moves all active waitList agents to front of activeList queue', function() {
-                var agent1 = {name: 1, isActive: function() { return true; } };
-                var agent2 = {name: 2, isActive: function() { return true; } };
-                var agent3 = {name: 3, isActive: function() { return false; } };
-                var agent4 = {name: 4, isActive: function() { return true; } };
+                var agent1 = {name: 1, isActive: function() { return true; }, deactivate: function() {}, activate: function() {} };
+                var agent2 = {name: 2, isActive: function() { return true; }, deactivate: function() {}, activate: function() {} };
+                var agent3 = {name: 3, isActive: function() { return false; }, deactivate: function() {}, activate: function() {} };
+                var agent4 = {name: 4, isActive: function() { return true; }, deactivate: function() {}, activate: function() {} };
                 ActiveAgents.addAgent(agent1);
                 ActiveAgents.addAgent(agent2);
                 ActiveAgents.addAgent(agent3);
@@ -42,10 +42,10 @@ define(function(require) {
 
         describe('processActiveList', function() {
             it('processes all activeList agents, pushes them to waitList, and clears activeList', function() {
-                var agent1 = {act: function() {}, name: 1, isActive: function() { return true; } };
-                var agent2 = {act: function() {}, name: 2, isActive: function() { return true; } };
-                var agent3 = {act: function() {}, name: 3, isActive: function() { return false; } };
-                var agent4 = {act: function() {}, name: 4, isActive: function() { return true; } };
+                var agent1 = {act: function() {}, name: 1, isActive: function() { return true; }, deactivate: function() {}, activate: function() {} };
+                var agent2 = {act: function() {}, name: 2, isActive: function() { return true; }, deactivate: function() {}, activate: function() {} };
+                var agent3 = {act: function() {}, name: 3, isActive: function() { return false; }, deactivate: function() {}, activate: function() {} };
+                var agent4 = {act: function() {}, name: 4, isActive: function() { return true; }, deactivate: function() {}, activate: function() {} };
                 ActiveAgents.addAgent(agent1);
                 ActiveAgents.addAgent(agent2);
                 ActiveAgents.addAgent(agent3);

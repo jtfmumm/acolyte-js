@@ -9,9 +9,10 @@ define(function(require) {
     var terrainCodeTable = require("js/data/terrainCodeTable");
     var walledMap = require("js/maps/walledMap");
 
+
     function World(genAlg, focus, parent) {
         this.parent = parent || null;
-        this.focus = focus || new Coords(0, 0);
+        this.focus = focus || new Coords(1, 1);
         this.width = 100;
         this.height = 100;
         this.activeRadius = 35;
@@ -21,7 +22,7 @@ define(function(require) {
 
         var genAlg = genAlg || generateWorldMap;
         this.worldMap = genAlg(this.width, this.height, terrainCodeTable);
-        this.addMapAt(new Coords(10, 10), new Matrix(walledMap));
+        this.addMapAt(new Coords(20, 20), new Matrix(walledMap));
         this.activeZone = this.getActiveZone();
         this.visibleZone = this.getVisibleZone();
     }
@@ -78,23 +79,22 @@ define(function(require) {
         return this.getSurroundings(this.visibleRadius, offsetPosition);
     }
     World.prototype.getActiveZone = function() {
-        return this.getSurroundings(this.activeRadius);
+        var offsetPosition = this.focus.offsetGiven(this.activeRadius, this.width, this.height);
+        return this.getSurroundings(this.activeRadius, offsetPosition);
     }
     World.prototype.updateFocus = function(newPos) {
         var oldPos = this.focus;
         this.focus = newPos;
         this.activeZone = this.getActiveZone();
         this.visibleZone = this.getVisibleZone();
-        var newActive = this.worldMap.getBoundaryByDirection(oldPos.directionTo(newPos));
-        var newInactive = this.worldMap.getBoundaryByDirection(oldPos.directionFrom(newPos));
-        this.updateActivations(newActive, newInactive);
+        if (!oldPos.isEqual(newPos)) {
+            var newActive = this.activeZone.getBoundaryByDirection(oldPos.directionTo(newPos));
+        }
+        this.updateActivations(newActive);
     }
     World.prototype.updateActivations = function(newActive, newInactive) {
         newActive.forEach(function(tile) {
             if (tile.occupant) tile.occupant.activate();
-        });
-        newInactive.forEach(function(tile) {
-            if (tile.occupant) tile.occupant.deactivate();
         });
     }
     World.prototype.changeTerrainTo = function(position, terrain) {
@@ -108,7 +108,9 @@ define(function(require) {
     }
     World.prototype.initializeAgents = function() {
         this.activeZone.forEach(function(tile) {
-            if (tile.occupant) tile.occupant.activate();
+            if (tile.occupant) {
+                tile.occupant.activate();
+            }
         });
     }
 

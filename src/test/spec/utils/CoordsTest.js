@@ -26,6 +26,16 @@ define(function(require) {
             });
         });
 
+        describe('plus and minus', function () {
+            it('can be chained', function() {
+                var c = new Coords(10, 11);
+                var d = new Coords(5, 6);
+                var e = new Coords(1, 1); 
+                expect(c.minus(d).plus(e)).toEqual(new Coords(6, 6));
+                expect(c.plus(3, 3).minus(2, 2)).toEqual(new Coords(11, 12));
+            });
+        });
+
         describe('isEqual', function () {
             it('should check for equality with input coords', function() {
                 var c = new Coords(3, 4);
@@ -60,6 +70,18 @@ define(function(require) {
                 expect(c.negativeOffsetGiven(e)).toEqual(new Coords(0, 0));
                 expect(c.negativeOffsetGiven(f)).toEqual(new Coords(-1, -2));
                 expect(c.negativeOffsetGiven(2, 2)).toEqual(new Coords(-1, -2));
+            });
+        });    
+
+        describe('offsetGiven', function () {
+            it('should check if coords are out of box, returning appropriate offset', function() {
+                var c = new Coords(3, 4);
+                var d = new Coords(16, 30);
+                var e = new Coords(3, 6); 
+                var f = new Coords(2, 2); 
+                expect(c.offsetGiven(10, 20, 20)).toEqual(new Coords(10, 10));
+                expect(d.offsetGiven(15, 40, 40)).toEqual(new Coords(16, 25));
+                expect(e.offsetGiven(15, 40, 40)).toEqual(new Coords(15, 15));
             });
         });    });
 });

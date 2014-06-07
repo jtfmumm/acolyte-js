@@ -26,6 +26,12 @@ define(function(require) {
             this.processActiveList();
         },
         clearAll: function() {
+            this.waitList.forEach(function(agent) {
+                agent.deactivate();
+            });
+            this.activeList.forEach(function(agent) {
+                agent.deactivate();
+            });
             this.waitList = [];
             this.activeList = [];
         }

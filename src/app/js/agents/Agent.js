@@ -1,5 +1,7 @@
 define(function(require) {
     var Coords = require("js/utils/Coords");
+    var ActiveAgents = require("js/agents/ActiveAgents");
+
 
     function Agent(world, coords) {
         this.active = false;
@@ -29,6 +31,7 @@ define(function(require) {
         return this.active;
     }
     Agent.prototype.activate = function() {
+        if (!this.active) ActiveAgents.addAgent(this);
         this.active = true;
     }
     Agent.prototype.deactivate = function() {

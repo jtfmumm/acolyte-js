@@ -38,7 +38,10 @@ define(function(require) {
     }
     Coords.prototype.offsetGiven = function(radius, width, height) {
         var topOffset = this.minus(radius, radius).positiveOffsetGiven(0, 0);
+        console.log(topOffset);
         var bottomOffset = this.plus(radius, radius).negativeOffsetGiven(width, height);
+        console.log(bottomOffset);
+        console.log(this.plus(topOffset).plus(bottomOffset));
         return this.plus(topOffset).plus(bottomOffset);
     }
     Coords.prototype.directionTo = function(coords) {

@@ -6,7 +6,7 @@ define(function(require) {
     // var self = self || null;
 
     var Self = {
-        position: new Coords(0, 0),
+        position: new Coords(1, 1),
         nextInput: null,
         world: null,
 
@@ -67,6 +67,9 @@ define(function(require) {
         },
         activate: function() {
             console.log("Self activated!");
+        },
+        deactivate: function() {
+            console.log("Self deactivated!!");
         },
         isImpenetrable: function() {
             return true;
