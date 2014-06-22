@@ -48,7 +48,11 @@ define(function(require) {
         var coords = Coords.makeCoords(arguments);
         var difference = this.minus(coords);
         if (difference.x > 0 && difference.y === 0) return "west";
+        if (difference.x > 0 && difference.y < 0) return "southwest";
+        if (difference.x > 0 && difference.y > 0) return "northwest";
         if (difference.x < 0 && difference.y === 0) return "east";
+        if (difference.x < 0 && difference.y < 0) return "southeast";
+        if (difference.x < 0 && difference.y > 0) return "northeast";
         if (difference.x === 0 && difference.y > 0) return "north";
         if (difference.x === 0 && difference.y < 0) return "south";
         return "none";
@@ -57,7 +61,11 @@ define(function(require) {
         var coords = Coords.makeCoords(arguments);
         var difference = this.minus(coords);
         if (difference.x < 0 && difference.y === 0) return "west";
+        if (difference.x < 0 && difference.y > 0) return "southwest";
+        if (difference.x < 0 && difference.y < 0) return "northwest";
         if (difference.x > 0 && difference.y === 0) return "east";
+        if (difference.x > 0 && difference.y > 0) return "southeast";
+        if (difference.x > 0 && difference.y < 0) return "northeast";
         if (difference.x === 0 && difference.y < 0) return "north";
         if (difference.x === 0 && difference.y > 0) return "south";
         return "none";

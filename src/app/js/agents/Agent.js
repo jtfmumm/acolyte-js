@@ -1,4 +1,6 @@
 define(function(require) {
+    "use strict";
+
     var Coords = require("js/utils/Coords");
     var ActiveAgents = require("js/agents/ActiveAgents");
 

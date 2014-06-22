@@ -1,4 +1,6 @@
 define(function(require) {
+    "use strict";
+    
     var config = require("js/data/config");
     var Coords = require("js/utils/Coords");
     var Directions = require("js/movement/Directions");

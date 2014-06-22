@@ -1,5 +1,6 @@
 define(function(require) {
     "use strict"
+    
     var Coords = require("js/utils/Coords");
 
     var $ = require("jquery");
@@ -96,9 +97,6 @@ define(function(require) {
         newActive.forEach(function(tile) {
             if (tile.occupant) tile.occupant.activate();
         });
-    }
-    World.prototype.changeTerrainTo = function(position, terrain) {
-        this.getTile(position).terrain = terrain;
     }
     World.prototype.addMapAt = function(position, newMap) {
         var width = newMap.getWidth();

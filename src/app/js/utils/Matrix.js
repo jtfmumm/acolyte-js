@@ -1,4 +1,5 @@
 define(function(require) {
+    "use strict";
 
     function Matrix(matrix) {
         this.data = matrix || [];

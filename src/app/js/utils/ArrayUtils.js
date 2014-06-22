@@ -1,4 +1,6 @@
 define(function(require) {
+    "use strict";
+
     function flatJoin(arr, delimiter, lineDelimiter) {
         var flattenedArr = arr.map(function(subArr) {
             return subArr.join(delimiter);
@@ -32,30 +34,8 @@ define(function(require) {
         });
     }
 
-    function getSubMatrix(matrix, x, y, width, height) {
-        var i, j;
-        var subMatrix = [];
-        var lastY = y + height;
-        var lastX = x + width;
-        for (i = y; i < lastY; i++) {
-            subMatrix.push([]);
-            for (j = x; j < lastX; j++) {
-                subMatrix[i - y].push(matrix[i][j]);
-            }
-        }
-        console.log(subMatrix[0].length, subMatrix.length);
-        return subMatrix;
-    }
-
-    function copySubMatrix(oldSubMatrix, newSubMatrix, copyFn) {
-        var i, j;
-        var width = oldSubMatrix[0].length;
-        var height = oldSubMatrix.length;
-        for (i = 0; i < height; i++) {
-            for (j = 0; j < width; j++) {
-                copyFn(oldSubMatrix[j][i], newSubMatrix[j][i]);
-            }
-        }
+    function clone(arr) {
+        return arr.slice(0);
     }
 
     return {

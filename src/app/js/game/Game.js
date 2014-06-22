@@ -1,4 +1,6 @@
 define(function(require) {
+    "use strict";
+
     var $ = require("jquery");
     var Input = require("js/input/Input");
     var World = require("js/world/World");
