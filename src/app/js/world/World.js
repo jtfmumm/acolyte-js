@@ -1,6 +1,6 @@
 define(function(require) {
     "use strict"
-    
+
     var Coords = require("js/utils/Coords");
 
     var $ = require("jquery");
@@ -9,23 +9,34 @@ define(function(require) {
     var HTMLDisplay = require("js/displays/HTMLDisplay");
     var terrainCodeTable = require("js/data/terrainCodeTable");
     var walledMap = require("js/maps/walledMap");
-
+    var RegionMap = require("js/world/RegionMap");
 
     function World(genAlg, focus, parent) {
         this.parent = parent || null;
         this.focus = focus || new Coords(1, 1);
-        this.width = 100;
-        this.height = 100;
+
         this.activeRadius = 35;
         this.activeZone = new Matrix();
         this.visibleRadius = 25;
         this.visibleZone = new Matrix();
 
+        this.horizontalRegions = 5;
+        this.verticalRegions = 5;
+        this.width = this.horizontalRegions * this.getVisibleDiameter();
+        this.height = this.verticalRegions * this.getVisibleDiameter();
+
         var genAlg = genAlg || generateWorldMap;
+        this.regionMap = new RegionMap(this.horizontalRegions, this.verticalRegions, this.getVisibleDiameter);
+        this.regionMap.initialize();
+        //TODO: Copy regions over to world map
+
         this.worldMap = genAlg(this.width, this.height, terrainCodeTable);
         this.addMapAt(new Coords(20, 20), new Matrix(walledMap));
         this.activeZone = this.getActiveZone();
         this.visibleZone = this.getVisibleZone();
+    }
+    World.prototype.getVisibleDiameter = function() {
+        return this.visibleRadius * 2 + 1;
     }
     World.prototype.getTile = function(position) {
         return this.worldMap.getCell(position.x, position.y);

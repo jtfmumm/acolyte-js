@@ -11,14 +11,14 @@ define(function(require) {
     var MovementAlgs = {
         drunk: function() {
             return Rand.pickItem(cardinalDirections);
-        }
+        },
 
         biasedDrunk: function(direction) {
             var biasedCardinal = cardinalDirections.slice(0);
             biasedCardinal.push(direction);
             return Rand.pickItem(biasedCardinal);
         }
-    }
+    };
 
     return MovementAlgs;
-})
+});

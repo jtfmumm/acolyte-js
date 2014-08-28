@@ -4,10 +4,11 @@ define(function(require) {
     var Matrix = require("js/utils/Matrix");
     var Region = require("js/world/Region");
 
-    function RegionMap(width, height, diameter) {
+    //Takes width and height measured in regions, plus diameter per region
+    function RegionMap(width, height, diameterPerRegion) {
         this.width = width;
         this.height = height;
-        this.diameter = diameter;
+        this.diameterPerRegion = diameterPerRegion;
         Matrix.call(this);
         var i;
         for (i = 0; i < height; i++) {
@@ -15,14 +16,14 @@ define(function(require) {
         }
     }
     RegionMap.prototype = Object.create(Matrix.prototype);
-    RegionMap.prototype.initialize() {
+    RegionMap.prototype.initialize = function() {
         var i, j;
         for (i = 0; i < this.height; i++) {
             for (j = 0; j < this.width; j++) {
-                this.data[i][j] = generateRegion(this.diameter);
+                this.data[i][j] = generateRegion(this.diameterPerRegion);
             }
         }
-    }
+    };
 
     function generateRegion(diameter) {
         return new Region(diameter, "average");
