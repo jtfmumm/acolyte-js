@@ -5,6 +5,7 @@ define(function(require) {
     var RegionAgentsManager = require("js/agents/RegionAgentsManager");
     var Coords = require("js/utils/Coords");
     var Rand = require("js/utils/Rand");
+    var terrainCodeTable = require("js/data/terrainCodeTable");
 
     function Region(options) {
         this.activeAgents = new RegionAgentsManager();
@@ -19,6 +20,7 @@ define(function(require) {
         getMap: function() {
             return this.map;
         },
+        //This should probably be part of a generator
         generateMap: function () {
             return regionMapGenerator[this.type](this.diameter);
         },
@@ -68,15 +70,6 @@ define(function(require) {
             }
             return legitPos;
         },
-        addMapAt: function (position, newMap) {
-            var width = newMap.getWidth();
-            var height = newMap.getHeight();
-            var subWorld = this.worldMap.getSubMatrix(position.x, position.y, width, height);
-            Matrix.copyObjectsWith(subWorld, newMap, copyTerrainByCode);
-        },
-        hasCrossedEdge: function(position) {
-            return (position.x < 0 || position.y < 0 || position.x >= this.diameter || position.y >= this.diameter);
-        },
         regionChange: function(position) {
             switch(true) {
                 case position.x < 0:
@@ -96,9 +89,6 @@ define(function(require) {
                     break;
             }
         },
-        getType: function () {
-            return this.type;
-        },
         calculateEntranceCoords: function(wCoords, regionChange) {
             var direction = new Coords(0, 0).directionTo(regionChange);
             switch (true) {
@@ -111,8 +101,18 @@ define(function(require) {
                 case direction === "east":
                     return new Coords(0, wCoords.getLocalCoords().y);
             }
+        },
+        addMapAt: function (position, newMap) {
+            var width = newMap.getWidth();
+            var height = newMap.getHeight();
+            var subWorld = this.worldMap.getSubMatrix(position.x, position.y, width, height);
+            Matrix.copyObjectsWith(subWorld, newMap, copyTerrainByCode);
         }
     };
+
+    function copyTerrainByCode(oldTile, newTileCode) {
+        oldTile.terrain = terrainCodeTable[newTileCode];
+    }
 
     return Region;
 });

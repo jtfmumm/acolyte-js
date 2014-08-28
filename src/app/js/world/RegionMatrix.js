@@ -3,6 +3,7 @@ define(function(require) {
 
     _ = require("lodash");
     var Matrix = require("js/utils/Matrix");
+    var Coords = require("js/utils/Coords");
     var Region = require("js/world/Region");
     var Rand = require("js/utils/Rand");
 
@@ -17,7 +18,7 @@ define(function(require) {
             this.data.push(Array(width));
         }
 
-        this.startingRegion = this.data[Rand.rollFromZero(this.height)][Rand.rollFromZero(this.width)];
+        this.startingRegionCoords = new Coords(Rand.rollFromZero(this.weight), Rand.rollFromZero(this.height));
     }
 
     RegionMatrix.prototype = _.extend(Object.create(Matrix.prototype), {
@@ -29,11 +30,18 @@ define(function(require) {
                 }
             }
         },
+        getDiameter: function() {
+            return this.diameterPerRegion;
+        },
+        getStartingRegionCoords: function() {
+            return this.startingRegionCoords;
+        },
         getRegion: function(coords) {
             return this.getCell(coords.x, coords.y);
         },
         placeAgent: function(agent) {
-            this.startingRegion.initializeAgent(agent);
+            var startingRegion = this.getRegion(this.startingRegionCoords);
+            startingRegion.initializeAgent(agent);
         },
         getNextRegionCoords: function(wCoords, regionChange) {
             var lastRegionCoords = wCoords.getRegionMatrixCoords();

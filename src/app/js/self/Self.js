@@ -15,9 +15,9 @@ define(function(require) {
 
         init: function(world) {
             this.updateWorld(world); 
-            this.position = this.world.focus;
-            this.world.addOccupant(this.position, this);
-            world.initializeAgents();
+//            this.position = this.world.focus;
+//            this.world.addOccupant(this.position, this);
+//            world.initializeAgents();
         },
         setRegion: function(region) {
             this.region = region;

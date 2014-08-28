@@ -2,29 +2,33 @@ define(function(require) {
 
     var WorldCoords = require("js/utils/WorldCoords");
     var Matrix = require("js/utils/Matrix");
+    var Coords = require("js/utils/Coords");
 
-    function VisibleMapManager() {
-        this.NWCorner = new WorldCoords();
-        this.NECorner = new WorldCoords();
-        this.SWCorner = new WorldCoords();
-        this.SECorner = new WorldCoords();
+    function VisibleMapManager(regionMatrix) {
+        var regionCoords = regionMatrix.getStartingRegionCoords();
+        var diameter = regionMatrix.getDiameter();
+        this.NWCorner = new WorldCoords(regionCoords, new Coords(0, 0), regionMatrix);
+        this.NECorner = new WorldCoords(regionCoords, new Coords(diameter, 0), regionMatrix);
+        this.SWCorner = new WorldCoords(regionCoords, new Coords(0, diameter), regionMatrix);
+        this.SECorner = new WorldCoords(regionCoords, new Coords(diameter, diameter), regionMatrix);
         this.map = new Matrix();
     }
 
     VisibleMapManager.prototype = {
         display: function(display) {
             this.updateMap();
-            display.renderMap(this.map);
+            var codeMap = this.map.map(getTileCode);
+            display.renderMap(codeMap);
         },
         updateMap: function() {
             var topSubMatrix, bottomSubMatrix;
-            var NWMatrix = this.NWCorner.getMap()
+            var NWMatrix = this.NWCorner.getRegionMap()
                 .getSubMatrixByDirectionFrom("southeast", this.NWCorner.getLocalCoords());
-            var NEMatrix = this.NECorner.getMap()
+            var NEMatrix = this.NECorner.getRegionMap()
                 .getSubMatrixByDirectionFrom("southwest", this.NECorner.getLocalCoords());
-            var SWMatrix = this.SWCorner.getMap()
+            var SWMatrix = this.SWCorner.getRegionMap()
                 .getSubMatrixByDirectionFrom("northeast", this.SWCorner.getLocalCoords());
-            var SEMatrix = this.SECorner.getMap()
+            var SEMatrix = this.SECorner.getRegionMap()
                 .getSubMatrixByDirectionFrom("northwest", this.SECorner.getLocalCoords());
 
             if (!(this.NWCorner.isSameRegionAs(this.NECorner))) {
@@ -40,13 +44,20 @@ define(function(require) {
             }
 
             if (!(this.NWCorner.isSameRegionAs(this.NECorner))) {
-                var newMap = topSubMatrix.concatVertical(bottomSubMatrix));
+                var newMap = topSubMatrix.concatVertical(bottomSubMatrix);
                 this.map = new Matrix(newMap);
             } else {
                 this.map = new Matrix(topSubMatrix);
             }
         }
     };
+
+    function getTileCode(tile) {
+        if (tile.occupant)
+            return tile.occupant.getCode();
+        else
+            return tile.terrain.code;
+    }
 
     return VisibleMapManager;
 });

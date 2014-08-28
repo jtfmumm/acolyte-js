@@ -10,8 +10,6 @@ define(function(require) {
     var Drunk = require("js/agents/Drunk");
     var Coords = require("js/utils/Coords");
 
-
-
     var display = new HTMLDisplay();
     var world = new World();
     var gameSpeed = 150;  //higher is slower: ms per frame
@@ -26,15 +24,15 @@ define(function(require) {
         input: null,
         init: function(inputDevice) {
             //Remove later
-            world.addOccupant(new Coords(10, 10), drunk);
+//            world.addOccupant(new Coords(10, 10), drunk);
             //NEED TO UPDATE ACTIVE LIST OVER TIME
-            world.initializeAgents();
+//            world.initializeAgents();
 
             this.input = inputDevice;
             this.input.connect();
             Self.init(world);
-            ActiveAgents.addAgent(Self);
-            world.displayMap(display);
+//            ActiveAgents.addAgent(Self);
+            world.display(display);
             this.watchInput();
         },
         watchInput: function() {
@@ -48,11 +46,8 @@ define(function(require) {
         },
         nextStep: function() {
             timeCounter++;
-            if (timeCounter % 100 == 0) {
-                this.upkeep();
-            }
             processNextKey(this.input);
-            ActiveAgents.prepareAgents();
+//            ActiveAgents.prepareAgents();
             world.displayMap(display);
         },
         pause: function() {
@@ -61,12 +56,6 @@ define(function(require) {
                 this.input.disconnect();
             else
                 this.input.connect();
-        },
-        upkeep: function() {
-            ActiveAgents.clearAll();
-            world.initializeAgents();
-            ActiveAgents.addAgent(Self);
-            
         }
     };
 
