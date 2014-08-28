@@ -9,18 +9,15 @@ define(function(require) {
         this.owner = options.owner || null;
         this.map = this.generateMap();
     }
-    Region.prototype.generateMap = function() {
-        return regionMapGenerator[this.type](this.diameter);
+
+    Region.prototype = {
+        generateMap: function () {
+            return regionMapGenerator[this.type](this.diameter);
+        },
+        getType: function () {
+            return this.type;
+        }
     };
-    Region.prototype.getType = function() {
-        return this.type;
-    };
-//    Region.prototype.getOwner = function() {
-//        return this.owner;
-//    };
-//    Region.prototype.hasOwner = function() {
-//        return !!this.owner;
-//    };
 
     return Region;
 });

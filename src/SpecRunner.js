@@ -5,6 +5,7 @@ require.config({
         jquery: 'js/lib/jquery-2.1.1',
         underscore: 'js/lib/underscore',
         mustache: 'js/lib/mustache',
+        lodash: "js/lib/lo-dash-2.4.1",
         jasmine: '../test/lib/jasmine',
         'jasmine-html': '../test/lib/jasmine-html',
         'jasmine-jquery': '../test/lib/jasmine-jquery',

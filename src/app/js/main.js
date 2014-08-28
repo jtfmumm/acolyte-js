@@ -3,7 +3,8 @@ require.config({
     paths: {
         jquery: "js/lib/jquery-2.1.1", 
         text: "js/lib/text",
-        mustache: "js/lib/mustache"
+        mustache: "js/lib/mustache",
+        lodash: "js/lib/lo-dash-2.4.1"
     },     
     shim: {
         jquery: {

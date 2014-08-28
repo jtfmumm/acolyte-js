@@ -6,9 +6,12 @@ define(function(require) {
     function Screen() {
 
     }
-    Screen.prototype.render = function() {
-        var view = mustache.render(screenTemplate, view);
-        $("body").append(view);
+
+    Screen.prototype = {
+        render: function() {
+            var view = mustache.render(screenTemplate, view);
+            $("body").append(view);
+        }
     };
 
     return Screen;

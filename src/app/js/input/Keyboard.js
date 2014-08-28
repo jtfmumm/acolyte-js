@@ -4,6 +4,8 @@ define(function(require) {
     var Input = require("js/input/Input");
 
     var Keyboard = function() {
+        Input.call(this);
+
         this.connect = function() {
             $("body").off("keydown");
             $("body").keydown(this.addKey.bind(this));

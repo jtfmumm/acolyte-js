@@ -1,6 +1,7 @@
 define(function(require) {
     "use strict";
 
+    _ = require("lodash");
     var Matrix = require("js/utils/Matrix");
     var Region = require("js/world/Region");
 
@@ -15,15 +16,18 @@ define(function(require) {
             this.data.push(Array(width));
         }
     }
-    RegionMatrix.prototype = Object.create(Matrix.prototype);
-    RegionMatrix.prototype.initialize = function() {
-        var i, j;
-        for (i = 0; i < this.height; i++) {
-            for (j = 0; j < this.width; j++) {
-                this.data[i][j] = generateRegion(this.diameterPerRegion);
+
+    RegionMatrix.prototype = _.extend(Object.create(Matrix.prototype), {
+        initialize: function () {
+            var i, j;
+            for (i = 0; i < this.height; i++) {
+                for (j = 0; j < this.width; j++) {
+                    this.data[i][j] = generateRegion(this.diameterPerRegion);
+                }
             }
         }
-    };
+    });
+
 
     function generateRegion(diameter) {
         return new Region({diameter: diameter, type: "average"});
