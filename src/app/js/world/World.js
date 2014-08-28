@@ -5,7 +5,7 @@ define(function(require) {
     var Matrix = require("js/utils/Matrix");
     var terrainCodeTable = require("js/data/terrainCodeTable");
     var walledMap = require("js/maps/walledMap");
-    var RegionMap = require("js/world/RegionMap");
+    var RegionMatrix = require("js/world/RegionMatrix");
 
     function World(genAlg, focus, parent) {
         this.parent = parent || null;
@@ -22,7 +22,7 @@ define(function(require) {
         this.height = this.verticalRegions * this.getVisibleDiameter();
 
         var genAlg = genAlg || generateWorldMap;
-        this.regionMap = new RegionMap(this.horizontalRegions, this.verticalRegions, this.getVisibleDiameter);
+        this.regionMap = new RegionMatrix(this.horizontalRegions, this.verticalRegions, this.getVisibleDiameter);
         this.regionMap.initialize();
         //TODO: Copy regions over to world map
 

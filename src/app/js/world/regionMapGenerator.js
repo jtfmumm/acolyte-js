@@ -5,7 +5,7 @@ define(function(require) {
     var terrainFrequencies = require("js/data/terrainFrequencies");
     var Rand = require("js/utils/Rand");
 
-    var regionGenerator = {
+    var regionMapGenerator = {
         average: function(diameter) {
             return generateMap(diameter, "average");
         }
@@ -42,5 +42,5 @@ define(function(require) {
         return total;
     }
 
-    return regionGenerator;
+    return regionMapGenerator;
 });

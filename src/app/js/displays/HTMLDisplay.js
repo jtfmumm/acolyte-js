@@ -14,7 +14,7 @@ define(function(require) {
 
         var flatMap = newMap.flatJoin("", "<br>");
         $("#display").html(flatMap);    
-    }
+    };
 
     return HTMLDisplay;
 });

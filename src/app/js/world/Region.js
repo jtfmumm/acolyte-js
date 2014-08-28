@@ -1,26 +1,26 @@
 define(function(require) {
     "use strict";
 
-    var regionGenerator = require("js/world/regionGenerator");
-   
+    var regionMapGenerator = require("js/world/regionMapGenerator");
 
-    function Region(diameter, type, controller) {
-        this.diameter = diameter;
-        this.type = type;
-        this.controller = controller || null;
+    function Region(options) {
+        this.diameter = options.diameter;
+        this.type = options.type;
+        this.owner = options.owner || null;
+        this.map = this.generateMap();
     }
+    Region.prototype.generateMap = function() {
+        return regionMapGenerator[this.type](this.diameter);
+    };
     Region.prototype.getType = function() {
         return this.type;
     };
-    Region.prototype.getController = function() {
-        return this.controller;
-    };
-    Region.prototype.hasController = function() {
-        return !!this.controller;
-    };
-    Region.prototype.generateMap = function(type) {
-        return regionGenerator[type](this.diameter);
-    };
+//    Region.prototype.getOwner = function() {
+//        return this.owner;
+//    };
+//    Region.prototype.hasOwner = function() {
+//        return !!this.owner;
+//    };
 
     return Region;
 });
