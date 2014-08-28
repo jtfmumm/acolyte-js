@@ -1,6 +1,9 @@
 define(function(require) {
 
-    var Input = {
+    var Input = function() {
+    };
+
+    Input.prototype = {
         events: [],
         addEvent: function(event) {
             if (this.events.length < 11) this.events.unshift(event);
@@ -14,7 +17,7 @@ define(function(require) {
         nextInput: function() {
             return this.events.pop();
         }
-    }
+    };
 
     return Input;
 });

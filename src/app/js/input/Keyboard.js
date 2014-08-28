@@ -3,30 +3,26 @@ define(function(require) {
     var keyCodeTable = require("js/data/keyCodeTable");
     var Input = require("js/input/Input");
 
-    var Keyboard = {
-        connect: function() {
+    var Keyboard = function() {
+        this.connect = function() {
             $("body").off("keydown");
-            $("body").keydown(Keyboard.addKey.bind(this));
+            $("body").keydown(this.addKey.bind(this));
         },
-        disconnect: function() {
+        this.disconnect = function() {
             $("body").off("keydown");
-            $("body").keydown(Keyboard.unpauseOnP.bind(this))
+            $("body").keydown(this.unpauseOnP.bind(this))
         },
-        addKey: function(e) {
+        this.addKey = function(e) {
             e.preventDefault();
-            Input.addEvent(keyCodeTable[e.keyCode]);
+            this.addEvent(keyCodeTable[e.keyCode]);
         },
-        unpauseOnP: function(e) {
+        this.unpauseOnP = function(e) {
             if (keyCodeTable[e.keyCode] == "PAUSE")
-                Input.addEvent("PAUSE");
-        },
-        reset: function() {
-            this.keyQueue = [];
-        },
-        nextKey: function() {
-            return this.keyQueue.pop();
+                this.addEvent("PAUSE");
         }
-    }
+    };
 
-    return Keyboard;
+    Keyboard.prototype = Object.create(Input.prototype);
+
+    return new Keyboard();
 });

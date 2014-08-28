@@ -1,7 +1,6 @@
 define(function(require) {
     "use strict";
 
-    var $ = require("jquery");
     var Input = require("js/input/Input");
     var World = require("js/world/World");
     var HTMLDisplay = require("js/displays/HTMLDisplay");
@@ -25,14 +24,15 @@ define(function(require) {
 
 
     var Game = {
-        inputDevice: null,
+        input: null,
         init: function(inputDevice) {
+            //Remove later
             world.addOccupant(new Coords(10, 10), drunk);
             //NEED TO UPDATE ACTIVE LIST OVER TIME
             world.initializeAgents();
 
-            this.inputDevice = inputDevice;
-            this.inputDevice.connect();
+            this.input = inputDevice;
+            this.input.connect();
             Self.init(world);
             ActiveAgents.addAgent(Self);
             world.displayMap(display);
@@ -41,7 +41,7 @@ define(function(require) {
         watchInput: function() {
             var that = this;
             setTimeout(function() {
-                if (Input.isReady()) {
+                if (that.input.isReady()) {
                     that.nextStep();
                 }
                 that.watchInput();
@@ -52,16 +52,16 @@ define(function(require) {
             if (timeCounter % 100 == 0) {
                 this.upkeep();
             }
-            processNextKey();
+            processNextKey(this.input);
             ActiveAgents.prepareAgents();
             world.displayMap(display);
         },
         pause: function() {
             pauseState = !pauseState;
             if (pauseState == true) 
-                this.inputDevice.disconnect();
+                this.input.disconnect();
             else
-                this.inputDevice.connect();
+                this.input.connect();
         },
         upkeep: function() {
             ActiveAgents.clearAll();
@@ -71,8 +71,8 @@ define(function(require) {
         }
     };
 
-    function processNextKey() {
-        var nextInput = Input.nextInput();
+    function processNextKey(input) {
+        var nextInput = input.nextInput();
         if (nextInput) console.log(nextInput);
         switch (nextInput) {
             case "PAUSE":
