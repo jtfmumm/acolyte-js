@@ -35,7 +35,7 @@ define(function(require) {
             this.waitList = [];
             this.activeList = [];
         }
-    }
+    };
 
     return ActiveAgents;
-})
+});

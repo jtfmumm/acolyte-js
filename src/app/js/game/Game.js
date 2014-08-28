@@ -1,7 +1,6 @@
 define(function(require) {
     "use strict";
 
-    var Input = require("js/input/Input");
     var World = require("js/world/World");
     var HTMLDisplay = require("js/displays/HTMLDisplay");
     var Self = require("js/self/Self");

@@ -11,16 +11,16 @@ define(function(require) {
     }
     Region.prototype.getType = function() {
         return this.type;
-    }
+    };
     Region.prototype.getController = function() {
         return this.controller;
-    }
+    };
     Region.prototype.hasController = function() {
         return !!this.controller;
-    }
+    };
     Region.prototype.generateMap = function(type) {
         return regionGenerator[type](this.diameter);
-    }
+    };
 
     return Region;
 });
