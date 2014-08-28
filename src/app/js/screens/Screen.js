@@ -9,8 +9,7 @@ define(function(require) {
     Screen.prototype.render = function() {
         var view = mustache.render(screenTemplate, view);
         $("body").append(view);
-        console.log(view);
-    }
+    };
 
     return Screen;
 });
