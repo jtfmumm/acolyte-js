@@ -12,10 +12,7 @@ require.config({
     }
 });
 
-require(["js/game/Game", "js/world/World", "js/displays/HTMLDisplay", "js/generators/RandomMapGenerator", "js/input/Keyboard"], 
-        function (Game, World, HTMLDisplay, RandomMapGenerator, Keyboard) {
+require(["js/game/Game", "js/input/Keyboard"],
+        function (Game, Keyboard) {
             Game.init(Keyboard);
-            // var display = new HTMLDisplay();
-            // var world = new World();//(RandomMapGenerator.uniform);
-            // world.displayMap(display);
 });
