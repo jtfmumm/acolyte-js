@@ -11,12 +11,16 @@ define(function(require) {
         position: new Coords(1, 1),
         nextInput: null,
         world: null,
+        region: null,
 
         init: function(world) {
             this.updateWorld(world); 
             this.position = this.world.focus;
             this.world.addOccupant(this.position, this);
             world.initializeAgents();
+        },
+        setRegion: function(region) {
+            this.region = region;
         },
         updateWorld: function(world) {
             this.world = world;
@@ -26,7 +30,7 @@ define(function(require) {
         },
         move: function(posChange) {
             var posChange = Coords.makeCoords(arguments);
-            var newPos = this.position.plus(posChange)
+            var newPos = this.position.plus(posChange);
             this.tryMove(newPos);
         },
         tryMove: function(position) {

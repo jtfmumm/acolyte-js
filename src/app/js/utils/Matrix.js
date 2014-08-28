@@ -15,8 +15,11 @@ define(function(require) {
         getRow: function(row) {
             return this.data[row];
         },
-        getCell: function(column, row) {
-            return this.data[row][column];
+        getCell: function(row, column) {
+            return this.data[column][row];
+        },
+        getMatrix: function() {
+            return this.data;
         },
         flatJoin: function(delimiter, lineDelimiter) {
             var flattenedArr = this.data.map(function(subArr) {
@@ -29,6 +32,9 @@ define(function(require) {
                 return subArr.map(fn);
             });
             return new Matrix(mapped);
+        },
+        isWithinBoundaries: function(row, column) {
+            return row >= 0 && column >= 0 && row < this.getHeight() && column < this.getWidth();
         },
         isEqualRow: function(row, otherMatrix) {
             //This fails when comparing different objects with same content
@@ -128,6 +134,17 @@ define(function(require) {
             }
         }
     };
+    Matrix.concatHorizontal = function(matrix, otherMatrix) {
+        var concated = [];
+        for (var i = 0; i < matrix.getHeight(); i++) {
+            concated.push(matrix.getRow(i).concat(otherMatrix.getRow(i)));
+        }
+        return new Matrix(concated);
+    };
+    Matrix.concatVertical = function(matrix, otherMatrix) {
+        var concated = matrix.getMatrix().concat(otherMatrix.getMatrix());
+        return new Matrix(concated);
+    };
 
     return Matrix;
-})
+});

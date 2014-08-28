@@ -8,6 +8,11 @@ define(function(require) {
         return normalizeRand(sides, 1);
     }
 
+    function rollFromZero(sides) {
+        if (sides < 1) throw new Error("Rand.rollFromZero requires 1 or more sides.");
+        return normalizeRand(sides, 0);
+    }
+
     function randInt(low, high) {
         return normalizeRand((high - low + 1), low);
     }
@@ -47,6 +52,7 @@ define(function(require) {
 
     return {
         roll: roll,
+        rollFromZero: rollFromZero,
         randInt: randInt,
         pickItem: pickItem,
         pickEntryKey: pickEntryKey,

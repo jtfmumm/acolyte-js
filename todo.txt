@@ -1,5 +1,4 @@
 update activeList based on activeArea
-drunk walk guy
 arrows
 seeds/child worlds (seeds are like child world futures)
 commands
