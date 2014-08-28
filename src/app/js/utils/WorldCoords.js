@@ -7,6 +7,12 @@ define(function(require) {
     } 
     
     WorldCoords.prototype = {
+        getRegion: function() {
+            return this.regionMatrix.getRegion(this.regionMatrixCoords);
+        },
+        getRegionMap: function() {
+            return this.getRegion().getMap();
+        },
         getRegionMatrixCoords: function() {
             return this.regionMatrixCoords;
         },
@@ -28,6 +34,9 @@ define(function(require) {
         },
         plusLocal: function(posChange) {
             return new WorldCoords(this.regionMatrixCoords, this.localCoords.plus(posChange));
+        },
+        isSameRegionAs: function(wCoords) {
+            return this.getRegion() === wCoords.getRegion();
         },
         isEqual: function (wCoords) {
             return (this.x === coords.x && this.y === coords.y);

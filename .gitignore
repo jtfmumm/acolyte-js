@@ -1,2 +1,4 @@
 *.iml
 uiDesigner.xml
+.idea
+.idea/*

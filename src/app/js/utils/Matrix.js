@@ -106,6 +106,20 @@ define(function(require) {
         getEastBoundary: function() {
             var last = this.getWidth() - 1;
             return this.getSubMatrix(last, 0, 1, this.getHeight() - 1);
+        },
+        getSubMatrixByDirectionFrom: function(direction, column, row) {
+            switch(direction) {
+                case "northwest":
+                    return this.getSubMatrixByCoords(0, 0, column, row);
+                case "northeast":
+                    return this.getSubMatrixByCoords(column, 0, this.getWidth(), row);
+                case "southwest":
+                    return this.getSubMatrixByCoords(0, row, column, this.getHeight());
+                case "southeast":
+                    return this.getSubMatrixByCoords(column, row, this.getWidth(), this.getHeight());
+                default:
+                    throw new Error("Matrix: Invalid direction");
+            }
         }
     };
 

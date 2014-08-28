@@ -16,6 +16,9 @@ define(function(require) {
     }
 
     Region.prototype = {
+        getMap: function() {
+            return this.map;
+        },
         generateMap: function () {
             return regionMapGenerator[this.type](this.diameter);
         },

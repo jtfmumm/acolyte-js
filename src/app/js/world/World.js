@@ -36,9 +36,6 @@ define(function(require) {
         display: function(display) {
             this.visibleMapManager.display(display);
         },
-        constructVisibleMap: function() {
-
-        },
         displayMap: function (display) {
             var codeMap = this.visibleZone.map(getTileCode);
             display.renderMap(codeMap);
