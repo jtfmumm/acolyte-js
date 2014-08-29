@@ -8,42 +8,32 @@ define(function(require) {
     // var self = self || null;
 
     var Self = {
-        position: new Coords(1, 1),
+        position: null, //in wCoords
         nextInput: null,
         world: null,
-        region: null,
 
-        init: function(world) {
-            this.updateWorld(world); 
-//            this.position = this.world.focus;
-//            this.world.addOccupant(this.position, this);
+        init: function(world, wCoords) {
+            this.world = world;
+            this.position = wCoords;
+            this.world.addOccupant(this.position, this);
 //            world.initializeAgents();
-        },
-        setRegion: function(region) {
-            this.region = region;
         },
         updateWorld: function(world) {
             this.world = world;
-        },
-        isActive: function() {
-            return true;
         },
         move: function(posChange) {
             var posChange = Coords.makeCoords(arguments);
             var newPos = this.position.plus(posChange);
             this.tryMove(newPos);
         },
-        tryMove: function(position) {
-            var position = Coords.makeCoords(arguments);
-            if (!this.world.isImpenetrable(position) && this.world.isWithinBoundaries(position)) {
+        tryMove: function(wCoords) {
+            if (!this.world.isImpenetrable(wCoords)) {
                 this.moveTo(position);
             }
         },
         moveTo: function(newPos) {
-            var newPos = Coords.makeCoords(arguments);
             this.world.removeOccupant(this.position);
             this.world.addOccupant(newPos, this);
-            this.world.updateFocus(newPos);
             this.position = newPos;
         },
         getCode: function() {
@@ -70,12 +60,6 @@ define(function(require) {
                     break;
             }
             this.nextInput = null;
-        },
-        activate: function() {
-            console.log("Self activated!");
-        },
-        deactivate: function() {
-            console.log("Self deactivated!!");
         },
         isImpenetrable: function() {
             return true;

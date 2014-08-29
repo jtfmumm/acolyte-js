@@ -24,26 +24,24 @@ define(function(require) {
         generateMap: function () {
             return regionMapGenerator[this.type](this.diameter);
         },
-        initializeAgent: function(agent, position) {
-            var position = position || this.startingPosition;
-            this.addOccupant(position, agent);
-            agent.setRegion(this);
-        },
         activateAgent: function(agent) {
             this.activeAgents.addAgent(agent);
         },
-        getTile: function (position) {
-            return this.map.getCell(position.x, position.y);
+        getTile: function (coords) {
+            return this.map.getCell(coords.x, coords.y);
         },
-        removeOccupant: function (position) {
-            this.getTile(position).occupant = null;
+        removeOccupant: function (coords) {
+            this.getTile(coords).occupant = null;
         },
-        addOccupant: function (position, newOccupant) {
-            this.getTile(position).occupant = newOccupant;
+        addOccupant: function (coords, newOccupant) {
+            this.getTile(coords).occupant = newOccupant;
         },
-        isImpenetrable: function (position) {
-            if (!this.isWithinBoundaries(position)) return true;
-            var tile = this.getTile(position);
+        isEqual: function(otherRegion) {
+            return this === otherRegion;
+        },
+        isImpenetrable: function (coords) {
+            if (!this.isWithinBoundaries(coords)) return true;
+            var tile = this.getTile(coords);
 
             if (tile.occupant) {
                 return tile.occupant.isImpenetrable();
@@ -52,11 +50,11 @@ define(function(require) {
                 return terrainCodeTable[occupantCode].impenetrable;
             }
         },
-        isWithinBoundaries: function (position) {
-            return this.map.isWithinBoundaries(position.x, position.y);
+        isWithinBoundaries: function (coords) {
+            return this.map.isWithinBoundaries(coords.x, coords.y);
         },
-        withinBoundaries: function (position) {
-            var x = position.x, y = position.y;
+        withinBoundaries: function (coords) {
+            var x = coords.x, y = coords.y;
             var legitPos = new Coords(x, y);
             switch (true) {
                 case x < 0:
@@ -70,18 +68,18 @@ define(function(require) {
             }
             return legitPos;
         },
-        regionChange: function(position) {
+        regionChange: function(coords) {
             switch(true) {
-                case position.x < 0:
+                case coords.x < 0:
                     return new Coords(-1, 0);
                     break;
-                case position.y < 0:
+                case coords.y < 0:
                     return new Coords(0, 1);
                     break;
-                case position.x >= this.diameter:
+                case coords.x >= this.diameter:
                     return new Coords(1, 0);
                     break;
-                case position.y >= this.diameter:
+                case coords.y >= this.diameter:
                     return new Coords(0, 1);
                     break;
                 default:
@@ -102,10 +100,13 @@ define(function(require) {
                     return new Coords(0, wCoords.getLocalCoords().y);
             }
         },
-        addMapAt: function (position, newMap) {
+        getSubMapByDirectionFrom: function(direction, coords) {
+            this.map.getSubMatrixByDirectionFrom(direction, coords.x, coords.y);
+        },
+        addMapAt: function (coords, newMap) {
             var width = newMap.getWidth();
             var height = newMap.getHeight();
-            var subWorld = this.worldMap.getSubMatrix(position.x, position.y, width, height);
+            var subWorld = this.worldMap.getSubMatrix(coords.x, coords.y, width, height);
             Matrix.copyObjectsWith(subWorld, newMap, copyTerrainByCode);
         }
     };

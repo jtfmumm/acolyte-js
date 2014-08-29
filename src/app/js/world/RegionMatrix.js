@@ -4,6 +4,7 @@ define(function(require) {
     _ = require("lodash");
     var Matrix = require("js/utils/Matrix");
     var Coords = require("js/utils/Coords");
+    var WorldCoords = require("js/utils/WorldCoords");
     var Region = require("js/world/Region");
     var Rand = require("js/utils/Rand");
 
@@ -30,6 +31,21 @@ define(function(require) {
                 }
             }
         },
+        addOccupant: function(wCoords, occupant) {
+            var region = this.getRegion(wCoords.getRegionMatrixCoords());
+            var coords = wCoords.getLocalCoords();
+            region.addOccupant(coords, occupant);
+        },
+        removeOccupant: function(wCoords) {
+            var region = this.getRegion(wCoords.getRegionMatrixCoords());
+            var coords = wCoords.getLocalCoords();
+            region.removeOccupant(coords);
+        },
+        isImpenetrable: function(wCoords) {
+            var region = this.getRegion(wCoords.getRegionMatrixCoords());
+            var coords = wCoords.getLocalCoords();
+            return region.isImpenetrable(coords);
+        },
         getDiameter: function() {
             return this.diameterPerRegion;
         },
@@ -39,17 +55,13 @@ define(function(require) {
         getRegion: function(coords) {
             return this.getCell(coords.x, coords.y);
         },
-        placeAgent: function(agent) {
-            var startingRegion = this.getRegion(this.startingRegionCoords);
-            startingRegion.initializeAgent(agent);
-        },
         getNextRegionCoords: function(wCoords, regionChange) {
             var lastRegionCoords = wCoords.getRegionMatrixCoords();
             var nextRegionCoords = lastRegionCoords.plus(regionChange);
             if (this.isWithinBoundaries(nextRegionCoords)) {
                 var nextRegion = this.getRegion(nextRegionCoords);
                 var newLocalCoords = nextRegion.calculateEntranceCoords(wCoords, regionChange);
-                return new wCoords(nextRegionCoords, newLocalCoords, this);
+                return new WorldCoords(nextRegionCoords, newLocalCoords);
             } else {
                 return wCoords;
             }
@@ -63,6 +75,14 @@ define(function(require) {
                 var regionChange = currentRegion.regionChange(currentLocalCoords, posChange);
                 return this.getNextRegionCoords(wCoords, regionChange);
             }
+        },
+        isStillInRegionAfter: function(wCoords, posChange) {
+            var newLocalCoords = wCoords.getLocalCoords().plus(posChange);
+            return this.getRegion(wCoords.getRegionMatrixCoords())
+                .isWithinBoundaries(newLocalCoords);
+        },
+        inTheSameRegion: function(wCoords1, wCoords2) {
+            return this.getRegion(wCoords1).isEqual(this.getRegion(wCoords2));
         }
     });
 

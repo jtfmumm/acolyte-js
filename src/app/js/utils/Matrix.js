@@ -15,8 +15,8 @@ define(function(require) {
         getRow: function(row) {
             return this.data[row];
         },
-        getCell: function(row, column) {
-            return this.data[column][row];
+        getCell: function(column, row) {
+            return this.data[row][column];
         },
         getMatrix: function() {
             return this.data;

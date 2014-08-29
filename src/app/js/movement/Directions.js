@@ -10,7 +10,7 @@ define(function(require) {
         southWest: new Coords(-1, 1),
         northEast: new Coords(1, -1),
         southEast: new Coords(1, 1)
-    } 
+    };
 
     return Directions;
 });

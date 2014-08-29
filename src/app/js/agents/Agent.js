@@ -6,7 +6,6 @@ define(function(require) {
 
 
     function Agent(region, coords) {
-        this.active = false;
         this.position = coords;
         this.region = region;
         this.code = null;
@@ -26,27 +25,17 @@ define(function(require) {
                 this.moveTo(position);
             }
         },
-        moveTo: function (newPos) {
+        moveTo: function(newPos) {
             var newPos = Coords.makeCoords(arguments);
             this.region.removeOccupant(this.position);
             this.region.addOccupant(newPos, this);
             this.position = newPos;
         },
-        isActive: function () {
-            return this.active;
-        },
-        activate: function () {
-            if (!this.active) this.region.activateAgent(this);
-            this.active = true;
-        },
-        deactivate: function () {
-            this.active = false;
-        },
-        getCode: function () {
+        getCode: function() {
             return this.code;
         },
-        setPosition: function (position) {
-            this.position = Coords.makeCoords(arguments);
+        setPosition: function(wCoords) {
+            this.position = wCoords;
         },
         isImpenetrable: function () {
             return true;
