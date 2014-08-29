@@ -6,23 +6,28 @@ define(function(require) {
     } 
     
     Coords.prototype = {
-        plus: function (coords) {
+        plus: function(coords) {
             var coords = Coords.makeCoords(arguments);
             var newX = this.x + coords.x;
             var newY = this.y + coords.y;
             return new Coords(newX, newY);
         },
-        minus: function (coords) {
+        minus: function(coords) {
             var coords = Coords.makeCoords(arguments);
             var newX = this.x - coords.x;
             var newY = this.y - coords.y;
             return new Coords(newX, newY);
         },
-        isEqual: function (coords) {
+        scaledBy: function(scalar) {
+            var newX = this.x * scalar;
+            var newY = this.y * scalar;
+            return new Coords(newX, newY);
+        },
+        isEqual: function(coords) {
             var coords = Coords.makeCoords(arguments);
             return (this.x === coords.x && this.y === coords.y);
         },
-        positiveOffsetGiven: function (coords) {
+        positiveOffsetGiven: function(coords) {
             var coords = Coords.makeCoords(arguments);
             var newX = coords.x - this.x;
             if (newX < 0) newX = 0;
@@ -30,7 +35,7 @@ define(function(require) {
             if (newY < 0) newY = 0;
             return new Coords(newX, newY);
         },
-        negativeOffsetGiven: function (coords) {
+        negativeOffsetGiven: function(coords) {
             var coords = Coords.makeCoords(arguments);
             var newX = coords.x - this.x;
             if (newX > 0) newX = 0;
@@ -38,12 +43,12 @@ define(function(require) {
             if (newY > 0) newY = 0;
             return new Coords(newX, newY);
         },
-        offsetGiven: function (radius, width, height) {
+        offsetGiven: function(radius, width, height) {
             var topOffset = this.minus(radius, radius).positiveOffsetGiven(0, 0);
             var bottomOffset = this.plus(radius, radius).negativeOffsetGiven(width, height);
             return this.plus(topOffset).plus(bottomOffset);
         },
-        directionTo: function (coords) {
+        directionTo: function(coords) {
             var coords = Coords.makeCoords(arguments);
             var difference = this.minus(coords);
             if (difference.x > 0 && difference.y === 0) return "west";
@@ -56,7 +61,7 @@ define(function(require) {
             if (difference.x === 0 && difference.y < 0) return "south";
             return "none";
         },
-        directionFrom: function (coords) {
+        directionFrom: function(coords) {
             var coords = Coords.makeCoords(arguments);
             var difference = this.minus(coords);
             if (difference.x < 0 && difference.y === 0) return "west";

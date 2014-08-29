@@ -59,6 +59,26 @@ define(function(require) {
         getRegion: function(coords) {
             return this.getCell(coords.x, coords.y);
         },
+        convertAbsoluteToWorldCoords: function(absCoords) {
+            var regionCoords = new Coords(
+                Math.floor(absCoords.x / this.diameterPerRegion),
+                Math.floor(absCoords.y / this.diameterPerRegion)
+            );
+            var localCoords = absCoords.minus(regionCoords.scaledBy(this.diameterPerRegion));
+            return new WorldCoords(regionCoords, localCoords);
+        },
+        getAbsoluteCoords: function(wCoords) {
+            var offset = new Coords(
+                wCoords.getRegionMatrixCoords().x * this.diameterPerRegion,
+                wCoords.getRegionMatrixCoords().y * this.diameterPerRegion
+            );
+            return new Coords(wCoords.getLocalCoords()).plus(offset);
+        },
+        offsetPosition: function(wCoords, offset) {
+            var absCoords = this.getAbsoluteCoords(wCoords);
+            var newAbsCoords = absCoords.plus(offset);
+            return this.convertAbsoluteToWorldCoords(newAbsCoords);
+        },
         getNextRegionCoords: function(wCoords, regionChange) {
             var lastRegionCoords = wCoords.getRegionMatrixCoords();
             var nextRegionCoords = lastRegionCoords.plus(regionChange);

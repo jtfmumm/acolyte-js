@@ -1,7 +1,9 @@
 define(function(require) {
     "use strict";
 
+
     var Matrix = require("js/utils/Matrix");
+    var terrainCodeTable = require("js/data/terrainCodeTable");
     var terrainFrequencies = require("js/data/terrainFrequencies");
     var Rand = require("js/utils/Rand");
 
@@ -26,7 +28,7 @@ define(function(require) {
 
     function constructTile(terrain) {
         return {
-            terrain: terrain,
+            terrain: terrainCodeTable[terrain],
             occupant: null
         }
     }

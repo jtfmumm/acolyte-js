@@ -7,7 +7,7 @@ define(function(require) {
     var RegionMatrix = require("js/world/RegionMatrix");
     var VisibleMapManager = require("js/world/VisibleMapManager");
 
-    function World(parent) {
+    function World(parent, focus) {
         this.parent = parent || null;
 
         this.visibleRadius = 25;
@@ -22,6 +22,7 @@ define(function(require) {
         this.regionMatrix.initialize();
         //TODO: Copy regions over to world map
 
+        this.focus = focus || this.regionMatrix.getRandomPosition();
         this.visibleMapManager = new VisibleMapManager(this.regionMatrix);
     }
     
