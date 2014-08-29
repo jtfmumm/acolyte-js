@@ -30,6 +30,9 @@ define(function(require) {
         getTile: function (coords) {
             return this.map.getCell(coords.x, coords.y);
         },
+        getStartingPosition: function() {
+            return this.startingPosition;
+        },
         removeOccupant: function (coords) {
             this.getTile(coords).occupant = null;
         },
@@ -101,7 +104,7 @@ define(function(require) {
             }
         },
         getSubMapByDirectionFrom: function(direction, coords) {
-            this.map.getSubMatrixByDirectionFrom(direction, coords.x, coords.y);
+            return this.map.getSubMatrixByDirectionFrom(direction, coords.x, coords.y);
         },
         addMapAt: function (coords, newMap) {
             var width = newMap.getWidth();

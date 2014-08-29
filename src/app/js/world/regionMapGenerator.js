@@ -17,13 +17,22 @@ define(function(require) {
         for (i = 0; i < diameter; i++) {
             newMap.push([]);
             for (j = 0; j < diameter; j++) {
-                newMap[i].push(selectTerrain(type));
+                var nextTile = constructTile(selectTerrain(type));
+                newMap[i].push(nextTile);
             }
         }
         return new Matrix(newMap);
     }
 
+    function constructTile(terrain) {
+        return {
+            terrain: terrain,
+            occupant: null
+        }
+    }
+
     function selectTerrain(type) {
+        var prop;
         var runningTotal = 0;
         var sides = getTotal(type);
         var roll = Rand.roll(sides);
@@ -35,6 +44,7 @@ define(function(require) {
     }
 
     function getTotal(type) {
+        var prop;
         var total = 0;
         for (prop in terrainFrequencies[type]) {
             total += terrainFrequencies[type][prop];

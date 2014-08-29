@@ -75,8 +75,8 @@ define(function(require) {
             return new Matrix(subMatrix);
         },
         getSubMatrixByCoords: function(topX, topY, bottomX, bottomY) {
-            var width = bottomX - topX + 1;
-            var height = bottomY - topY + 1;
+            var width = bottomX - topX;
+            var height = bottomY - topY;
             return this.getSubMatrix(topX, topY, width, height);
         },
         getBoundaryByDirection: function(direction) {
@@ -112,11 +112,11 @@ define(function(require) {
                 case "northwest":
                     return this.getSubMatrixByCoords(0, 0, column, row);
                 case "northeast":
-                    return this.getSubMatrixByCoords(column, 0, this.getWidth(), row);
+                    return this.getSubMatrixByCoords(column, 0, this.getWidth() - 1, row);
                 case "southwest":
-                    return this.getSubMatrixByCoords(0, row, column, this.getHeight());
+                    return this.getSubMatrixByCoords(0, row, column, this.getHeight() - 1);
                 case "southeast":
-                    return this.getSubMatrixByCoords(column, row, this.getWidth(), this.getHeight());
+                    return this.getSubMatrixByCoords(column, row, this.getWidth() - 1, this.getHeight() - 1);
                 default:
                     throw new Error("Matrix: Invalid direction");
             }

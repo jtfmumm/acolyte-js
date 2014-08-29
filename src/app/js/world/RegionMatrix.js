@@ -19,7 +19,7 @@ define(function(require) {
             this.data.push(Array(width));
         }
 
-        this.startingRegionCoords = new Coords(Rand.rollFromZero(this.weight), Rand.rollFromZero(this.height));
+        this.startingRegionCoords = new Coords(Rand.rollFromZero(this.width), Rand.rollFromZero(this.height));
     }
 
     RegionMatrix.prototype = _.extend(Object.create(Matrix.prototype), {
@@ -30,6 +30,10 @@ define(function(require) {
                     this.data[i][j] = generateRegion(this.diameterPerRegion);
                 }
             }
+        },
+        getStartingPosition: function() {
+            var startingLocalCoords = this.getRegion(this.startingRegionCoords).getStartingPosition();
+            return new WorldCoords(this.startingRegionCoords, startingLocalCoords);
         },
         addOccupant: function(wCoords, occupant) {
             var region = this.getRegion(wCoords.getRegionMatrixCoords());
@@ -82,7 +86,7 @@ define(function(require) {
                 .isWithinBoundaries(newLocalCoords);
         },
         inTheSameRegion: function(wCoords1, wCoords2) {
-            return this.getRegion(wCoords1).isEqual(this.getRegion(wCoords2));
+            return this.getRegion(wCoords1.getRegionMatrixCoords()).isEqual(this.getRegion(wCoords2.getRegionMatrixCoords()));
         }
     });
 

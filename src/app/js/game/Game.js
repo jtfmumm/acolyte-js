@@ -30,7 +30,7 @@ define(function(require) {
 
             this.input = inputDevice;
             this.input.connect();
-            Self.init(world);
+            world.initializeSelf(Self);
 //            ActiveAgents.addAgent(Self);
             world.display(display);
             this.watchInput();
@@ -46,9 +46,9 @@ define(function(require) {
         },
         nextStep: function() {
             timeCounter++;
-            processNextKey(this.input);
+//            processNextKey(this.input);
 //            ActiveAgents.prepareAgents();
-            world.displayMap(display);
+            world.display(display);
         },
         pause: function() {
             pauseState = !pauseState;

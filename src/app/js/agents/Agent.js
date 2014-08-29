@@ -5,14 +5,15 @@ define(function(require) {
     var ActiveAgents = require("js/agents/ActiveAgents");
 
 
-    function Agent(region, coords) {
-        this.position = coords;
-        this.region = region;
+    function Agent(world, wCoords) {
+        this.position = wCoords;
+        this.world = world;
         this.code = null;
     }
 
     Agent.prototype = {
         act: function () {
+            //Must be implemented
         },
         move: function (posChange) {
             var posChange = Coords.makeCoords(arguments);
@@ -21,14 +22,14 @@ define(function(require) {
         },
         tryMove: function (position) {
             var position = Coords.makeCoords(arguments);
-            if (!this.region.isImpenetrable(position) && this.region.isWithinBoundaries(position)) {
+            if (!this.world.isImpenetrable(position) && this.world.isWithinBoundaries(position)) {
                 this.moveTo(position);
             }
         },
         moveTo: function(newPos) {
             var newPos = Coords.makeCoords(arguments);
-            this.region.removeOccupant(this.position);
-            this.region.addOccupant(newPos, this);
+            this.world.removeOccupant(this.position);
+            this.world.addOccupant(newPos, this);
             this.position = newPos;
         },
         getCode: function() {

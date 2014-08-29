@@ -11,6 +11,7 @@ define(function(require) {
         this.NECorner = new WorldCoords(regionCoords, new Coords(diameter, 0));
         this.SWCorner = new WorldCoords(regionCoords, new Coords(0, diameter));
         this.SECorner = new WorldCoords(regionCoords, new Coords(diameter, diameter));
+        this.regionMatrix = regionMatrix;
         this.map = new Matrix();
     }
 
@@ -21,7 +22,8 @@ define(function(require) {
             display.renderMap(codeMap);
         },
         getRegion: function(wCoords) {
-            this.regionMatrix.getRegion(wCoords);
+            var regionMatrixCoords = wCoords.getRegionMatrixCoords();
+            return this.regionMatrix.getRegion(regionMatrixCoords);
         },
         updateMap: function() {
             var topSubMatrix, bottomSubMatrix;
@@ -47,10 +49,10 @@ define(function(require) {
             }
 
             if (this.regionMatrix.inTheSameRegion(this.NWCorner, this.NECorner)) {
-                this.map = new Matrix(topSubMatrix);
+                this.map = topSubMatrix;
             } else {
                 var newMap = topSubMatrix.concatVertical(bottomSubMatrix);
-                this.map = new Matrix(newMap);
+                this.map = newMap;
             }
         }
     };

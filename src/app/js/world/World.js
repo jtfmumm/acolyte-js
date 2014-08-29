@@ -18,7 +18,7 @@ define(function(require) {
         this.width = this.horizontalRegions * this.getVisibleDiameter();
         this.height = this.verticalRegions * this.getVisibleDiameter();
 
-        this.regionMatrix = new RegionMatrix(this.horizontalRegions, this.verticalRegions, this.getVisibleDiameter);
+        this.regionMatrix = new RegionMatrix(this.horizontalRegions, this.verticalRegions, this.getVisibleDiameter());
         this.regionMatrix.initialize();
         //TODO: Copy regions over to world map
 
@@ -26,7 +26,10 @@ define(function(require) {
     }
     
     World.prototype = {
-        getVisibleDiameter: function () {
+        initializeSelf: function(Self) {
+            Self.init(this, this.regionMatrix.getStartingPosition());
+        },
+        getVisibleDiameter: function() {
             return this.visibleRadius * 2 + 1;
         },
         display: function(display) {
