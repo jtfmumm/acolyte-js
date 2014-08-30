@@ -10,6 +10,9 @@ define(function(require) {
     var regionMapGenerator = {
         average: function(diameter) {
             return generateMap(diameter, "average");
+        },
+        void: function(diameter) {
+            return generateMap(diameter, "void");
         }
     };
 

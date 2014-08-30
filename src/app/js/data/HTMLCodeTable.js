@@ -5,6 +5,7 @@ define(function(require) {
         "palm": " (",
         "plains": " .",
         "forest": " F",
-        "drunk": " &"
+        "drunk": " &",
+        "void": "Z"
     }
 });

@@ -7,12 +7,14 @@ define(function(require) {
     var WorldCoords = require("js/utils/WorldCoords");
     var Region = require("js/world/Region");
     var Rand = require("js/utils/Rand");
+    var VoidRegion = require("js/world/VoidRegion");
 
     //Takes width and height measured in regions, plus diameter per region
     function RegionMatrix(width, height, diameterPerRegion) {
         this.width = width;
         this.height = height;
         this.diameterPerRegion = diameterPerRegion;
+        this.voidRegion = new VoidRegion({diameter: this.diameterPerRegion});
         Matrix.call(this);
         var i;
         for (i = 0; i < height; i++) {
@@ -57,7 +59,18 @@ define(function(require) {
             return this.startingRegionCoords;
         },
         getRegion: function(coords) {
-            return this.getCell(coords.x, coords.y);
+            console.log("regionCoords", coords);
+            if (this.isWithinBoundaries(coords.x, coords.y)) {
+                return this.getCell(coords.x, coords.y);
+            } else {
+                return this.voidRegion;
+            }
+        },
+        getRandomPosition: function() {
+            return new WorldCoords(
+                new Coords(Rand.rollFromZero(this.width), Rand.rollFromZero(this.height)),
+                new Coords(Rand.rollFromZero(this.diameterPerRegion), Rand.rollFromZero(this.diameterPerRegion))
+            );
         },
         convertAbsoluteToWorldCoords: function(absCoords) {
             var regionCoords = new Coords(
@@ -72,7 +85,7 @@ define(function(require) {
                 wCoords.getRegionMatrixCoords().x * this.diameterPerRegion,
                 wCoords.getRegionMatrixCoords().y * this.diameterPerRegion
             );
-            return new Coords(wCoords.getLocalCoords()).plus(offset);
+            return wCoords.getLocalCoords().plus(offset);
         },
         offsetPosition: function(wCoords, offset) {
             var absCoords = this.getAbsoluteCoords(wCoords);

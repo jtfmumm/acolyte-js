@@ -1,14 +1,15 @@
 define(function(require) {
 
     var Directions = require("js/movement/Directions");
+    var Matrix = require("js/utils/Matrix");
 
     var WorldSubMapper = {
         getCorners: function(regionMatrix, focus, radius) {
             return {
-                NWCorner: regionMatrix.offsetPosition(focus, Directions.northwest.scaledBy(radius)),
-                NECorner: regionMatrix.offsetPosition(focus, Directions.northeast.scaledBy(radius)),
-                SWCorner: regionMatrix.offsetPosition(focus, Directions.southwest.scaledBy(radius)),
-                SECorner: regionMatrix.offsetPosition(focus, Directions.southeast.scaledBy(radius))
+                NW: regionMatrix.offsetPosition(focus, Directions.northWest.scaledBy(radius)),
+                NE: regionMatrix.offsetPosition(focus, Directions.northEast.scaledBy(radius)),
+                SW: regionMatrix.offsetPosition(focus, Directions.southWest.scaledBy(radius)),
+                SE: regionMatrix.offsetPosition(focus, Directions.southEast.scaledBy(radius))
             }
         },
         getSubMap: function(regionMatrix, focus, radius) {
@@ -16,32 +17,33 @@ define(function(require) {
 
             var corners = this.getCorners(regionMatrix, focus, radius);
 
-            var NWMatrix = this.getRegion(this.NWCorner)
-                .getSubMapByDirectionFrom("southeast", this.NWCorner.getLocalCoords());
-            var NEMatrix = this.getRegion(this.NECorner)
-                .getSubMapByDirectionFrom("southwest", this.NECorner.getLocalCoords());
-            var SWMatrix = this.getRegion(this.SWCorner)
-                .getSubMapByDirectionFrom("northeast", this.SWCorner.getLocalCoords());
-            var SEMatrix = this.getRegion(this.SECorner)
-                .getSubMapByDirectionFrom("northwest", this.SECorner.getLocalCoords());
+            console.log(corners);
+            var NWMatrix = regionMatrix.getRegion(corners.NW.getRegionMatrixCoords())
+                .getSubMapByDirectionFrom("southeast", corners.NW.getLocalCoords());
+            var NEMatrix = regionMatrix.getRegion(corners.NE.getRegionMatrixCoords())
+                .getSubMapByDirectionFrom("southwest", corners.NE.getLocalCoords());
+            var SWMatrix = regionMatrix.getRegion(corners.SW.getRegionMatrixCoords())
+                .getSubMapByDirectionFrom("northeast", corners.SW.getLocalCoords());
+            var SEMatrix = regionMatrix.getRegion(corners.SE.getRegionMatrixCoords())
+                .getSubMapByDirectionFrom("northwest", corners.SE.getLocalCoords());
 
-            if (this.regionMatrix.inTheSameRegion(this.NWCorner, this.NECorner)) {
+            if (regionMatrix.inTheSameRegion(corners.NW, corners.NE)) {
                 topSubMatrix = NWMatrix;
             } else {
-                topSubMatrix = NWMatrix.concatHorizontal(NEMatrix);
+                topSubMatrix = Matrix.concatHorizontal(NWMatrix, NEMatrix);
             }
 
-            if (this.regionMatrix.inTheSameRegion(this.SWCorner, this.SECorner)) {
+            if (regionMatrix.inTheSameRegion(corners.SW, corners.SE)) {
                 bottomSubMatrix = SWMatrix;
             } else {
-                bottomSubMatrix = SWMatrix.concatHorizontal(SEMatrix);
+                bottomSubMatrix = Matrix.concatHorizontal(SWMatrix, SEMatrix);
             }
 
-            if (this.regionMatrix.inTheSameRegion(this.NWCorner, this.NECorner)) {
-                this.map = topSubMatrix;
+            if (regionMatrix.inTheSameRegion(corners.NW, corners.NE)) {
+                return topSubMatrix;
             } else {
-                var newMap = topSubMatrix.concatVertical(bottomSubMatrix);
-                this.map = newMap;
+                var newMap = Matrix.concatVertical(topSubMatrix, bottomSubMatrix);
+                return newMap;
             }
         }
     };

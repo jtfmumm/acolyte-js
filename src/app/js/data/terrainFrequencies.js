@@ -13,6 +13,9 @@ define(function(require) {
             palm: 0,
             plains: 2, 
             forest: 6
+        },
+        void: {
+            void: 1
         }
     }
 

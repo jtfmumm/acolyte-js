@@ -23,6 +23,10 @@ define(function(require) {
         "guy": {
             code: "guy",
             impenetrable: true
+        },
+        "void": {
+            code: "void",
+            impenetrable: true
         }
     }
 });

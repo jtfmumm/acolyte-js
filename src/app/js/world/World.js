@@ -34,7 +34,7 @@ define(function(require) {
             return this.visibleRadius * 2 + 1;
         },
         display: function(display) {
-            this.visibleMapManager.display(display);
+            this.visibleMapManager.display(display, this.focus);
         },
         addOccupant: function(wCoords, occupant) {
             this.regionMatrix.addOccupant(wCoords, occupant);
