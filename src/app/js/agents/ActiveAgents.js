@@ -4,20 +4,24 @@ define(function(require) {
         waitList: [],
         activeList: [],
 
-        addAgent: function(agent) {
-            this.waitList.unshift(agent);
+        addRegionAgentsManager: function(regionAgentsManager) {
+            this.waitList.unshift(regionAgentsManager);
         },
         moveToActive: function() {
-            this.activeList = this.waitList.filter(function(agent) {
-                                return agent.isActive();
+            this.activeList = this.waitList.filter(function(regionAgentsManager) {
+                                return regionAgentsManager.isActive();
                             });
             this.waitList = []; 
         },
         processActiveList: function() {
             var that = this;
-            this.activeList.forEach(function(agent) {
+            var agents = [];
+            this.activeList.forEach(function(regionAgentsManager) {
+                agents.concat(regionAgentsManager.getAgents());
+                that.waitList.unshift(regionAgentsManager);
+            };
+            agents.forEach(function(agent) {
                 agent.act();
-                that.waitList.unshift(agent);
             });
             this.activeList = [];
         },
@@ -26,11 +30,11 @@ define(function(require) {
             this.processActiveList();
         },
         clearAll: function() {
-            this.waitList.forEach(function(agent) {
-                agent.deactivate();
+            this.waitList.forEach(function(regionAgentsManager) {
+                regionAgentsManager.deactivate();
             });
-            this.activeList.forEach(function(agent) {
-                agent.deactivate();
+            this.activeList.forEach(function(regionAgentsManager) {
+                regionAgentsManager.deactivate();
             });
             this.waitList = [];
             this.activeList = [];

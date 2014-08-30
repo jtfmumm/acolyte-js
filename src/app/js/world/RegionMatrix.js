@@ -59,7 +59,6 @@ define(function(require) {
             return this.startingRegionCoords;
         },
         getRegion: function(coords) {
-            console.log("regionCoords", coords);
             if (this.isWithinBoundaries(coords.x, coords.y)) {
                 return this.getCell(coords.x, coords.y);
             } else {

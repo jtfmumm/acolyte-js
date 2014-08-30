@@ -5,17 +5,28 @@ define(function(require) {
     }
 
     RegionAgentsManager.prototype = {
-        waitList: [],
         activeList: [],
+        active: false,
 
         addAgent: function(agent) {
-            this.waitList.unshift(agent);
+            this.activeList.unshift(agent);
         },
-        moveToActive: function() {
-            this.activeList = this.waitList.filter(function(agent) {
-                return agent.isActive();
-            });
-            this.waitList = [];
+        removeAgent: function(agent) {
+            var agentIdx = this.activeList.indexOf(agent);
+            if (agentIdx !== -1) {
+                this.activeList.slice(agentIdx, 1);
+            } else {
+                console.log("That agent is not in this list!")
+            }
+        },
+        getAgents: function() {
+            return this.activeList;
+        },
+        activate: function() {
+            this.active = true;
+        },
+        deactivate: function() {
+            this.active = false;
         },
         processActiveList: function() {
             var that = this;
@@ -30,13 +41,6 @@ define(function(require) {
             this.processActiveList();
         },
         clearAll: function() {
-            this.waitList.forEach(function(agent) {
-                agent.deactivate();
-            });
-            this.activeList.forEach(function(agent) {
-                agent.deactivate();
-            });
-            this.waitList = [];
             this.activeList = [];
         }
     };

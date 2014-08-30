@@ -17,7 +17,6 @@ define(function(require) {
 
             var corners = this.getCorners(regionMatrix, focus, radius);
 
-            console.log(corners);
             var NWMatrix = regionMatrix.getRegion(corners.NW.getRegionMatrixCoords())
                 .getSubMapByDirectionFrom("southeast", corners.NW.getLocalCoords());
             var NEMatrix = regionMatrix.getRegion(corners.NE.getRegionMatrixCoords())
