@@ -18,6 +18,10 @@ define(function(require) {
         getCell: function(column, row) {
             return this.data[row][column];
         },
+        setCell: function(column, row, val) {
+            this.data[row][column] = val;
+            return this.data[row][column];
+        },
         getMatrix: function() {
             return this.data;
         },

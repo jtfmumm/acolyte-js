@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee9165f0-3397-426b-a27d-8b550165e8fb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/displays/HTMLDisplay.js" afterPath="$PROJECT_DIR$/src/app/js/displays/HTMLDisplay.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/utils/Matrix.js" afterPath="$PROJECT_DIR$/src/app/js/utils/Matrix.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/world/RegionMatrix.js" afterPath="$PROJECT_DIR$/src/app/js/world/RegionMatrix.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todo.txt" afterPath="$PROJECT_DIR$/todo.txt" />
     </list>
     <ignored path="acolyte.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,20 +70,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RegionMatrix.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="RegionMatrix.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/js/world/RegionMatrix.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="865" max-vertical-offset="3388">
-              <caret line="141" column="5" selection-start-line="141" selection-start-column="5" selection-end-line="141" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.18867925" vertical-offset="3630" max-vertical-offset="4620">
+              <caret line="170" column="33" selection-start-line="170" selection-start-column="33" selection-end-line="170" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HTMLDisplay.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="HTMLDisplay.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/js/displays/HTMLDisplay.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6620926" vertical-offset="362" max-vertical-offset="968">
+            <state vertical-scroll-proportion="0.0" vertical-offset="362" max-vertical-offset="968">
               <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
               <folding />
             </state>
@@ -109,21 +110,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Agent.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/js/agents/Agent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="836">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Matrix.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/js/utils/Matrix.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3718">
-              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="66" max-vertical-offset="3806">
+              <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -153,7 +144,6 @@
         <option value="$PROJECT_DIR$/src/app/js/agents/ActiveAgents.js" />
         <option value="$PROJECT_DIR$/src/app/js/world/VisibleMapManager.js" />
         <option value="$PROJECT_DIR$/src/app/js/world/Region.js" />
-        <option value="$PROJECT_DIR$/src/app/js/utils/Matrix.js" />
         <option value="$PROJECT_DIR$/src/app/js/world/WorldSubMapper.js" />
         <option value="$PROJECT_DIR$/src/app/js/world/World.js" />
         <option value="$PROJECT_DIR$/src/app/js/game/Game.js" />
@@ -162,8 +152,10 @@
         <option value="$PROJECT_DIR$/src/app/index.html" />
         <option value="$PROJECT_DIR$/src/app/static/css/colors.css" />
         <option value="$PROJECT_DIR$/src/app/js/data/HTMLCodeTable.js" />
-        <option value="$PROJECT_DIR$/src/app/js/world/RegionMatrix.js" />
         <option value="$PROJECT_DIR$/src/app/js/displays/HTMLDisplay.js" />
+        <option value="$PROJECT_DIR$/todo.txt" />
+        <option value="$PROJECT_DIR$/src/app/js/utils/Matrix.js" />
+        <option value="$PROJECT_DIR$/src/app/js/world/RegionMatrix.js" />
       </list>
     </option>
   </component>
@@ -593,12 +585,12 @@
       <workItem from="1409263996139" duration="6284000" />
       <workItem from="1409317530026" duration="918000" />
       <workItem from="1409318473014" duration="15347000" />
-      <workItem from="1409361013897" duration="18075000" />
+      <workItem from="1409361013897" duration="21661000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40632000" />
+    <option name="totallyTimeSpent" value="44218000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="15" y="0" width="1351" height="738" extended-state="0" />
@@ -657,14 +649,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/js/world/RegionMatrix.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1276" max-vertical-offset="2706">
-          <caret line="74" column="62" selection-start-line="74" selection-start-column="62" selection-end-line="74" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/movement/Directions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="242" max-vertical-offset="462">
@@ -1026,22 +1010,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/utils/Matrix.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3718">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/world/RegionMatrix.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="865" max-vertical-offset="3388">
-          <caret line="141" column="5" selection-start-line="141" selection-start-column="5" selection-end-line="141" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/static/css/colors.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1254">
@@ -1058,10 +1026,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/todo.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="596">
+          <caret line="0" column="13" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/displays/HTMLDisplay.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6620926" vertical-offset="362" max-vertical-offset="968">
+        <state vertical-scroll-proportion="0.0" vertical-offset="362" max-vertical-offset="968">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/utils/Matrix.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="66" max-vertical-offset="3806">
+          <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/world/RegionMatrix.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18867925" vertical-offset="3630" max-vertical-offset="4620">
+          <caret line="170" column="33" selection-start-line="170" selection-start-column="33" selection-end-line="170" selection-end-column="33" />
           <folding />
         </state>
       </provider>

@@ -1,4 +1,5 @@
-update activeList based on activeArea
+terrain algos
+change references to RegionMatrix to RegionMap
 arrows
 seeds/child worlds (seeds are like child world futures)
 commands
