@@ -6,6 +6,6 @@ define(function(require) {
         "plains": " .",
         "forest": " F",
         "drunk": " &",
-        "void": "Z"
+        "void": "&nbsp;"
     }
 });

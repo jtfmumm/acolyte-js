@@ -14,37 +14,39 @@ define(function(require) {
             }
         },
         getSubMap: function(regionMatrix, focus, radius) {
-            var topSubMatrix, bottomSubMatrix;
+            var subMap, topSubMatrix, bottomSubMatrix;
 
             var corners = this.getCorners(regionMatrix, focus, radius);
 
+            //Start with NW Corner
             var NWMatrix = regionMatrix.getRegion(corners.NW.getRegionMatrixCoords())
                 .getSubMapByDirectionFrom("southeast", corners.NW.getLocalCoords());
-            var NEMatrix = regionMatrix.getRegion(corners.NE.getRegionMatrixCoords())
-                .getSubMapByDirectionFrom("southwest", corners.NE.getLocalCoords());
-            var SWMatrix = regionMatrix.getRegion(corners.SW.getRegionMatrixCoords())
-                .getSubMapByDirectionFrom("northeast", corners.SW.getLocalCoords());
-            var SEMatrix = regionMatrix.getRegion(corners.SE.getRegionMatrixCoords())
-                .getSubMapByDirectionFrom("northwest", corners.SE.getLocalCoords());
+            var subMap = NWMatrix;
 
-            if (regionMatrix.inTheSameRegion(corners.NW, corners.NE)) {
-                topSubMatrix = NWMatrix;
-            } else {
-                topSubMatrix = Matrix.concatHorizontal(NWMatrix, NEMatrix);
+            //Then NE
+            if (!regionMatrix.inTheSameRegion(corners.NW, corners.NE)) {
+                NEMatrix = regionMatrix.getRegion(corners.NE.getRegionMatrixCoords())
+                    .getSubMapByDirectionFrom("southwest", corners.NE.getLocalCoords());
+                subMap = Matrix.concatHorizontal(subMap, NEMatrix);
             }
 
-            if (regionMatrix.inTheSameRegion(corners.SW, corners.SE)) {
+            //Then SW
+            if (!regionMatrix.inTheSameRegion(corners.NW, corners.SW)) {
+                SWMatrix = regionMatrix.getRegion(corners.SW.getRegionMatrixCoords())
+                    .getSubMapByDirectionFrom("northeast", corners.SW.getLocalCoords());
                 bottomSubMatrix = SWMatrix;
-            } else {
-                bottomSubMatrix = Matrix.concatHorizontal(SWMatrix, SEMatrix);
+
+                //Then SE
+                if (!regionMatrix.inTheSameRegion(corners.SW, corners.SE)) {
+                    SEMatrix = regionMatrix.getRegion(corners.SE.getRegionMatrixCoords())
+                        .getSubMapByDirectionFrom("northwest", corners.SE.getLocalCoords());
+                    bottomSubMatrix = Matrix.concatHorizontal(bottomSubMatrix, SEMatrix);
+                }
+
+                subMap = Matrix.concatVertical(subMap, bottomSubMatrix);
             }
 
-            if (regionMatrix.inTheSameRegion(corners.NW, corners.NE)) {
-                return topSubMatrix;
-            } else {
-                var newMap = Matrix.concatVertical(topSubMatrix, bottomSubMatrix);
-                return newMap;
-            }
+            return subMap;
         },
         getActiveZone: function(regionMatrix, focus) {
             var regionFocus = focus.getRegionMatrixCoords();

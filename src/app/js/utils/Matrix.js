@@ -75,8 +75,8 @@ define(function(require) {
             return new Matrix(subMatrix);
         },
         getSubMatrixByCoords: function(topX, topY, bottomX, bottomY) {
-            var width = bottomX - topX;
-            var height = bottomY - topY;
+            var width = bottomX - topX + 1;
+            var height = bottomY - topY + 1;
             return this.getSubMatrix(topX, topY, width, height);
         },
         getBoundaryByDirection: function(direction) {

@@ -80,6 +80,7 @@ define(function(require) {
             if (this.isWithinBoundaries(coords)) {
                 return this.getCell(coords.x, coords.y);
             } else {
+                window.v = this.voidRegion;
                 return this.voidRegion;
             }
         },
@@ -136,7 +137,7 @@ define(function(require) {
                 .isWithinBoundaries(newLocalCoords);
         },
         inTheSameRegion: function(wCoords1, wCoords2) {
-            return this.getRegion(wCoords1.getRegionMatrixCoords()).isEqual(this.getRegion(wCoords2.getRegionMatrixCoords()));
+            return wCoords1.getRegionMatrixCoords().isEqual(wCoords2.getRegionMatrixCoords());
         }
     });
 
