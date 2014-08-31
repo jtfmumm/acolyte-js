@@ -32,7 +32,6 @@ define(function(require) {
             }
             newCodeTable[terrainKey] = entry;
         }
-        console.log(newCodeTable);
         return newCodeTable;
     }
 

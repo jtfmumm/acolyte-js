@@ -15,21 +15,21 @@ define(function(require) {
         this.height = height;
         this.diameterPerRegion = diameterPerRegion;
         this.voidRegion = new VoidRegion({diameter: this.diameterPerRegion});
-        Matrix.call(this);
+        this.map = new Matrix();
         var i;
         for (i = 0; i < height; i++) {
-            this.data.push(Array(width));
+            this.map.data.push(Array(width));
         }
 
         this.startingRegionCoords = new Coords(Rand.rollFromZero(this.width), Rand.rollFromZero(this.height));
     }
 
-    RegionMatrix.prototype = _.extend(Object.create(Matrix.prototype), {
+    RegionMatrix.prototype = {
         initialize: function () {
             var i, j;
             for (i = 0; i < this.height; i++) {
                 for (j = 0; j < this.width; j++) {
-                    this.data[i][j] = generateRegion(this.diameterPerRegion);
+                    this.map.data[i][j] = generateRegion(this.diameterPerRegion);
                 }
             }
         },
@@ -63,7 +63,7 @@ define(function(require) {
             region.removeOccupant(coords);
         },
         isWithinBoundaries: function(regionCoords) {
-            return this.isWithinMatrix(regionCoords.x, regionCoords.y);
+            return this.map.isWithinMatrix(regionCoords.x, regionCoords.y);
         },
         isImpenetrable: function(wCoords) {
             var region = this.getRegion(wCoords.getRegionMatrixCoords());
@@ -78,7 +78,7 @@ define(function(require) {
         },
         getRegion: function(coords) {
             if (this.isWithinBoundaries(coords)) {
-                return this.getCell(coords.x, coords.y);
+                return this.map.getCell(coords.x, coords.y);
             } else {
                 window.v = this.voidRegion;
                 return this.voidRegion;
@@ -139,7 +139,7 @@ define(function(require) {
         inTheSameRegion: function(wCoords1, wCoords2) {
             return wCoords1.getRegionMatrixCoords().isEqual(wCoords2.getRegionMatrixCoords());
         }
-    });
+    };
 
     function generateRegion(diameter) {
         return new Region({diameter: diameter, type: "average"});
