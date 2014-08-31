@@ -9,6 +9,7 @@ define(function(require) {
 //REMOVE LATER
     var Drunk = require("js/agents/Drunk");
     var Coords = require("js/utils/Coords");
+    var WorldCoords = require("js/utils/WorldCoords");
 
     var display = new HTMLDisplay();
     var world = new World();
@@ -17,14 +18,13 @@ define(function(require) {
     var ready = false;
     var timeCounter = 0;
 
-    var drunk = new Drunk(world, new Coords(10, 10));
+    var drunk = new Drunk(world, new WorldCoords(new Coords(0, 0), new Coords(1, 1)));
 
 
     var Game = {
         input: null,
         init: function(inputDevice) {
             //Remove later
-//            world.addOccupant(new Coords(10, 10), drunk);
             //NEED TO UPDATE ACTIVE LIST OVER TIME
 //            world.initializeAgents();
 
@@ -33,6 +33,9 @@ define(function(require) {
             world.initializeSelf(Self);
 //            ActiveAgents.addAgent(Self);
             world.display(display);
+
+            world.placeAgent(drunk, new WorldCoords(new Coords(0, 0), new Coords(1, 1)));
+
             this.watchInput();
         },
         watchInput: function() {

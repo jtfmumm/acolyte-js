@@ -2,6 +2,7 @@ define(function(require) {
     "use strict"
 
     var Coords = require("js/utils/Coords");
+    var WorldCoords = require("js/utils/WorldCoords");
     var Matrix = require("js/utils/Matrix");
     var walledMap = require("js/maps/walledMap");
     var RegionMatrix = require("js/world/RegionMatrix");
@@ -23,7 +24,7 @@ define(function(require) {
         this.regionMatrix.initialize();
         //TODO: Copy regions over to world map
 
-        this.focus = focus || this.regionMatrix.getRandomPosition();
+        this.focus = new WorldCoords(new Coords(0, 0), new Coords(10, 10));//focus || this.regionMatrix.getRandomPosition();
         this.activeZone = WorldSubMapper.getActiveZone(this.regionMatrix, this.focus);
 
         //Temporary
@@ -58,6 +59,13 @@ define(function(require) {
                 this.regionMatrix.moveAgent(self, position, tryPosition);
                 self.setPosition(tryPosition);
                 this.focus = tryPosition;
+            }
+        },
+        moveAgent: function(agent, position, posChange) {
+            var tryPosition = this.regionMatrix.offsetPosition(position, posChange);
+            if (!this.regionMatrix.isImpenetrable(tryPosition)) {
+                this.regionMatrix.moveAgent(agent, position, tryPosition);
+                agent.setPosition(tryPosition);
             }
         },
         isImpenetrable: function(wCoords) {

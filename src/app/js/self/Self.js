@@ -16,7 +16,7 @@ define(function(require) {
             this.world = world;
             this.position = wCoords;
         },
-        updateWorld: function(world) {
+        setWorld: function(world) {
             this.world = world;
         },
         setPosition: function(position) {
@@ -24,12 +24,6 @@ define(function(require) {
         },
         move: function(posChange) {
             this.world.moveSelf(this, this.position, posChange);
-        },
-        moveTo: function(wCoords) {
-            this.world.removeOccupant(this.position);
-            this.world.addOccupant(wCoords, this);
-            this.world.updateFocus(wCoords);
-            this.position = wCoords;
         },
         getCode: function() {
             return "self";
@@ -64,4 +58,4 @@ define(function(require) {
     // if (!self) self = Object.create(Self);
 
     return Self;
-})
+});
