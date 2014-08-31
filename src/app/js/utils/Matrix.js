@@ -33,7 +33,7 @@ define(function(require) {
             });
             return new Matrix(mapped);
         },
-        isWithinBoundaries: function(row, column) {
+        isWithinMatrix: function(row, column) {
             return row >= 0 && column >= 0 && row < this.getHeight() && column < this.getWidth();
         },
         isEqualRow: function(row, otherMatrix) {

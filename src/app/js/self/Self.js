@@ -15,26 +15,21 @@ define(function(require) {
         init: function(world, wCoords) {
             this.world = world;
             this.position = wCoords;
-            this.world.addOccupant(this.position, this);
-//            world.initializeAgents();
         },
         updateWorld: function(world) {
             this.world = world;
         },
+        setPosition: function(position) {
+            this.position = position;
+        },
         move: function(posChange) {
-            var posChange = Coords.makeCoords(arguments);
-            var newPos = this.position.plus(posChange);
-            this.tryMove(newPos);
+            this.world.moveSelf(this, this.position, posChange);
         },
-        tryMove: function(wCoords) {
-            if (!this.world.isImpenetrable(wCoords)) {
-                this.moveTo(position);
-            }
-        },
-        moveTo: function(newPos) {
+        moveTo: function(wCoords) {
             this.world.removeOccupant(this.position);
-            this.world.addOccupant(newPos, this);
-            this.position = newPos;
+            this.world.addOccupant(wCoords, this);
+            this.world.updateFocus(wCoords);
+            this.position = wCoords;
         },
         getCode: function() {
             return "self";
@@ -64,7 +59,7 @@ define(function(require) {
         isImpenetrable: function() {
             return true;
         }
-    }
+    };
 
     // if (!self) self = Object.create(Self);
 

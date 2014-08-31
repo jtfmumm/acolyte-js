@@ -46,8 +46,8 @@ define(function(require) {
         },
         nextStep: function() {
             timeCounter++;
-//            processNextKey(this.input);
-//            ActiveAgents.prepareAgents();
+            processNextKey(this.input);
+            ActiveAgents.prepareAgents();
             world.display(display);
         },
         pause: function() {

@@ -1,13 +1,13 @@
 define(function(require) {
 
+    var ActiveAgents = require("js/agents/ActiveAgents");
 
     function RegionAgentsManager() {
+        this.activeList = [];
+        this.active = false;
     }
 
     RegionAgentsManager.prototype = {
-        activeList: [],
-        active: false,
-
         addAgent: function(agent) {
             this.activeList.unshift(agent);
         },
@@ -19,11 +19,15 @@ define(function(require) {
                 console.log("That agent is not in this list!")
             }
         },
+        isActive: function() {
+            return this.active;
+        },
         getAgents: function() {
             return this.activeList;
         },
         activate: function() {
             this.active = true;
+            ActiveAgents.addRegionAgentsManager(this);
         },
         deactivate: function() {
             this.active = false;

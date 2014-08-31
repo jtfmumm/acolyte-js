@@ -6,12 +6,13 @@ define(function(require) {
     var walledMap = require("js/maps/walledMap");
     var RegionMatrix = require("js/world/RegionMatrix");
     var VisibleMapManager = require("js/world/VisibleMapManager");
+    var WorldSubMapper = require("js/world/WorldSubMapper");
 
     function World(parent, focus) {
         this.parent = parent || null;
 
         this.visibleRadius = 25;
-        this.visibleZone = new Matrix();
+        this.visibleZone = null;
 
         this.horizontalRegions = 5;
         this.verticalRegions = 5;
@@ -23,12 +24,21 @@ define(function(require) {
         //TODO: Copy regions over to world map
 
         this.focus = focus || this.regionMatrix.getRandomPosition();
+        this.activeZone = WorldSubMapper.getActiveZone(this.regionMatrix, this.focus);
+
+        //Temporary
+        this.updateActiveRegions();
+
         this.visibleMapManager = new VisibleMapManager(this.regionMatrix);
     }
     
     World.prototype = {
-        initializeSelf: function(Self) {
-            Self.init(this, this.regionMatrix.getStartingPosition());
+        initializeSelf: function(self) {
+            self.init(this, this.focus);
+            this.placeAgent(self, this.focus);
+        },
+        placeAgent: function(agent, wCoords) {
+            this.regionMatrix.placeAgent(agent, wCoords);
         },
         getVisibleDiameter: function() {
             return this.visibleRadius * 2 + 1;
@@ -42,8 +52,28 @@ define(function(require) {
         removeOccupant: function(wCoords) {
             this.regionMatrix.removeOccupant(wCoords);
         },
+        moveSelf: function(self, position, posChange) {
+            var tryPosition = this.regionMatrix.offsetPosition(position, posChange);
+            if (!this.regionMatrix.isImpenetrable(tryPosition)) {
+                this.regionMatrix.moveAgent(self, position, tryPosition);
+                self.setPosition(tryPosition);
+                this.focus = tryPosition;
+            }
+        },
         isImpenetrable: function(wCoords) {
             return this.regionMatrix.isImpenetrable(wCoords);
+        },
+        updateActiveRegions: function() {
+            this.activeZone.forEach(function(region) {
+                region.deactivate();
+            });
+            this.activeZone = WorldSubMapper.getActiveZone(this.regionMatrix, this.focus);
+            this.activeZone.forEach(function(region) {
+                region.activate();
+            });
+        },
+        updateFocus: function(newPos) {
+            this.focus = newPos;
         }
     };
 

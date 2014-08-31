@@ -54,7 +54,7 @@ define(function(require) {
             }
         },
         isWithinBoundaries: function (coords) {
-            return this.map.isWithinBoundaries(coords.x, coords.y);
+            return this.map.isWithinMatrix(coords.x, coords.y);
         },
         withinBoundaries: function (coords) {
             var x = coords.x, y = coords.y;
@@ -106,16 +106,35 @@ define(function(require) {
         getSubMapByDirectionFrom: function(direction, coords) {
             return this.map.getSubMatrixByDirectionFrom(direction, coords.x, coords.y);
         },
-        addMapAt: function (coords, newMap) {
+        addMapAt: function(coords, newMap) {
             var width = newMap.getWidth();
             var height = newMap.getHeight();
             var subWorld = this.worldMap.getSubMatrix(coords.x, coords.y, width, height);
             Matrix.copyObjectsWith(subWorld, newMap, copyTerrainByCode);
+        },
+        registerAgent: function(agent) {
+            this.activeAgents.addAgent(agent);
+        },
+        unregisterAgent: function(agent) {
+            this.activeAgents.removeAgent(agent);
+        },
+        activate: function() {
+            this.activeAgents.activate();
+        },
+        deactivate: function() {
+            this.activeAgents.deactivate();
         }
     };
 
     function copyTerrainByCode(oldTile, newTileCode) {
         oldTile.terrain = terrainCodeTable[newTileCode];
+    }
+
+    function getTileCode(tile) {
+        if (tile.occupant)
+            return tile.occupant.getCode();
+        else
+            return tile.terrain.code;
     }
 
     return Region;

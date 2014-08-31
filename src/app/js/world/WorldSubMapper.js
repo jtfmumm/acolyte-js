@@ -1,6 +1,7 @@
 define(function(require) {
 
     var Directions = require("js/movement/Directions");
+    var Coords = require("js/utils/Coords");
     var Matrix = require("js/utils/Matrix");
 
     var WorldSubMapper = {
@@ -44,6 +45,21 @@ define(function(require) {
                 var newMap = Matrix.concatVertical(topSubMatrix, bottomSubMatrix);
                 return newMap;
             }
+        },
+        getActiveZone: function(regionMatrix, focus) {
+            var regionFocus = focus.getRegionMatrixCoords();
+            var topLeftRegion = regionFocus.minus(new Coords(1, 1));
+            var activeRegions = [];
+            for (var i = 0; i < 3; i++) {
+                var nextRow = [];
+                for (var j = 0; j < 3; j++) {
+                    var nextX = topLeftRegion.x + i;
+                    var nextY = topLeftRegion.y + j;
+                    nextRow.push(regionMatrix.getRegion(new Coords(nextX, nextY)));
+                }
+                activeRegions.push(nextRow);
+            }
+            return new Matrix(activeRegions);
         }
     };
 

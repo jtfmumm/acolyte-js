@@ -17,9 +17,9 @@ define(function(require) {
             var that = this;
             var agents = [];
             this.activeList.forEach(function(regionAgentsManager) {
-                agents.concat(regionAgentsManager.getAgents());
+                agents = agents.concat(regionAgentsManager.getAgents());
                 that.waitList.unshift(regionAgentsManager);
-            };
+            });
             agents.forEach(function(agent) {
                 agent.act();
             });

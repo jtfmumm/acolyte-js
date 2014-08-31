@@ -37,6 +37,21 @@ define(function(require) {
             var startingLocalCoords = this.getRegion(this.startingRegionCoords).getStartingPosition();
             return new WorldCoords(this.startingRegionCoords, startingLocalCoords);
         },
+        placeAgent: function(agent, wCoords) {
+            this.addOccupant(wCoords, agent);
+            this.registerAgent(agent, wCoords);
+        },
+        registerAgent: function(agent, wCoords) {
+            this.getRegion(wCoords.getRegionMatrixCoords()).registerAgent(agent);
+        },
+        moveAgent: function(agent, oldWCoords, newWCoords) {
+            if (!this.inTheSameRegion(oldWCoords, newWCoords)) {
+                this.getRegion(oldWCoords).unregisterAgent(agent);
+                this.getRegion(newWCoords).registerAgent(agent);
+            }
+            this.removeOccupant(oldWCoords);
+            this.addOccupant(newWCoords, agent);
+        },
         addOccupant: function(wCoords, occupant) {
             var region = this.getRegion(wCoords.getRegionMatrixCoords());
             var coords = wCoords.getLocalCoords();
@@ -46,6 +61,9 @@ define(function(require) {
             var region = this.getRegion(wCoords.getRegionMatrixCoords());
             var coords = wCoords.getLocalCoords();
             region.removeOccupant(coords);
+        },
+        isWithinBoundaries: function(regionCoords) {
+            return this.isWithinMatrix(regionCoords.x, regionCoords.y);
         },
         isImpenetrable: function(wCoords) {
             var region = this.getRegion(wCoords.getRegionMatrixCoords());
@@ -59,7 +77,7 @@ define(function(require) {
             return this.startingRegionCoords;
         },
         getRegion: function(coords) {
-            if (this.isWithinBoundaries(coords.x, coords.y)) {
+            if (this.isWithinBoundaries(coords)) {
                 return this.getCell(coords.x, coords.y);
             } else {
                 return this.voidRegion;
