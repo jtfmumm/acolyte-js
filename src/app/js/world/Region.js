@@ -10,10 +10,10 @@ define(function(require) {
     function Region(options) {
         this.activeAgents = new RegionAgentsManager();
         this.diameter = options.diameter;
-        this.type = options.type;
+        this.type = options.type || "average";
         this.startingPosition = new Coords(Rand.rollFromZero(this.diameter), Rand.rollFromZero(this.diameter));
         this.owner = options.owner || null;
-        this.map = this.generateMap();
+        this.map = options.matrix ? diamondSquare(options.matrix) : this.generateMap();
     }
 
     Region.prototype = {
@@ -126,6 +126,17 @@ define(function(require) {
         }
     };
 
+    function diamondSquare(matrix) {
+        for (var i = 0; i < matrix.getWidth(); i++) {
+            for (var j = 0; j < matrix.getWidth(); j++) {
+                var val = matrix.getCell(i, j);
+                matrix.setCell(generateTile(Math.floor(val)));
+            }
+        }
+
+        return matrix;
+    }
+
     function copyTerrainByCode(oldTile, newTileCode) {
         oldTile.terrain = terrainCodeTable[newTileCode];
     }
@@ -135,6 +146,13 @@ define(function(require) {
             return tile.occupant.getCode();
         else
             return tile.terrain.code;
+    }
+
+    function generateTile(terrain) {
+        return {
+            terrain: terrain,
+            occupant: null
+        }
     }
 
     return Region;

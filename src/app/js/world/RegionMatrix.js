@@ -8,6 +8,7 @@ define(function(require) {
     var Region = require("js/world/Region");
     var Rand = require("js/utils/Rand");
     var VoidRegion = require("js/world/VoidRegion");
+    var RegionMatrixMapGenerator = require("js/world/RegionMatrixMapGenerator");
 
     //Takes width and height measured in regions, plus diameter per region
     function RegionMatrix(width, height, diameterPerRegion) {
@@ -15,11 +16,7 @@ define(function(require) {
         this.height = height;
         this.diameterPerRegion = diameterPerRegion;
         this.voidRegion = new VoidRegion({diameter: this.diameterPerRegion});
-        this.map = new Matrix();
-        var i;
-        for (i = 0; i < height; i++) {
-            this.map.data.push(Array(width));
-        }
+        this.map = generateRegionsFrom(new RegionMatrixMapGenerator(this.width, this.diameterPerRegion).diamondSquare());
 
         this.startingRegionCoords = new Coords(Rand.rollFromZero(this.width), Rand.rollFromZero(this.height));
     }
@@ -142,6 +139,18 @@ define(function(require) {
             return wCoords1.getRegionMatrixCoords().isEqual(wCoords2.getRegionMatrixCoords());
         }
     };
+
+    function generateRegionsFrom(matrix) {
+        console.log(matrix);
+        for (var i = 0; i < matrix.getWidth(); i++) {
+            for (var j = 0; j < matrix.getWidth(); j++) {
+                var nextRegion = new Region({diameter: matrix.getWidth(), matrix: matrix.getCell(i, j)});
+                matrix.setCell(i, j, nextRegion);
+            }
+        }
+        console.log(matrix.getCell(0, 0));
+        return matrix;
+    }
 
     function generateHeightStats(diameter) {
         //width/height need to be power of 2 + 1 (5, 9, 17, etc.)

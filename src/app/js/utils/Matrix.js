@@ -6,6 +6,14 @@ define(function(require) {
     }
     
     Matrix.prototype = {
+        init: function(width, height) {
+            var newData = [];
+            for (var i = 0; i < height; i++) {
+                newData.push(Array(width));
+            }
+            this.data = newData;
+            return this;
+        },
         getWidth: function() {
             return (this.data[0]) ? this.data[0].length : 0;
         },
@@ -16,11 +24,18 @@ define(function(require) {
             return this.data[row];
         },
         getCell: function(column, row) {
-            return this.data[row][column];
+            if (this.isWithinMatrix(row, column)) {
+                return this.data[row][column];
+            } else {
+                return undefined;
+            }
         },
         setCell: function(column, row, val) {
-            this.data[row][column] = val;
-            return this.data[row][column];
+            if (this.isWithinMatrix(row, column)) {
+                this.data[row][column] = val;
+                return val;
+            }
+            return undefined;
         },
         getMatrix: function() {
             return this.data;
