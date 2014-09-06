@@ -3,7 +3,9 @@ define(function(require) {
     
     var config = require("js/data/config");
     var Coords = require("js/utils/Coords");
+    var Rand = require("js/utils/Rand");
     var Directions = require("js/movement/Directions");
+    var Console = require("js/screens/Console");
 
     // var self = self || null;
 
@@ -11,10 +13,28 @@ define(function(require) {
         position: null, //in wCoords
         nextInput: null,
         world: null,
+        stats: {
+            name: "Acolyte",
+            level: 1,
+            hp: 30,
+            str: Rand.roll(6) + Rand.roll(6) + Rand.roll(6),
+            dex: Rand.roll(6) + Rand.roll(6) + Rand.roll(6),
+            con: Rand.roll(6) + Rand.roll(6) + Rand.roll(6),
+            int: Rand.roll(6) + Rand.roll(6) + Rand.roll(6),
+            wis: Rand.roll(6) + Rand.roll(6) + Rand.roll(6),
+            cha: Rand.roll(6) + Rand.roll(6) + Rand.roll(6)
+        },
+
 
         init: function(world, wCoords) {
             this.world = world;
             this.position = wCoords;
+            this.updateConsoleStats();
+        },
+        updateConsoleStats: function() {
+            for (var prop in this.stats) {
+                Console.updateStat(prop, this.stats[prop]);
+            }
         },
         setWorld: function(world) {
             this.world = world;
@@ -32,6 +52,11 @@ define(function(require) {
             this.nextInput = input;
         },
         act: function() {
+            if (this.stats.hp < 1) {
+                Console.msg("You have fallen!");
+                this.world.endGame();
+                return;
+            }
             switch (this.nextInput) {
                 case "UP":
                     this.move(Directions.north);
@@ -49,11 +74,16 @@ define(function(require) {
                     break;
             }
             this.nextInput = null;
+            this.updateConsoleStats();
         },
         isImpenetrable: function() {
             return true;
         }
     };
+
+    function constrainRoll(roll) {
+        return roll < 5 ? 5 : roll;
+    }
 
     // if (!self) self = Object.create(Self);
 

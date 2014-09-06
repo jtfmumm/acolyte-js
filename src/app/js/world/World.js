@@ -83,6 +83,9 @@ define(function(require) {
         },
         updateFocus: function(newPos) {
             this.focus = newPos;
+        },
+        endGame: function() {
+            this.parent.endGame();
         }
     };
 

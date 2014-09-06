@@ -25,9 +25,10 @@ define(function(require) {
         input: null,
         init: function(inputDevice) {
             this.input = inputDevice;
+            this.world = new World(this);
             this.input.connect();
-            world.initializeSelf(Self);
-            world.display(display);
+            this.world.initializeSelf(Self);
+            this.world.display(display);
             Console.display(display);
 
             world.placeAgent(drunk, new WorldCoords(new Coords(0, 0), new Coords(1, 1)));
@@ -47,7 +48,7 @@ define(function(require) {
             timeCounter++;
             processNextKey(this.input);
             ActiveAgents.prepareAgents();
-            world.display(display);
+            this.world.display(display);
             Console.display(display);
         },
         pause: function() {
@@ -59,6 +60,11 @@ define(function(require) {
                 Console.msg("Game is unpaused!");
                 this.input.connect();
             }
+        },
+        endGame: function() {
+            Console.msg("Game over!");
+            this.input.reset();
+            this.input.disconnect();
         }
     };
 

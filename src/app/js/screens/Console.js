@@ -4,8 +4,6 @@ define(function(require) {
 
     var Console = {
         stats: {
-            Name: "Acolyte",
-            HP: 100
         },
         messages: [],
         msg: function(text) {
