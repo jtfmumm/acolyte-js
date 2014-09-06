@@ -68,7 +68,7 @@ define(function(require) {
     }
 
     function smallNoise() {
-        return Math.random() - 0.5;
+        return (Math.random() - 0.5) / 2;
     }
 
     function diamondSquare(matrix, x, y, diameter) {
@@ -77,11 +77,11 @@ define(function(require) {
         var ne = matrix.getCell(x + diameter - 1, y);
         var sw = matrix.getCell(x, y + diameter - 1);
         var se = matrix.getCell(x + diameter - 1, y + diameter - 1);
-        matrix.setCell(x + midPoint, y + midPoint, ((nw + ne + sw + se) / 4));
-        matrix.setCell(x, y + midPoint, ((nw + sw) / 2));
-        matrix.setCell(x + diameter - 1, y + midPoint, ((ne + se) / 2));
-        matrix.setCell(x + midPoint, y, ((nw + ne) / 2));
-        matrix.setCell(x + midPoint, y + diameter - 1, ((sw + se) / 2));
+        matrix.setCell(x + midPoint, y + midPoint, ((nw + ne + sw + se) / 4) + smallNoise());
+        matrix.setCell(x, y + midPoint, ((nw + sw) / 2) + smallNoise());
+        matrix.setCell(x + diameter - 1, y + midPoint, ((ne + se) / 2) + smallNoise());
+        matrix.setCell(x + midPoint, y, ((nw + ne) / 2) + smallNoise());
+        matrix.setCell(x + midPoint, y + diameter - 1, ((sw + se) / 2) + smallNoise());
 
         if (midPoint === 1) return;
         diamondSquare(matrix, x, y, midPoint + 1);
