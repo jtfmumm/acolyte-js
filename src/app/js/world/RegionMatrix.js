@@ -15,21 +15,25 @@ define(function(require) {
         this.width = width;
         this.height = height;
         this.diameterPerRegion = diameterPerRegion;
+        this.regionMatrixMapGenerator = new RegionMatrixMapGenerator({
+            diameter: this.width,
+            diameterPerRegion: this.diameterPerRegion
+        });
         this.voidRegion = new VoidRegion({diameter: this.diameterPerRegion});
         this.regions = new Matrix().init(this.width, this.height);//generateRegionsFrom(new RegionMatrixMapGenerator(this.width, this.diameterPerRegion).diamondSquare());
-        this.initialize();
+        this.initialize("diamondSquare");
 
         this.startingRegionCoords = new Coords(Rand.rollFromZero(this.width), Rand.rollFromZero(this.height));
     }
 
     RegionMatrix.prototype = {
-        initialize: function () {
-            var i, j;
-            var terrainHeights = [];
-            var heightStats = generateHeightStats(this.width);
-            for (i = 0; i < this.height; i++) {
-                for (j = 0; j < this.width; j++) {
-                    this.regions.data[i][j] = generateRegion(this.diameterPerRegion);
+        initialize: function(algorithm) {
+            var elevations = this.regionMatrixMapGenerator.generate(algorithm);
+
+            for (var y = 0; y < this.height; y++) {
+                for (var x = 0; x < this.width; x++) {
+                    this.regions.setCell(x, y, generateRegion(this.diameterPerRegion));
+                    this.regions.getCell(x, y).updateMap(elevations.getCell(x, y));
                 }
             }
         },
@@ -153,59 +157,7 @@ define(function(require) {
         return matrix;
     }
 
-    function generateHeightStats(diameter) {
-        //width/height need to be power of 2 + 1 (5, 9, 17, etc.)
-        var heightStats = new Matrix();
-        var nw, ne, sw, se;
-        for (var i = 0; i < diameter; i++) {
-            heightStats.data.push(Array(diameter));
-        }
 
-        //Initialize corners, center, and midpoints
-        var midPoint = findMidPoint(diameter);
-        nw = heightStats.setCell(0, 0, Rand.rollFromZero(8));
-        ne = heightStats.setCell(0, diameter - 1, Rand.rollFromZero(8));
-        sw = heightStats.setCell(diameter - 1, 0, Rand.rollFromZero(8));
-        se = heightStats.setCell(diameter - 1, diameter - 1, Rand.rollFromZero(8));
-        heightStats.setCell(midPoint, midPoint, ((nw + ne + sw + se) / 4));
-        heightStats.setCell(0, midPoint, ((nw + sw) / 2));
-        heightStats.setCell(diameter - 1, midPoint, ((ne + se) / 2));
-        heightStats.setCell(midPoint, 0, ((nw + ne) / 2));
-        heightStats.setCell(midPoint, diameter - 1, ((sw + se) / 2));
-
-        specifyHeightPoints(heightStats, new Coords(0, 0), midPoint + 1);
-        specifyHeightPoints(heightStats, new Coords(0, midPoint), midPoint + 1);
-        specifyHeightPoints(heightStats, new Coords(midPoint, 0), midPoint + 1);
-        specifyHeightPoints(heightStats, new Coords(midPoint, midPoint), midPoint + 1);
-
-        console.log(heightStats);
-        return heightStats;
-    }
-
-    function specifyHeightPoints(arr, nwCoords, diameter) {
-        var midPoint = findMidPoint(diameter);
-        var x = nwCoords.x;
-        var y = nwCoords.y;
-        var nw = arr.getCell(x, y);
-        var ne = arr.getCell(x + diameter - 1, y);
-        var sw = arr.getCell(x, y + diameter - 1);
-        var se = arr.getCell(x + diameter - 1, y + diameter - 1);
-        arr.setCell(x + midPoint, y + midPoint, ((nw + ne + sw + se) / 4));
-        arr.setCell(x, y + midPoint, ((nw + sw) / 2));
-        arr.setCell(x + diameter - 1, y + midPoint, ((ne + se) / 2));
-        arr.setCell(x + midPoint, y, ((nw + ne) / 2));
-        arr.setCell(x + midPoint, y + diameter - 1, ((sw + se) / 2));
-
-        if (midPoint === 1) return;
-        specifyHeightPoints(arr, new Coords(x, y), midPoint + 1);
-        specifyHeightPoints(arr, new Coords(x, y + midPoint), midPoint + 1);
-        specifyHeightPoints(arr, new Coords(x + midPoint, y), midPoint + 1);
-        specifyHeightPoints(arr, new Coords(x + midPoint, y + midPoint), midPoint + 1);
-    }
-
-    function findMidPoint(diameter) {
-        return Math.floor(diameter / 2);
-    }
 
     function generateRegion(diameter) {
         return new Region({diameter: diameter, type: "blank"});

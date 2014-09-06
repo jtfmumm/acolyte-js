@@ -26,6 +26,8 @@ define(function(require) {
         updateMapWithMatrix: function(oldMap, matrix) {
             var prop;
             var newMap = oldMap;
+            console.log(oldMap);
+            console.log(matrix);
             if (newMap.hasSameDimensions(matrix)) {
                 for (var y = 0; y < matrix.getHeight(); y++) {
                     for (var x = 0; x < matrix.getWidth(); x++) {

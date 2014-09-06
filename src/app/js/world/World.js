@@ -20,7 +20,9 @@ define(function(require) {
         this.width = this.horizontalRegions * this.getVisibleDiameter();
         this.height = this.verticalRegions * this.getVisibleDiameter();
 
-        this.regionMatrix = new RegionMatrix(this.horizontalRegions, this.verticalRegions, this.getVisibleDiameter());
+        this.regionDiameter = 65; //Must be a power of 2 + 1 for algorithms
+
+        this.regionMatrix = new RegionMatrix(this.horizontalRegions, this.verticalRegions, this.regionDiameter);
         //TODO: Copy regions over to world map
 
         this.focus = new WorldCoords(new Coords(0, 0), new Coords(10, 10));//focus || this.regionMatrix.getRandomPosition();
