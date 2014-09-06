@@ -6,7 +6,7 @@ define(function(require) {
     Input.prototype = {
         events: [],
         addEvent: function(event) {
-            if (this.events.length < 11) this.events.unshift(event);
+            if (this.events.length < 3) this.events.unshift(event);
         },
         isReady: function() {
             return this.events.length > 0;

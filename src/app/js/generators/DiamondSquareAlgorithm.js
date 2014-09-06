@@ -64,7 +64,7 @@ define(function(require) {
     }
 
     function randomElevation() {
-        return Rand.rollFromZero(8);
+        return Rand.rollFromZero(9);
     }
 
     function smallNoise() {
@@ -93,35 +93,6 @@ define(function(require) {
     function findMidPoint(diameter) {
         return Math.floor(diameter / 2);
     }
-
-//    function generateHeightStats(diameter) {
-//        //width/height need to be power of 2 + 1 (5, 9, 17, etc.)
-//        var heightStats = new Matrix();
-//        var nw, ne, sw, se;
-//        for (var i = 0; i < diameter; i++) {
-//            heightStats.data.push(Array(diameter));
-//        }
-//
-//        //Initialize corners, center, and midpoints
-//        var midPoint = findMidPoint(diameter);
-//        nw = heightStats.setCell(0, 0, Rand.rollFromZero(8));
-//        ne = heightStats.setCell(0, diameter - 1, Rand.rollFromZero(8));
-//        sw = heightStats.setCell(diameter - 1, 0, Rand.rollFromZero(8));
-//        se = heightStats.setCell(diameter - 1, diameter - 1, Rand.rollFromZero(8));
-//        heightStats.setCell(midPoint, midPoint, ((nw + ne + sw + se) / 4));
-//        heightStats.setCell(0, midPoint, ((nw + sw) / 2));
-//        heightStats.setCell(diameter - 1, midPoint, ((ne + se) / 2));
-//        heightStats.setCell(midPoint, 0, ((nw + ne) / 2));
-//        heightStats.setCell(midPoint, diameter - 1, ((sw + se) / 2));
-//
-//        specifyHeightPoints(heightStats, new Coords(0, 0), midPoint + 1);
-//        specifyHeightPoints(heightStats, new Coords(0, midPoint), midPoint + 1);
-//        specifyHeightPoints(heightStats, new Coords(midPoint, 0), midPoint + 1);
-//        specifyHeightPoints(heightStats, new Coords(midPoint, midPoint), midPoint + 1);
-//
-//        console.log(heightStats);
-//        return heightStats;
-//    }
 
     return DiamondSquareAlgorithm;
 });

@@ -34,6 +34,7 @@ define(function(require) {
                 for (var x = 0; x < this.span; x++) {
                     var elevation = Math.floor(values.getCell(x, y));
                     if (elevation < 0) elevation = 0;
+                    if (elevation > 8) elevation = 8;
                     elevations.setCell(x, y, {
                         elevation: elevation
                     });

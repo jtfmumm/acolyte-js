@@ -3,7 +3,7 @@ define(function(require) {
         //Terrains
         "self": {
             symbol: " @",
-            color: "highlight-back"
+            backgroundColor: "highlight-back"
         },
         "wall": {
             symbol: " #"

@@ -7,6 +7,7 @@ define(function(require) {
     function HTMLDisplay() {
         this.cache = {};
         this.displayEl = document.getElementById("display");
+        this.consoleEl = document.getElementById("console");
     }
 
     HTMLDisplay.prototype = {
@@ -14,7 +15,7 @@ define(function(require) {
             var _this = this;
             var newDiv = document.createElement('div');
             var newMap = tileCodes.map(function(tileCode) {
-                return _this.compileHTML(tileCode);
+                return _this.compileMapHTML(tileCode);
             });
 
             for (var y = 0; y < newMap.getHeight(); y++) {
@@ -30,11 +31,18 @@ define(function(require) {
             }
             this.displayEl.appendChild(newDiv);
         },
-        compileHTML: function(tileCode) {
+        renderConsole: function(consoleData) {
+            var text = "";
+            for (var i = 0; i < consoleData.length; i++) {
+                text += consoleData[i] + "<br>";
+            }
+            this.consoleEl.innerHTML = text;
+        },
+        compileMapHTML: function(tileCode) {
             var tileObject = HTMLCodeTable[tileCode.object];
             var elevation = HTMLCodeTable[tileCode.elevation];
             var color = tileObject.color ? tileObject.color : "black";
-            var backColor = elevation.color;
+            var backColor = (tileObject.backgroundColor) ? tileObject.backgroundColor : elevation.color;
             var symbol = tileObject.symbol;
 
             var newEl = "" + color + backColor + symbol;

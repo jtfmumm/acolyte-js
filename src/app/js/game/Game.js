@@ -11,11 +11,11 @@ define(function(require) {
     var Coords = require("js/utils/Coords");
     var WorldCoords = require("js/utils/WorldCoords");
 
+    var Console = require("js/screens/Console");
+
     var display = new HTMLDisplay();
     var world = new World();
-    var gameSpeed = 150;  //higher is slower: ms per frame
     var pauseState = false;
-    var ready = false;
     var timeCounter = 0;
 
     var drunk = new Drunk(world, new WorldCoords(new Coords(0, 0), new Coords(1, 1)));
@@ -24,15 +24,11 @@ define(function(require) {
     var Game = {
         input: null,
         init: function(inputDevice) {
-            //Remove later
-            //NEED TO UPDATE ACTIVE LIST OVER TIME
-//            world.initializeAgents();
-
             this.input = inputDevice;
             this.input.connect();
             world.initializeSelf(Self);
-//            ActiveAgents.addAgent(Self);
             world.display(display);
+            Console.display(display);
 
             world.placeAgent(drunk, new WorldCoords(new Coords(0, 0), new Coords(1, 1)));
 
@@ -52,13 +48,17 @@ define(function(require) {
             processNextKey(this.input);
             ActiveAgents.prepareAgents();
             world.display(display);
+            Console.display(display);
         },
         pause: function() {
             pauseState = !pauseState;
-            if (pauseState == true) 
+            if (pauseState === true) {
+                Console.msg("Game is paused!");
                 this.input.disconnect();
-            else
+            } else {
+                Console.msg("Game is unpaused!");
                 this.input.connect();
+            }
         }
     };
 

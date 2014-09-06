@@ -3,5 +3,17 @@
 }
 
 #display {
+    /*border: 2px solid;*/
+    /*display: inline-block;*/
+    width: 1050px;
+    float: left;
+}
+
+#console {
+    display: inline-block;
+    padding: 10px;
+    margin-left: 10px;
     border: 2px solid;
+    width: 250px;
+    height: 500px;
 }
