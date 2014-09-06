@@ -74,6 +74,9 @@ define(function(require) {
             }
             return true;
         },
+        hasSameDimensions: function(otherMatrix) {
+            return this.width === otherMatrix.getWidth() && this.height === otherMatrix.getHeight();
+        },
         forEach: function(fn) {
             this.data.forEach(function(subArr) {
                 subArr.forEach(fn);

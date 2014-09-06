@@ -21,7 +21,6 @@ define(function(require) {
         this.height = this.verticalRegions * this.getVisibleDiameter();
 
         this.regionMatrix = new RegionMatrix(this.horizontalRegions, this.verticalRegions, this.getVisibleDiameter());
-        this.regionMatrix.initialize();
         //TODO: Copy regions over to world map
 
         this.focus = new WorldCoords(new Coords(0, 0), new Coords(10, 10));//focus || this.regionMatrix.getRandomPosition();

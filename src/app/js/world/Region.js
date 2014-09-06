@@ -1,7 +1,7 @@
 define(function(require) {
     "use strict";
 
-    var regionMapGenerator = require("js/world/regionMapGenerator");
+    var RegionMapGenerator = require("js/world/RegionMapGenerator");
     var RegionAgentsManager = require("js/agents/RegionAgentsManager");
     var Coords = require("js/utils/Coords");
     var Rand = require("js/utils/Rand");
@@ -10,25 +10,29 @@ define(function(require) {
     function Region(options) {
         this.activeAgents = new RegionAgentsManager();
         this.diameter = options.diameter;
-        this.type = options.type || "average";
+        this.type = options.type || "blank";
         this.startingPosition = new Coords(Rand.rollFromZero(this.diameter), Rand.rollFromZero(this.diameter));
         this.owner = options.owner || null;
-        this.map = options.matrix ? diamondSquare(options.matrix) : this.generateMap();
+        this.tiles = this.generateMap();
+//        this.map = options.matrix ? diamondSquare(options.matrix) : this.generateMap();
     }
 
     Region.prototype = {
         getMap: function() {
-            return this.map;
+            return this.tiles;
         },
         //This should probably be part of a generator
         generateMap: function () {
-            return regionMapGenerator[this.type](this.diameter);
+            return RegionMapGenerator.initialize(this.diameter, this.type);
+        },
+        updateMap: function(matrix) {
+            this.tiles = RegionMapGenerator.updateMapWithMatrix(this.tiles, matrix);
         },
         activateAgent: function(agent) {
             this.activeAgents.addAgent(agent);
         },
         getTile: function (coords) {
-            return this.map.getCell(coords.x, coords.y);
+            return this.tiles.getCell(coords.x, coords.y);
         },
         getStartingPosition: function() {
             return this.startingPosition;
@@ -54,7 +58,7 @@ define(function(require) {
             }
         },
         isWithinBoundaries: function (coords) {
-            return this.map.isWithinMatrix(coords.x, coords.y);
+            return this.tiles.isWithinMatrix(coords.x, coords.y);
         },
         withinBoundaries: function (coords) {
             var x = coords.x, y = coords.y;
@@ -104,7 +108,7 @@ define(function(require) {
             }
         },
         getSubMapByDirectionFrom: function(direction, coords) {
-            return this.map.getSubMatrixByDirectionFrom(direction, coords.x, coords.y);
+            return this.tiles.getSubMatrixByDirectionFrom(direction, coords.x, coords.y);
         },
         addMapAt: function(coords, newMap) {
             var width = newMap.getWidth();
@@ -150,6 +154,7 @@ define(function(require) {
 
     function generateTile(terrain) {
         return {
+            elevation: 0,
             terrain: terrain,
             occupant: null
         }

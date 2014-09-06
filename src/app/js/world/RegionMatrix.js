@@ -16,7 +16,8 @@ define(function(require) {
         this.height = height;
         this.diameterPerRegion = diameterPerRegion;
         this.voidRegion = new VoidRegion({diameter: this.diameterPerRegion});
-        this.map = generateRegionsFrom(new RegionMatrixMapGenerator(this.width, this.diameterPerRegion).diamondSquare());
+        this.regions = new Matrix().init(this.width, this.height);//generateRegionsFrom(new RegionMatrixMapGenerator(this.width, this.diameterPerRegion).diamondSquare());
+        this.initialize();
 
         this.startingRegionCoords = new Coords(Rand.rollFromZero(this.width), Rand.rollFromZero(this.height));
     }
@@ -28,7 +29,7 @@ define(function(require) {
             var heightStats = generateHeightStats(this.width);
             for (i = 0; i < this.height; i++) {
                 for (j = 0; j < this.width; j++) {
-                    this.map.data[i][j] = generateRegion(this.diameterPerRegion);
+                    this.regions.data[i][j] = generateRegion(this.diameterPerRegion);
                 }
             }
         },
@@ -62,7 +63,7 @@ define(function(require) {
             region.removeOccupant(coords);
         },
         isWithinBoundaries: function(regionCoords) {
-            return this.map.isWithinMatrix(regionCoords.x, regionCoords.y);
+            return this.regions.isWithinMatrix(regionCoords.x, regionCoords.y);
         },
         isImpenetrable: function(wCoords) {
             var region = this.getRegion(wCoords.getRegionMatrixCoords());
@@ -77,7 +78,7 @@ define(function(require) {
         },
         getRegion: function(coords) {
             if (this.isWithinBoundaries(coords)) {
-                return this.map.getCell(coords.x, coords.y);
+                return this.regions.getCell(coords.x, coords.y);
             } else {
                 window.v = this.voidRegion;
                 return this.voidRegion;
@@ -207,7 +208,7 @@ define(function(require) {
     }
 
     function generateRegion(diameter) {
-        return new Region({diameter: diameter, type: "average"});
+        return new Region({diameter: diameter, type: "blank"});
     }
 
     return RegionMatrix;

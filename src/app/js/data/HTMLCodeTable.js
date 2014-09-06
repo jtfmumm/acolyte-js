@@ -1,5 +1,6 @@
 define(function(require) {
     return {
+        //Terrains
         "self": {
             symbol: " @",
             color: "highlight-back"
@@ -24,41 +25,35 @@ define(function(require) {
             symbol: "&nbsp;&nbsp;",
             color: "black-back"
         },
-        //Heights
+        //Elevations
+        "-1": {
+            color: "black"
+        },
         0: {
-            symbol: "&nbsp;&nbsp;",
             color: "light-tan-back"
         },
         1: {
-            symbol: "&nbsp;&nbsp;",
             color: "mid-light-tan-back"
         },
         2: {
-            symbol: "&nbsp;&nbsp;",
             color: "dark-light-tan-back"
         },
         3: {
-            symbol: "&nbsp;&nbsp;",
             color: "light-green-back"
         },
         4: {
-            symbol: "&nbsp;&nbsp;",
             color: "mid-light-green-back"
         },
         5: {
-            symbol: "&nbsp;&nbsp;",
             color: "dark-light-green-back"
         },
         6: {
-            symbol: "&nbsp;&nbsp;",
             color: "light-brown-back"
         },
         7: {
-            symbol: "&nbsp;&nbsp;",
             color: "mid-light-brown-back"
         },
         8: {
-            symbol: "&nbsp;&nbsp;",
             color: "dark-light-brown-back"
         }
     }

@@ -8,6 +8,9 @@ define(function(require) {
             plains: 5,
             forest: 2
         },
+        blank: {
+            plains: 1
+        },
         weird: {
             wall: 5,
             palm: 0,

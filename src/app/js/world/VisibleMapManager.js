@@ -28,10 +28,15 @@ define(function(require) {
     };
 
     function getTileCode(tile) {
-        if (tile.occupant)
-            return tile.occupant.getCode();
-        else
-            return tile.terrain.code;
+        var tileCode = {
+            elevation: tile.elevation
+        };
+        if (tile.occupant) {
+            tileCode.object = tile.occupant.getCode();
+        } else {
+            tileCode.object = tile.terrain.code;
+        }
+        return tileCode;
     }
 
     return VisibleMapManager;

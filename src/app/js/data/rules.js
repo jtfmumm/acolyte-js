@@ -8,9 +8,9 @@ define(function(require) {
         15: 1,
         17: 2,
         18: 3
-    }
+    };
 
     return {
         bonuses: bonuses
     }
-})
+});
