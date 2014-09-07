@@ -16,7 +16,7 @@ define(function(require) {
             if (agentIdx !== -1) {
                 this.activeList.slice(agentIdx, 1);
             } else {
-                console.log("That agent is not in this list!")
+                console.error("That agent is not in this list!")
             }
         },
         isActive: function() {

@@ -39,7 +39,7 @@ define(function(require) {
         },
         getStartingPosition: function() {
             var startingLocalCoords = this.getRegion(this.startingRegionCoords).getStartingPosition();
-            return new WorldCoords(this.startingRegionCoords, startingLocalCoords);
+            return new WorldCoords(this.startingRegionCoords, startingLocalCoords, this.diameterPerRegion);
         },
         placeAgent: function(agent, wCoords) {
             this.addOccupant(wCoords, agent);
@@ -74,6 +74,9 @@ define(function(require) {
             var coords = wCoords.getLocalCoords();
             return region.isImpenetrable(coords);
         },
+        getTileDescription: function(wCoords) {
+            return this.getRegion(wCoords.getRegionMatrixCoords()).getTileDescription(wCoords.getLocalCoords());
+        },
         getDiameter: function() {
             return this.diameterPerRegion;
         },
@@ -88,76 +91,13 @@ define(function(require) {
                 return this.voidRegion;
             }
         },
-        getRandomPosition: function() {
-            return new WorldCoords(
-                new Coords(Rand.rollFromZero(this.width), Rand.rollFromZero(this.height)),
-                new Coords(Rand.rollFromZero(this.diameterPerRegion), Rand.rollFromZero(this.diameterPerRegion))
-            );
-        },
-        convertAbsoluteToWorldCoords: function(absCoords) {
-            var regionCoords = new Coords(
-                Math.floor(absCoords.x / this.diameterPerRegion),
-                Math.floor(absCoords.y / this.diameterPerRegion)
-            );
-            var localCoords = absCoords.minus(regionCoords.scaledBy(this.diameterPerRegion));
-            return new WorldCoords(regionCoords, localCoords);
-        },
-        getAbsoluteCoords: function(wCoords) {
-            var offset = new Coords(
-                wCoords.getRegionMatrixCoords().x * this.diameterPerRegion,
-                wCoords.getRegionMatrixCoords().y * this.diameterPerRegion
-            );
-            return wCoords.getLocalCoords().plus(offset);
-        },
         offsetPosition: function(wCoords, offset) {
-            var absCoords = this.getAbsoluteCoords(wCoords);
-            var newAbsCoords = absCoords.plus(offset);
-            return this.convertAbsoluteToWorldCoords(newAbsCoords);
-        },
-        getNextRegionCoords: function(wCoords, regionChange) {
-            var lastRegionCoords = wCoords.getRegionMatrixCoords();
-            var nextRegionCoords = lastRegionCoords.plus(regionChange);
-            if (this.isWithinBoundaries(nextRegionCoords)) {
-                var nextRegion = this.getRegion(nextRegionCoords);
-                var newLocalCoords = nextRegion.calculateEntranceCoords(wCoords, regionChange);
-                return new WorldCoords(nextRegionCoords, newLocalCoords);
-            } else {
-                return wCoords;
-            }
-        },
-        getUpdatedWorldCoords: function(wCoords, posChange) {
-            if (this.isStillInRegionAfter(wCoords, posChange)) {
-                return wCoords.plusLocal(posChange);
-            } else {
-                var currentRegion = this.getRegion(wCoords.getRegionMatrixCoords());
-                var currentLocalCoords = wCoords.getLocalCoords();
-                var regionChange = currentRegion.regionChange(currentLocalCoords, posChange);
-                return this.getNextRegionCoords(wCoords, regionChange);
-            }
-        },
-        isStillInRegionAfter: function(wCoords, posChange) {
-            var newLocalCoords = wCoords.getLocalCoords().plus(posChange);
-            return this.getRegion(wCoords.getRegionMatrixCoords())
-                .isWithinBoundaries(newLocalCoords);
+            return wCoords.plus(offset);
         },
         inTheSameRegion: function(wCoords1, wCoords2) {
             return wCoords1.getRegionMatrixCoords().isEqual(wCoords2.getRegionMatrixCoords());
         }
     };
-
-    function generateRegionsFrom(matrix) {
-        console.log(matrix);
-        for (var i = 0; i < matrix.getWidth(); i++) {
-            for (var j = 0; j < matrix.getWidth(); j++) {
-                var nextRegion = new Region({diameter: matrix.getWidth(), matrix: matrix.getCell(i, j)});
-                matrix.setCell(i, j, nextRegion);
-            }
-        }
-        console.log(matrix.getCell(0, 0));
-        return matrix;
-    }
-
-
 
     function generateRegion(diameter) {
         return new Region({diameter: diameter, type: "blank"});

@@ -36,6 +36,9 @@ define(function(require) {
                 Console.updateStat(prop, this.stats[prop]);
             }
         },
+        getName: function() {
+            return this.stats.name;
+        },
         setWorld: function(world) {
             this.world = world;
         },
@@ -70,6 +73,9 @@ define(function(require) {
                 case "RIGHT":
                     this.move(Directions.east);
                     break;
+                case "EXAMINE":
+                    var thisTile = this.world.examineTile(this.position);
+                    Console.msg(thisTile);
                 default:
                     break;
             }
@@ -80,10 +86,6 @@ define(function(require) {
             return true;
         }
     };
-
-    function constrainRoll(roll) {
-        return roll < 5 ? 5 : roll;
-    }
 
     // if (!self) self = Object.create(Self);
 

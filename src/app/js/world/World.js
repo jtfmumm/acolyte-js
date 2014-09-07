@@ -20,12 +20,12 @@ define(function(require) {
         this.width = this.horizontalRegions * this.getVisibleDiameter();
         this.height = this.verticalRegions * this.getVisibleDiameter();
 
-        this.regionDiameter = 65; //Must be a power of 2 + 1 for algorithms
+        this.diameterPerRegion = 65; //Must be a power of 2 + 1 for algorithms
 
-        this.regionMatrix = new RegionMatrix(this.horizontalRegions, this.verticalRegions, this.regionDiameter);
+        this.regionMatrix = new RegionMatrix(this.horizontalRegions, this.verticalRegions, this.diameterPerRegion);
         //TODO: Copy regions over to world map
 
-        this.focus = new WorldCoords(new Coords(0, 0), new Coords(10, 10));//focus || this.regionMatrix.getRandomPosition();
+        this.focus = new WorldCoords(new Coords(0, 0), new Coords(10, 10), this.diameterPerRegion);//focus || this.regionMatrix.getRandomPosition();
         this.activeZone = WorldSubMapper.getActiveZone(this.regionMatrix, this.focus);
 
         //Temporary
@@ -68,6 +68,9 @@ define(function(require) {
                 this.regionMatrix.moveAgent(agent, position, tryPosition);
                 agent.setPosition(tryPosition);
             }
+        },
+        examineTile: function(wCoords) {
+            return this.regionMatrix.getTileDescription(wCoords);
         },
         isImpenetrable: function(wCoords) {
             return this.regionMatrix.isImpenetrable(wCoords);

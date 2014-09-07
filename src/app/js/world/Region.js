@@ -6,6 +6,7 @@ define(function(require) {
     var Coords = require("js/utils/Coords");
     var Rand = require("js/utils/Rand");
     var terrainCodeTable = require("js/data/terrainCodeTable");
+    var TileDescriptions = require("js/data/TileDescriptions");
 
     function Region(options) {
         this.activeAgents = new RegionAgentsManager();
@@ -14,7 +15,6 @@ define(function(require) {
         this.startingPosition = new Coords(Rand.rollFromZero(this.diameter), Rand.rollFromZero(this.diameter));
         this.owner = options.owner || null;
         this.tiles = this.generateMap();
-//        this.map = options.matrix ? diamondSquare(options.matrix) : this.generateMap();
     }
 
     Region.prototype = {
@@ -106,6 +106,9 @@ define(function(require) {
                 case direction === "east":
                     return new Coords(0, wCoords.getLocalCoords().y);
             }
+        },
+        getTileDescription: function(coords) {
+            return TileDescriptions.describe(this.getTile(coords).occupant);
         },
         getSubMapByDirectionFrom: function(direction, coords) {
             return this.tiles.getSubMatrixByDirectionFrom(direction, coords.x, coords.y);
