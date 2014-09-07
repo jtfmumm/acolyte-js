@@ -35,8 +35,8 @@ define(function(require) {
     }
     
     World.prototype = {
-        initializeSelf: function(self) {
-            self.init(this, this.focus);
+        initializeSelf: function(self, input) {
+            self.init(this, this.focus, input);
             this.placeAgent(self, this.focus);
         },
         placeAgent: function(agent, wCoords) {

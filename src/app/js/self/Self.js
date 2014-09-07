@@ -11,7 +11,7 @@ define(function(require) {
 
     var Self = {
         position: null, //in wCoords
-        nextInput: null,
+        nextInputList: [], //Can hold a command and followup commands
         world: null,
         stats: {
             name: "Acolyte",
@@ -19,9 +19,10 @@ define(function(require) {
             hp: 30
         },
 
-        init: function(world, wCoords) {
+        init: function(world, wCoords, input) {
             this.world = world;
             this.position = wCoords;
+            this.input = input;
             this.updateConsoleStats();
         },
         updateConsoleStats: function() {
@@ -44,8 +45,8 @@ define(function(require) {
         getCode: function() {
             return "self";
         },
-        setInput: function(input) {
-            this.nextInput = input;
+        setInputList: function(input) {
+            this.nextInputList = input;
         },
         act: function() {
             if (this.stats.hp < 1) {
@@ -53,7 +54,7 @@ define(function(require) {
                 this.world.endGame();
                 return;
             }
-            switch (this.nextInput) {
+            switch (this.nextInputList[0]) {
                 case "UP":
                     this.move(Directions.north);
                     break;
@@ -66,13 +67,23 @@ define(function(require) {
                 case "RIGHT":
                     this.move(Directions.east);
                     break;
+                case "LOOK":
+                    switch (this.nextInputList[1]) {
+                        case "UP":
+                            Console.msg("UP");
+                            break;
+                        default:
+                            Console.msg(this.nextInputList[1]);
+                            break;
+                    }
+                    break;
                 case "EXAMINE":
                     var thisTile = this.world.examineTile(this.position);
                     Console.msg(thisTile);
                 default:
                     break;
             }
-            this.nextInput = null;
+            this.nextInputList = [];
             this.updateConsoleStats();
         },
         isImpenetrable: function() {

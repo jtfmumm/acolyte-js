@@ -5,6 +5,7 @@ define(function(require) {
         37: "LEFT",
         39: "RIGHT",
         80: "PAUSE", // p
-        69: "EXAMINE"
+        69: "EXAMINE",
+        76: "LOOK"
     }
 });

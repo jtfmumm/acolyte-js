@@ -5,6 +5,8 @@ define(function(require) {
 
     Input.prototype = {
         events: [],
+        waiting: false,
+        pendingCommand: null,
         addEvent: function(event) {
             if (this.events.length < 3) this.events.unshift(event);
         },
@@ -16,6 +18,17 @@ define(function(require) {
         },
         nextInput: function() {
             return this.events.pop();
+        },
+        nextInputList: function() {
+            return [this.pendingCommand, this.nextInput()];
+        },
+        toggleWaiting: function(command) {
+            this.waiting = !this.waiting;
+            if (command) {
+                this.pendingCommand = command;
+            } else {
+                this.pendingCommand = null;
+            }
         }
     };
 
