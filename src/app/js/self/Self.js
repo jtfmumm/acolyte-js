@@ -16,15 +16,8 @@ define(function(require) {
         stats: {
             name: "Acolyte",
             level: 1,
-            hp: 30,
-            str: Rand.roll(6) + Rand.roll(6) + Rand.roll(6),
-            dex: Rand.roll(6) + Rand.roll(6) + Rand.roll(6),
-            con: Rand.roll(6) + Rand.roll(6) + Rand.roll(6),
-            int: Rand.roll(6) + Rand.roll(6) + Rand.roll(6),
-            wis: Rand.roll(6) + Rand.roll(6) + Rand.roll(6),
-            cha: Rand.roll(6) + Rand.roll(6) + Rand.roll(6)
+            hp: 30
         },
-
 
         init: function(world, wCoords) {
             this.world = world;
