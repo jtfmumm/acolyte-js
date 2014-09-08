@@ -49,7 +49,7 @@ define(function(require) {
             processNextKey(this.input);
             ActiveAgents.prepareAgents();
             this.world.display(display);
-            Console.display(display);
+            Console.display(display, Self.getStats());
         },
         pause: function() {
             pauseState = !pauseState;
@@ -58,14 +58,6 @@ define(function(require) {
                 this.input.disconnect();
             } else {
                 Console.msg("Game is unpaused!");
-                this.input.connect();
-            }
-        },
-        softPause: function() {
-            pauseState = !pauseState;
-            if (pauseState === true) {
-                this.input.disconnect();
-            } else {
                 this.input.connect();
             }
         },
@@ -98,7 +90,6 @@ define(function(require) {
                     input.toggleWaiting("LOOK");
                     break;
                 default:
-                    console.log("Defaulted");
                     Self.setInputList([nextInput]);
                     break;
             }

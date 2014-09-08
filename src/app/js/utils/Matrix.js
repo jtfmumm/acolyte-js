@@ -33,9 +33,7 @@ define(function(require) {
         setCell: function(column, row, val) {
             if (this.isWithinMatrix(row, column)) {
                 this.data[row][column] = val;
-                return val;
             }
-            return undefined;
         },
         getMatrix: function() {
             return this.data;

@@ -6,6 +6,7 @@ define(function(require) {
     var Rand = require("js/utils/Rand");
     var Directions = require("js/movement/Directions");
     var Console = require("js/screens/Console");
+    var CombatModes = require("js/data/CombatModes");
 
     // var self = self || null;
 
@@ -16,7 +17,8 @@ define(function(require) {
         stats: {
             name: "Acolyte",
             level: 1,
-            hp: 30
+            hp: 30,
+            combatMode: CombatModes.NONE
         },
 
         init: function(world, wCoords, input) {
@@ -24,6 +26,9 @@ define(function(require) {
             this.position = wCoords;
             this.input = input;
             this.updateConsoleStats();
+        },
+        getStats: function() {
+            return this.stats;
         },
         updateConsoleStats: function() {
             for (var prop in this.stats) {
@@ -66,6 +71,15 @@ define(function(require) {
                     break;
                 case "RIGHT":
                     this.move(Directions.east);
+                    break;
+                case "ATTACK":
+                    this.stats.combatMode = CombatModes.ATTACK;
+                    break;
+                case "DEFEND":
+                    this.stats.combatMode = CombatModes.DEFEND;
+                    break;
+                case "NORMAL":
+                    this.stats.combatMode = CombatModes.NONE;
                     break;
                 case "LOOK":
                     switch (this.nextInputList[1]) {

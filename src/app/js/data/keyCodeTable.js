@@ -6,6 +6,9 @@ define(function(require) {
         39: "RIGHT",
         80: "PAUSE", // p
         69: "EXAMINE",
-        76: "LOOK"
+        76: "LOOK",
+        65: "ATTACK",
+        68: "DEFEND",
+        78: "NORMAL"
     }
 });

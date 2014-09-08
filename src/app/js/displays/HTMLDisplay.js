@@ -3,6 +3,7 @@ define(function(require) {
     var mustache = require("mustache");
     var Matrix = require("js/utils/Matrix");
     var HTMLCodeTable = require("js/data/HTMLCodeTable");
+    var Self = require("js/self/Self");
 
     function HTMLDisplay() {
         this.cache = {};
@@ -37,6 +38,7 @@ define(function(require) {
                 text += consoleData[i] + "<br>";
             }
             this.consoleEl.innerHTML = text;
+            this.consoleEl.className = Self.getStats().combatMode;
         },
         compileMapHTML: function(tileCode) {
             var tileObject = HTMLCodeTable[tileCode.object];

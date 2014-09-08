@@ -16,6 +16,7 @@ define(function(require) {
         },
         updateStat: function(k, v) {
             this.stats[k] = v;
+            delete this.stats["combatMode"];
         },
         statsToArray: function() {
             var arr = [];
