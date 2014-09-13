@@ -2,30 +2,37 @@ define(function(require) {
     return {
         "main": {
             code: "main",
+            description: "nothing.",
             impenetrable: false
         },
         "wall": {
             code: "wall",
+            description: "a wall.",
             impenetrable: true
         },
         "palm": {
             code: "palm",
+            description: "palm trees.",
             impenetrable: false
         },
         "plains": {
             code: "plains",
+            description: "empty plains.",
             impenetrable: false
         },
         "forest": {
             code: "forest",
+            description: "a forest.",
             impenetrable: false
         },
         "guy": {
             code: "guy",
+            description: "someone.",
             impenetrable: true
         },
         "void": {
             code: "void",
+            description: "the void.",
             impenetrable: true
         },
         0: {

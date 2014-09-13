@@ -18,6 +18,9 @@ define(function(require) {
             var newY = this.y - coords.y;
             return new Coords(newX, newY);
         },
+        toString: function() {
+            return this.x + "," + this.y;
+        },
         scaledBy: function(scalar) {
             var newX = this.x * scalar;
             var newY = this.y * scalar;
@@ -73,6 +76,19 @@ define(function(require) {
             if (difference.x === 0 && difference.y < 0) return "north";
             if (difference.x === 0 && difference.y > 0) return "south";
             return "none";
+        },
+        minDistanceTo: function(otherCoords) {
+            var coordsDifference = this.minus(otherCoords);
+            return Math.max(Math.abs(coordsDifference.x), Math.abs(coordsDifference.y));
+        }
+    };
+
+    Coords.coordsFromString = function(str) {
+        if (/^\d+,\d+$/.test(str)) {
+            var xy = str.split(",");
+            return new Coords(xy[0], xy[1]);
+        } else {
+            throw new Error("Coords.coordsFromString(): Coordinate string must be of form '##,##'");
         }
     };
 
@@ -82,6 +98,7 @@ define(function(require) {
         else
             return new Coords(args[0], args[1]);
     };
+
 
     return Coords;
 });

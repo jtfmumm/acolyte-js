@@ -15,5 +15,20 @@ require.config({
 
 require(["js/game/Game", "js/input/Keyboard"],
         function (Game, Keyboard) {
-            Game.init(Keyboard);
-});
+//            Game.init(Keyboard);
+
+            //For tests.  Normally commented out
+            Game.test(Keyboard, testMap);
+        });
+
+var testMap = [
+    ["wall", "wall", "wall", "wall", "wall", "wall", "plains", "plains", "plains"],
+    ["wall", "plains", "plains", "plains", "plains", "wall", "plains", "plains", "plains"],
+    ["wall", "plains", "plains", "plains", "plains", "wall", "plains", "plains", "plains"],
+    ["wall", "plains", "plains", "plains", "plains", "wall", "plains", "plains", "plains"],
+    ["wall", "plains", "plains", "plains", "plains", "wall", "plains", "plains", "plains"],
+    ["wall", "plains", "plains", "plains", "plains", "wall", "plains", "plains", "plains"],
+    ["wall", "wall", "wall", "wall", "wall", "wall", "plains", "plains", "plains"],
+    ["wall", "wall", "wall", "wall", "wall", "wall", "plains", "plains", "plains"],
+    ["wall", "wall", "wall", "wall", "wall", "wall", "plains", "plains", "plains"]
+];

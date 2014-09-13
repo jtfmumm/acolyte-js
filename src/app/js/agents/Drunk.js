@@ -11,6 +11,9 @@ define(function(require) {
     Drunk.prototype = _.extend(Object.create(Agent.prototype), {
         act: function () {
             this.move(MovementAlgs.drunk());
+        },
+        describe: function() {
+            return "You see an intoxicated person."
         }
     });
 

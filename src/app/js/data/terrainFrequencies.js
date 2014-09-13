@@ -20,7 +20,7 @@ define(function(require) {
         void: {
             void: 1
         }
-    }
+    };
 
     return terrainFrequencies
 });

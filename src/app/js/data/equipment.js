@@ -184,7 +184,7 @@ define(function(require) {
             hands: 1, 
             name: "Quarterstaff"
         }
-    }
+    };
 
     var itemNames = {
         handAxe: "Hand-Axe", 
@@ -212,7 +212,7 @@ define(function(require) {
         plateMail: "Plate Mail", 
         buckler: "Buckler", 
         greatShield: "Great Shield"
-    }
+    };
 
     return equipment;
 });

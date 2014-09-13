@@ -72,6 +72,31 @@ define(function(require) {
                 case "RIGHT":
                     this.move(Directions.east);
                     break;
+                case "NORTH":
+                    this.move(Directions.north);
+                    break;
+                case "SOUTH":
+                    this.move(Directions.south);
+                    break;
+                case "WEST":
+                    this.move(Directions.west);
+                    break;
+                case "EAST":
+                    this.move(Directions.east);
+                    break;
+                case "NORTHWEST":
+                    this.move(Directions.northWest);
+                    break;
+                case "NORTHEAST":
+                    this.move(Directions.northEast);
+                    break;
+                case "SOUTHWEST":
+                    this.move(Directions.southWest);
+                    break;
+                case "SOUTHEAST":
+                    this.move(Directions.southEast);
+                    break;
+
                 case "ATTACK":
                     this.stats.combatMode = CombatModes.ATTACK;
                     break;
@@ -100,7 +125,7 @@ define(function(require) {
             this.nextInputList = [];
             this.updateConsoleStats();
         },
-        isImpenetrable: function() {
+        _isImpenetrable: function() {
             return true;
         }
     };

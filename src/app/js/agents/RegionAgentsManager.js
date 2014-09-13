@@ -16,7 +16,7 @@ define(function(require) {
             if (agentIdx !== -1) {
                 this.activeList.slice(agentIdx, 1);
             } else {
-                console.error("That agent is not in this list!")
+                console.error("That agent is not in this list!", agent);
             }
         },
         isActive: function() {
@@ -31,18 +31,6 @@ define(function(require) {
         },
         deactivate: function() {
             this.active = false;
-        },
-        processActiveList: function() {
-            var that = this;
-            this.activeList.forEach(function(agent) {
-                agent.act();
-                that.waitList.unshift(agent);
-            });
-            this.activeList = [];
-        },
-        prepareAgents: function() {
-            this.moveToActive();
-            this.processActiveList();
         },
         clearAll: function() {
             this.activeList = [];

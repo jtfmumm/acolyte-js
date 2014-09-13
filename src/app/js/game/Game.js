@@ -5,7 +5,9 @@ define(function(require) {
     var HTMLDisplay = require("js/displays/HTMLDisplay");
     var Self = require("js/self/Self");
     var ActiveAgents = require("js/agents/ActiveAgents");
-    
+    var TestWorldGenerator = require("js/test-worlds/TestWorldGenerator");
+
+
 //REMOVE LATER
     var Drunk = require("js/agents/Drunk");
     var Coords = require("js/utils/Coords");
@@ -14,18 +16,17 @@ define(function(require) {
     var Console = require("js/screens/Console");
 
     var display = new HTMLDisplay();
-    var world = new World();
     var pauseState = false;
     var timeCounter = 0;
 
-    var drunk = new Drunk(world, new WorldCoords(new Coords(0, 0), new Coords(1, 1)));
+//    var drunk = new Drunk(world, new WorldCoords(new Coords(0, 0), new Coords(1, 1)));
 
 
     var Game = {
         input: null,
         init: function(inputDevice) {
             this.input = inputDevice;
-            this.world = new World(this);
+            this.world = new World({parent: this});
             this.input.connect();
             this.world.initializeSelf(Self, this.input);
             this.world.display(display);
@@ -65,6 +66,11 @@ define(function(require) {
             Console.msg("Game over!");
             this.input.reset();
             this.input.disconnect();
+        },
+        test: function(inputDevice, testMap) {
+            this.input = inputDevice;
+            this.world = TestWorldGenerator.generateFromMap(testMap);
+            this.world.display(display);
         }
     };
 

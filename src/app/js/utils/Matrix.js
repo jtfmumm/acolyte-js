@@ -99,34 +99,6 @@ define(function(require) {
             var height = bottomY - topY + 1;
             return this.getSubMatrix(topX, topY, width, height);
         },
-        getBoundaryByDirection: function(direction) {
-            switch (direction) {
-                case "north":
-                    return this.getNorthBoundary();
-                case "south":
-                    return this.getSouthBoundary();
-                case "west":
-                    return this.getWestBoundary();
-                case "east":
-                    return this.getEastBoundary();
-                default:
-                    throw new Error("getBoundaryByDirection requires a direction!");
-            }
-        },
-        getNorthBoundary: function() {
-            return this.getSubMatrix(0, 0, this.getWidth() - 1, 1);
-        },
-        getSouthBoundary: function() {
-            var last = this.getHeight() - 1;
-            return this.getSubMatrix(0, last, this.getWidth() - 1, 1);
-        },
-        getWestBoundary: function() {
-            return this.getSubMatrix(0, 0, 1, this.getHeight() - 1);
-        },
-        getEastBoundary: function() {
-            var last = this.getWidth() - 1;
-            return this.getSubMatrix(last, 0, 1, this.getHeight() - 1);
-        },
         getSubMatrixByDirectionFrom: function(direction, column, row) {
             switch(direction) {
                 case "northwest":
@@ -153,18 +125,6 @@ define(function(require) {
         for (i = 0; i < height; i++) {
             for (j = 0; j < width; j++) {
                 copyFn(oldSubMatrix.getCell(j, i), newSubMatrix.getCell(j, i));
-            }
-        }
-    };
-    Matrix.copyValues = function(oldSubMatrix, newSubMatrix) {
-        var i, j;
-        var width = oldSubMatrix.getWidth();
-        var height = oldSubMatrix.getHeight();
-        if (width !== newSubMatrix.getWidth() || height !== newSubMatrix.getHeight()) 
-            throw new Error("Copy failure: Matrices are incongruent sizes.");
-        for (i = 0; i < height; i++) {
-            for (j = 0; j < width; j++) {
-                oldSubMatrix.getCell(j, i) = newSubMatrix.getCell(j, i);
             }
         }
     };

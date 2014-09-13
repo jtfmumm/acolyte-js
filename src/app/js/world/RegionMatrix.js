@@ -11,17 +11,24 @@ define(function(require) {
     var RegionMatrixMapGenerator = require("js/world/RegionMatrixMapGenerator");
 
     //Takes width and height measured in regions, plus diameter per region
-    function RegionMatrix(width, height, diameterPerRegion) {
-        this.width = width;
-        this.height = height;
-        this.diameterPerRegion = diameterPerRegion;
+    function RegionMatrix(options) {
+        this.width = options.horizontalRegions;
+        this.height = options.verticalRegions;
+        this.diameterPerRegion = options.diameterPerRegion;
+        this.elevationGenAlg = options.elevationGenAlg || "diamondSquare";
+        this.genAlg = options.genAlg || null;
+        this.genMap = options.genMap || null;
         this.regionMatrixMapGenerator = new RegionMatrixMapGenerator({
             diameter: this.width,
-            diameterPerRegion: this.diameterPerRegion
+            diameterPerRegion: this.diameterPerRegion,
+            genMap: this.genMap
         });
         this.voidRegion = new VoidRegion({diameter: this.diameterPerRegion});
-        this.regions = new Matrix().init(this.width, this.height);//generateRegionsFrom(new RegionMatrixMapGenerator(this.width, this.diameterPerRegion).diamondSquare());
-        this.initialize("diamondSquare");
+        this.regions = new Matrix().init(this.width, this.height);
+        this.initialize(this.elevationGenAlg);
+        if (this.genAlg) {
+            this.generateLandmarks(this.genAlg);
+        }
 
         this.startingRegionCoords = new Coords(Rand.rollFromZero(this.width), Rand.rollFromZero(this.height));
     }
@@ -34,6 +41,15 @@ define(function(require) {
                 for (var x = 0; x < this.width; x++) {
                     this.regions.setCell(x, y, generateRegion(this.diameterPerRegion));
                     this.regions.getCell(x, y).updateMap(elevations.getCell(x, y));
+                }
+            }
+        },
+        generateLandmarks: function(algorithm) {
+            var landmarks = this.regionMatrixMapGenerator.generate(algorithm);
+
+            for (var y = 0; y < this.height; y++) {
+                for (var x = 0; x < this.width; x++) {
+                    this.regions.getCell(x, y).updateMap(landmarks.getCell(x, y));
                 }
             }
         },
@@ -69,10 +85,10 @@ define(function(require) {
         isWithinBoundaries: function(regionCoords) {
             return this.regions.isWithinMatrix(regionCoords.x, regionCoords.y);
         },
-        isImpenetrable: function(wCoords) {
+        _isImpenetrable: function(wCoords) {
             var region = this.getRegion(wCoords.getRegionMatrixCoords());
             var coords = wCoords.getLocalCoords();
-            return region.isImpenetrable(coords);
+            return region._isImpenetrable(coords);
         },
         getTileDescription: function(wCoords) {
             return this.getRegion(wCoords.getRegionMatrixCoords()).getTileDescription(wCoords.getLocalCoords());
@@ -90,6 +106,9 @@ define(function(require) {
                 window.v = this.voidRegion;
                 return this.voidRegion;
             }
+        },
+        getTile: function(wCoords) {
+            return this.getRegion(wCoords.getRegionMatrixCoords()).getTile(wCoords.getLocalCoords());
         },
         offsetPosition: function(wCoords, offset) {
             return wCoords.plus(offset);

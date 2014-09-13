@@ -7,6 +7,7 @@ define(function(require) {
         this.diameter = options.diameter;
         this.diameterPerRegion = options.diameterPerRegion;
         this.span = this.diameter * this.diameterPerRegion;
+        this.genMap = options.genMap || null;
     }
 
     RegionMatrixMapGenerator.prototype = {
@@ -14,17 +15,22 @@ define(function(require) {
             var genOptions = {
                 diameter: this.diameter,
                 diameterPerRegion: this.diameterPerRegion,
-                genAlgorithm: algorithm
+                genAlgorithm: algorithm,
+                genMap: this.genMap
             };
+            console.log(genOptions);
             var generator = new MapValuesGenerator(genOptions);
             var values = generator.generateValues();
+            console.log(values);
             var genAlg = this.algorithms(algorithm);
             return this.createMatrixOfMatricesFrom(genAlg(values));
         },
         algorithms: function(algorithm) {
             var _this = this;
             var methods = {
-                diamondSquare: _this.generateElevations.bind(_this)
+                diamondSquare: _this.generateElevations.bind(_this),
+                generateFromMap: _this.identity.bind(_this),
+                justSand: _this.generateElevations.bind(_this)
             };
             return methods[algorithm];
         },
@@ -41,6 +47,9 @@ define(function(require) {
                 }
             }
             return elevations;
+        },
+        identity: function(values) {
+            return values;
         },
         createMatrixOfMatricesFrom: function(matrix) {
             var newMatrixOfMatrices = new Matrix().init(this.diameter, this.diameter);
