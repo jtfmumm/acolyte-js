@@ -49,12 +49,14 @@ define(function(require) {
         isEqual: function(otherRegion) {
             return this === otherRegion;
         },
-        _isImpenetrable: function(coords) {
+        isImpenetrable: function(coords) {
             if (!this.isWithinBoundaries(coords)) return true;
             var tile = this.getTile(coords);
 
             if (tile.occupant) {
-                return tile.occupant._isImpenetrable();
+                return tile.occupant.isImpenetrable();
+            } else if (tile.landmark) {
+                return tile.landmark.impenetrable;
             } else {
                 var occupantCode = getTileCode(tile);
                 return terrainCodeTable[occupantCode].impenetrable;

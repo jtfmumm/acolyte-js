@@ -12,19 +12,25 @@ define(function(require) {
         this.toVisit = new ComparatorHeap(function(a, b) {
             return a.estimatedCost < b.estimatedCost;
         });
+        console.log(endCoords);
     }
 
     Astar.prototype = {
         getShortestPath: function() {
-            return this._shortestPath(new Node(this.startCoords, [this.startCoords], this.startCoords.minDistanceTo(this.endCoords)));
+            var initialPath = new Path();
+            var initialNode = new Node(this.startCoords, initialPath, this.startCoords.minDistanceTo(this.endCoords));
+
+            return this._shortestPathFrom(initialNode);
         },
-        _shortestPath: function(node) {
-            if (node.wCoords === this.endCoords) return node.path;
+        _shortestPathFrom: function(node) {
+            if (node.wCoords.isEqual(this.endCoords)) {
+                return node.path;
+            }
 
             var _this = this;
 
             var neighbors = node.getNeighbors().filter(function(wCoords) {
-                return !this._isImpenetrable(wCoords) && !this._isVisited(wCoords);
+                return !_this._isImpenetrable(wCoords) && !_this._isVisited(wCoords);
             });
             neighbors.forEach(function(wCoords) {
                 var path = node.clonePath().add(wCoords);
@@ -35,7 +41,7 @@ define(function(require) {
             this._markNodeAsVisited(node);
 
             if (this.toVisit.size()) {
-                this.shortestPath(this.toVisit.pop());
+                return this._shortestPathFrom(this.toVisit.pop());
             } else {
                 //There's no path possible
                 return false;
@@ -45,7 +51,7 @@ define(function(require) {
             return this.visited[wCoords.toString()];
         },
         _isImpenetrable: function(wCoords) {
-            return this.regionMatrix._isImpenetrable(wCoords);
+            return this.regionMatrix.isImpenetrable(wCoords);
         },
         _markNodeAsVisited: function(node) {
             this.visited[node.toString()] = true;

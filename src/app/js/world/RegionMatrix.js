@@ -85,10 +85,10 @@ define(function(require) {
         isWithinBoundaries: function(regionCoords) {
             return this.regions.isWithinMatrix(regionCoords.x, regionCoords.y);
         },
-        _isImpenetrable: function(wCoords) {
+        isImpenetrable: function(wCoords) {
             var region = this.getRegion(wCoords.getRegionMatrixCoords());
             var coords = wCoords.getLocalCoords();
-            return region._isImpenetrable(coords);
+            return region.isImpenetrable(coords);
         },
         getTileDescription: function(wCoords) {
             return this.getRegion(wCoords.getRegionMatrixCoords()).getTileDescription(wCoords.getLocalCoords());

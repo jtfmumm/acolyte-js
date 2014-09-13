@@ -24,7 +24,7 @@ define(function(require) {
         setPosition: function(wCoords) {
             this.position = wCoords;
         },
-        _isImpenetrable: function () {
+        isImpenetrable: function () {
             return true;
         }
     };

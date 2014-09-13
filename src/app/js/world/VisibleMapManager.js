@@ -33,6 +33,8 @@ define(function(require) {
         };
         if (tile.occupant) {
             tileCode.object = tile.occupant.getCode();
+        } else if (tile.landmark) {
+            tileCode.object = tile.landmark.code;
         } else {
             tileCode.object = tile.terrain.code;
         }

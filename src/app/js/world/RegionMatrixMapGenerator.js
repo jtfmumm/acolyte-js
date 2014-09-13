@@ -18,10 +18,8 @@ define(function(require) {
                 genAlgorithm: algorithm,
                 genMap: this.genMap
             };
-            console.log(genOptions);
             var generator = new MapValuesGenerator(genOptions);
             var values = generator.generateValues();
-            console.log(values);
             var genAlg = this.algorithms(algorithm);
             return this.createMatrixOfMatricesFrom(genAlg(values));
         },

@@ -7,7 +7,7 @@ define(function(require) {
     var TestWorldGenerator = {
         generateFromMap: function(genMap) {
             return new World({
-                focus: new WorldCoords(new Coords(0, 0), new Coords(4, 4), 9),
+                focus: new WorldCoords(new Coords(0, 0), new Coords(5, 5), 11),
                 horizontalRegions: 1,
                 verticalRegions: 1,
                 diameterPerRegion: genMap.length,

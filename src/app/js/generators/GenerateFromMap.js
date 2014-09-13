@@ -2,6 +2,7 @@ define(function(require) {
 
     var Coords = require("js/utils/Coords");
     var Matrix = require("js/utils/Matrix");
+    var terrainCodeTable = require("js/data/terrainCodeTable");
 
     var GenerateFromMap = {
         generate: function(options) {
@@ -13,7 +14,8 @@ define(function(require) {
 
             for (var y = 0; y < span; y++) {
                 for (var x = 0; x < span; x++) {
-                    matrix.setCell(x, y, genMap[y][x]);
+                    var landmarkCode = terrainCodeTable[genMap[y][x]];
+                    matrix.setCell(x, y, {landmark: landmarkCode});
                 }
             }
 

@@ -66,7 +66,7 @@ define(function(require) {
         },
         moveSelf: function(self, position, posChange) {
             var tryPosition = this.regionMatrix.offsetPosition(position, posChange);
-            if (!this.regionMatrix._isImpenetrable(tryPosition)) {
+            if (!this.regionMatrix.isImpenetrable(tryPosition)) {
                 this.regionMatrix.moveAgent(self, position, tryPosition);
                 self.setPosition(tryPosition);
                 this.focus = tryPosition;
@@ -74,7 +74,7 @@ define(function(require) {
         },
         moveAgent: function(agent, position, posChange) {
             var tryPosition = this.regionMatrix.offsetPosition(position, posChange);
-            if (!this.regionMatrix._isImpenetrable(tryPosition)) {
+            if (!this.regionMatrix.isImpenetrable(tryPosition)) {
                 this.regionMatrix.moveAgent(agent, position, tryPosition);
                 agent.setPosition(tryPosition);
             }
@@ -82,8 +82,8 @@ define(function(require) {
         examineTile: function(wCoords) {
             return this.regionMatrix.getTileDescription(wCoords);
         },
-        _isImpenetrable: function(wCoords) {
-            return this.regionMatrix._isImpenetrable(wCoords);
+        isImpenetrable: function(wCoords) {
+            return this.regionMatrix.isImpenetrable(wCoords);
         },
         updateActiveRegions: function() {
             this.activeZone.forEach(function(region) {

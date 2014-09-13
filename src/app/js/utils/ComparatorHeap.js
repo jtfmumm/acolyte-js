@@ -9,7 +9,11 @@ define(function(require) {
 
     ComparatorHeap.prototype = {
         _getParent: function(idx) {
-            return Math.floor((idx - 1) / 2);
+            if (idx === 0) {
+                return 0;
+            } else {
+                return Math.floor((idx - 1) / 2);
+            }
         },
         _getLeftChild: function(idx) {
             return idx * 2 + 1;
@@ -30,20 +34,31 @@ define(function(require) {
             }
         },
         _bubbleDown: function() {
-            var swap, smallerChild;
-            var root = 1;
-            var leftChild = this._getLeftChild(root);
-            var rightChild = this._getRightChild(root);
+            var swap, smallerChildIdx;
+            var rootIdx = 0;
+            var leftChildIdx = this._getLeftChild(rootIdx);
+            var rightChildIdx = this._getRightChild(rootIdx);
             while (true) {
-                smallerChild = (this.comparator(this.data[leftChild], this.data[rightChild])) ? leftChild : rightChild;
-                if (this.comparator(this.data[smallerChild], this.data[root])) {
-                    swap = this.data[smallerChild];
-                    this.data[smallerChild] = this.data[root];
-                    this.data[root] = swap;
-                    root = smallerChild;
-                    leftChild = this._getLeftChild(root);
-                    rightChild = this._getRightChild(root);
+                smallerChildIdx = this._getSmallerChild(leftChildIdx, rightChildIdx);
+                if (this.data[smallerChildIdx] && this.comparator(this.data[smallerChildIdx], this.data[rootIdx])) {
+                    swap = this.data[smallerChildIdx];
+                    this.data[smallerChildIdx] = this.data[rootIdx];
+                    this.data[rootIdx] = swap;
+                    rootIdx = smallerChildIdx;
+                    leftChildIdx = this._getLeftChild(rootIdx);
+                    rightChildIdx = this._getRightChild(rootIdx);
                 } else break;
+            }
+        },
+        _getSmallerChild: function(leftIdx, rightIdx) {
+            if (this.data[leftIdx] && this.data[rightIdx]) {
+                return this.comparator(this.data[leftIdx], this.data[rightIdx]) ? leftIdx : rightIdx;
+            } else if (this.data[leftIdx]) {
+                return leftIdx;
+            } else if (this.data[rightIdx]) {
+                return rightIdx;
+            } else {
+                return false;
             }
         },
         insert: function(val) {

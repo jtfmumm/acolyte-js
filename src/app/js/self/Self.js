@@ -125,7 +125,7 @@ define(function(require) {
             this.nextInputList = [];
             this.updateConsoleStats();
         },
-        _isImpenetrable: function() {
+        isImpenetrable: function() {
             return true;
         }
     };

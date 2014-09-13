@@ -6,6 +6,7 @@ define(function(require) {
     var Self = require("js/self/Self");
     var ActiveAgents = require("js/agents/ActiveAgents");
     var TestWorldGenerator = require("js/test-worlds/TestWorldGenerator");
+    var getAstarShortestPath = require("js/algorithms/getAstarShortestPath");
 
 
 //REMOVE LATER
@@ -31,8 +32,6 @@ define(function(require) {
             this.world.initializeSelf(Self, this.input);
             this.world.display(display);
             Console.display(display);
-
-            world.placeAgent(drunk, new WorldCoords(new Coords(0, 0), new Coords(1, 1)));
 
             this.watchInput();
         },
@@ -71,6 +70,14 @@ define(function(require) {
             this.input = inputDevice;
             this.world = TestWorldGenerator.generateFromMap(testMap);
             this.world.display(display);
+
+            var region = new Coords(0, 0);
+            var start = new Coords(0, 0);
+            var end = new Coords(10, 10);
+            var wall = new Coords(1, 2);
+            this.world.isImpenetrable(new WorldCoords(region, wall, this.world.regionMatrix));
+
+            console.log("Shortest Path", getAstarShortestPath(new WorldCoords(region, start, 11), new WorldCoords(region, end, 11), this.world.regionMatrix));
         }
     };
 
