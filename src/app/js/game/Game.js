@@ -6,21 +6,18 @@ define(function(require) {
     var Self = require("js/self/Self");
     var ActiveAgents = require("js/agents/ActiveAgents");
     var TestWorldGenerator = require("js/test-worlds/TestWorldGenerator");
-    var getAstarShortestPath = require("js/algorithms/getAstarShortestPath");
+    var AstarPathfinder = require("js/algorithms/AstarPathfinder");
 
 
 //REMOVE LATER
-    var Drunk = require("js/agents/Drunk");
     var Coords = require("js/utils/Coords");
     var WorldCoords = require("js/utils/WorldCoords");
 
     var Console = require("js/screens/Console");
+    var Calendar = require("js/utils/Calendar");
 
     var display = new HTMLDisplay();
     var pauseState = false;
-    var timeCounter = 0;
-
-//    var drunk = new Drunk(world, new WorldCoords(new Coords(0, 0), new Coords(1, 1)));
 
 
     var Game = {
@@ -36,16 +33,16 @@ define(function(require) {
             this.watchInput();
         },
         watchInput: function() {
-            var that = this;
+            var _this = this;
             setTimeout(function() {
-                if (that.input.isReady()) {
-                    that.nextStep();
+                if (_this.input.isReady()) {
+                    _this.nextStep();
                 }
-                that.watchInput();
+                _this.watchInput();
             }, 1);
         },
         nextStep: function() {
-            timeCounter++;
+            Calendar.addTick();
             processNextKey(this.input);
             ActiveAgents.prepareAgents();
             this.world.display(display);
@@ -77,7 +74,7 @@ define(function(require) {
             var wall = new Coords(1, 2);
             this.world.isImpenetrable(new WorldCoords(region, wall, this.world.regionMatrix));
 
-            console.log("Shortest Path", getAstarShortestPath(new WorldCoords(region, start, 11), new WorldCoords(region, end, 11), this.world.regionMatrix));
+            console.log("Shortest Path", AstarPathfinder.getShortestPath(new WorldCoords(region, start, 11), new WorldCoords(region, end, 11), this.world.regionMatrix));
         }
     };
 

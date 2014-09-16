@@ -1,4 +1,6 @@
 define(function(require) {
+
+    var Directions = require("js/movement/Directions");
     
     function Coords(x, y) {
         this.x = x;
@@ -77,9 +79,30 @@ define(function(require) {
             if (difference.x === 0 && difference.y > 0) return "south";
             return "none";
         },
+        getNeighbors: function() {
+            var neighbors = [];
+
+            for (var prop in Directions) {
+                neighbors.push(this.plus(Directions[prop]));
+            }
+            return neighbors;
+        },
+        getCardinalNeighbors: function() {
+            var neighbors = [];
+            var cardinalDirections = [Directions.north, Directions.east, Directions.south, Directions.west];
+
+            for (var direction in cardinalDirections) {
+                neighbors.push(this.plus(direction));
+            }
+            return neighbors;
+        },
         minDistanceTo: function(otherCoords) {
             var coordsDifference = this.minus(otherCoords);
             return Math.max(Math.abs(coordsDifference.x), Math.abs(coordsDifference.y));
+        },
+        manhattanDistanceTo: function(otherCoords) {
+            var coordsDifference = this.minus(otherCoords);
+            return Math.abs(coordsDifference.x) + Math.abs(coordsDifference.y);
         }
     };
 

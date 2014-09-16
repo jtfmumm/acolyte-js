@@ -97,6 +97,7 @@ define(function(require) {
         return {
             elevation: -1,
             terrain: terrainCodeTable["void"],
+            landmark: null,
             occupant: null
         }
     }

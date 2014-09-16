@@ -50,6 +50,15 @@ define(function(require) {
             }
             return neighbors;
         },
+        getCardinalNeighbors: function() {
+            var neighbors = [];
+            var cardinalDirections = [Directions.north, Directions.east, Directions.south, Directions.west];
+
+            for (var direction in cardinalDirections) {
+                neighbors.push(this.plus(direction));
+            }
+            return neighbors;
+        },
         minDistanceTo: function(otherWCoords) {
             var absCoords = this.getAbsoluteCoords();
             var otherAbsCoords = otherWCoords.getAbsoluteCoords();

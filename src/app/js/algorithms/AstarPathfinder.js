@@ -1,13 +1,18 @@
 define(function(require) {
 
     var ComparatorHeap = require("js/utils/ComparatorHeap");
-    var WorldCoords = require("js/utils/WorldCoords");
     var Path = require("js/movement/Path");
 
-    function Astar(startCoords, endCoords, regionMatrix) {
+    var AstarPathfinder = {
+        getShortestPath: getShortestPath,
+        getShortestCardinalPath: getShortestCardinalPath
+    };
+
+    function Astar(startCoords, endCoords, regionMatrix, neighborsFunction) {
         this.startCoords = startCoords;
         this.endCoords = endCoords;
         this.regionMatrix = regionMatrix;
+        this.neighborsFunction = neighborsFunction;
         this.visited = {};
         this.toVisit = new ComparatorHeap(function(a, b) {
             return a.estimatedCost < b.estimatedCost;
@@ -23,19 +28,19 @@ define(function(require) {
             return this._shortestPathFrom(initialNode);
         },
         _shortestPathFrom: function(node) {
-            if (node.wCoords.isEqual(this.endCoords)) {
+            if (node.coords.isEqual(this.endCoords)) {
                 return node.path;
             }
 
             var _this = this;
 
-            var neighbors = node.getNeighbors().filter(function(wCoords) {
-                return !_this._isImpenetrable(wCoords) && !_this._isVisited(wCoords);
+            var neighbors = node[this.neighborsFunction]().filter(function(coords) {
+                return !_this._isImpenetrable(coords) && !_this._isVisited(coords);
             });
-            neighbors.forEach(function(wCoords) {
-                var path = node.clonePath().add(wCoords);
-                var estimatedCost = node.getPathSize() + wCoords.minDistanceTo(_this.endCoords);
-                _this.toVisit.insert(new Node(wCoords, path, estimatedCost));
+            neighbors.forEach(function(coords) {
+                var path = node.clonePath().add(coords);
+                var estimatedCost = node.getPathSize() + coords.minDistanceTo(_this.endCoords);
+                _this.toVisit.insert(new Node(coords, path, estimatedCost));
             });
 
             this._markNodeAsVisited(node);
@@ -47,44 +52,54 @@ define(function(require) {
                 return false;
             }
         },
-        _isVisited: function(wCoords) {
-            return this.visited[wCoords.toString()];
+        _isVisited: function(coords) {
+            return this.visited[coords.toString()];
         },
-        _isImpenetrable: function(wCoords) {
-            return this.regionMatrix.isImpenetrable(wCoords);
+        _isImpenetrable: function(coords) {
+            return this.regionMatrix.isImpenetrable(coords);
         },
         _markNodeAsVisited: function(node) {
             this.visited[node.toString()] = true;
         }
     };
 
-    function Node(wCoords, path, estimatedCost) {
-        this.wCoords = wCoords;
+    function Node(coords, path, estimatedCost) {
+        this.coords = coords;
         this.path = path || new Path();
         this.estimatedCost = estimatedCost || Infinity;
     }
 
     Node.prototype = {
         getNeighbors: function() {
-            return this.wCoords.getNeighbors();
+            return this.coords.getNeighbors();
+        },
+        getCardinalNeighbors: function() {
+            return this.coords.getCardinalNeighbors();
         },
         getPathSize: function() {
             return this.path.size();
         },
         toString: function() {
-            return this.wCoords.toString();
+            return this.coords.toString();
         },
         clonePath: function() {
             return this.path.clone();
         }
     };
 
-    function getAstarShortestPath(start, end, regionMatrix) {
-        var astar = new Astar(start, end, regionMatrix);
+    function getShortestPath(start, end, regionMatrix) {
+        var astar = new Astar(start, end, regionMatrix, "getNeighbors");
 
         //This returns a Path object
         return astar.getShortestPath();
     }
 
-    return getAstarShortestPath;
+    function getShortestCardinalPath(start, end, regionMatrix) {
+        var astar = new Astar(start, end, regionMatrix, "getCardinalNeighbors");
+
+        //This returns a Path object
+        return astar.getShortestPath();
+    }
+
+    return AstarPathfinder;
 });
