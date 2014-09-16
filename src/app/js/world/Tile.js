@@ -8,6 +8,24 @@ define(function(require) {
     }
 
     Tile.prototype = {
+        isImpenetrable: function() {
+            if (tile.occupant) {
+                return tile.occupant.isImpenetrable();
+            } else if (tile.landmark) {
+                return tile.landmark.impenetrable;
+            } else if (tile.terrain) {
+                return tile.terrain.impenetrable;
+            } else return false;
+        },
+        describe: function() {
+            if (tile.occupant) {
+                return "You see " + tile.occupant.describe();
+            } else if (tile.landmark) {
+                return "You see " + tile.landmark.description;
+            } else if (tile.terrain) {
+                return "You see " + tile.terrain.description;
+            } else return "There is nothing here.";
+        },
         getDisplayCode: function() {
             if (this.occupant) {
                 return this.occupant.getCode();

@@ -35,6 +35,9 @@ define(function(require) {
             genMap: this.genMap
         });
 
+        this.levelMap = null;
+//        this.regionMatrix = null;
+
         this.focus = options.focus || new WorldCoords(new Coords(0, 0), new Coords(10, 10), this.diameterPerRegion);
         this.activeZone = WorldSubMapper.getActiveZone(this.regionMatrix, this.focus);
 
