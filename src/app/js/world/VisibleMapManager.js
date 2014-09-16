@@ -2,7 +2,6 @@ define(function(require) {
 
     var Matrix = require("js/utils/Matrix");
     var Coords = require("js/utils/Coords");
-    var WorldCoords = require("js/utils/WorldCoords");
     var WorldSubMapper = require("js/world/WorldSubMapper");
 
     function VisibleMapManager(regionMatrix) {

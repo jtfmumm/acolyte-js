@@ -1,13 +1,12 @@
 define(function(require) {
 
     var World = require("js/world/World");
-    var WorldCoords = require("js/utils/WorldCoords");
     var Coords = require("js/utils/Coords");
 
     var TestWorldGenerator = {
         generateFromMap: function(genMap) {
             return new World({
-                focus: new WorldCoords(new Coords(0, 0), new Coords(5, 5), 11),
+                focus: new Coords(Coords(5, 5)),
                 horizontalRegions: 1,
                 verticalRegions: 1,
                 diameterPerRegion: genMap.length,

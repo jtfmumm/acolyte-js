@@ -2,13 +2,12 @@ define(function(require) {
     "use strict"
 
     var Coords = require("js/utils/Coords");
-    var WorldCoords = require("js/utils/WorldCoords");
     var Matrix = require("js/utils/Matrix");
-    var walledMap = require("js/maps/walledMap");
-    var RegionMatrix = require("js/world/RegionMatrix");
+    var LevelMap = require("js/world/LevelMap");
+    var RegionManager = require("js/world/RegionManager");
     var VisibleMapManager = require("js/world/VisibleMapManager");
     var WorldSubMapper = require("js/world/WorldSubMapper");
-    var getAstarShortestPath = require("js/algorithms/getAstarShortestPath");
+    var AstarPathfinder = require("js/algorithms/AstarPathfinder");
 
     function World(options) {
         this.parent = options.parent || null;
@@ -35,10 +34,10 @@ define(function(require) {
             genMap: this.genMap
         });
 
-        this.levelMap = null;
-//        this.regionMatrix = null;
+        this.levelMap = new LevelMap();
+        this.regionMap = new RegionMap();
 
-        this.focus = options.focus || new WorldCoords(new Coords(0, 0), new Coords(10, 10), this.diameterPerRegion);
+        this.focus = options.focus || new Coords(10, 10);
         this.activeZone = WorldSubMapper.getActiveZone(this.regionMatrix, this.focus);
 
         //Temporary
@@ -52,8 +51,8 @@ define(function(require) {
             self.init(this, this.focus, input);
             this.placeAgent(self, this.focus);
         },
-        placeAgent: function(agent, wCoords) {
-            this.regionMatrix.placeAgent(agent, wCoords);
+        placeAgent: function(agent, coords) {
+            this.levelMap.placeAgent(agent, coords);
         },
         getVisibleDiameter: function() {
             return this.visibleRadius * 2 + 1;
@@ -61,12 +60,14 @@ define(function(require) {
         display: function(display) {
             this.visibleMapManager.display(display, this.focus);
         },
-        addOccupant: function(wCoords, occupant) {
-            this.regionMatrix.addOccupant(wCoords, occupant);
+        addOccupant: function(coords, occupant) {
+            this.levelMap.addOccupant(coords, occupant);
         },
-        removeOccupant: function(wCoords) {
-            this.regionMatrix.removeOccupant(wCoords);
+        removeOccupant: function(coords) {
+            this.levelMap.removeOccupant(coords);
         },
+
+        //REFACTOR TO BRING UP LOGIC
         moveSelf: function(self, position, posChange) {
             var tryPosition = this.regionMatrix.offsetPosition(position, posChange);
             if (!this.regionMatrix.isImpenetrable(tryPosition)) {
@@ -75,6 +76,7 @@ define(function(require) {
                 this.focus = tryPosition;
             }
         },
+        //SAME
         moveAgent: function(agent, position, posChange) {
             var tryPosition = this.regionMatrix.offsetPosition(position, posChange);
             if (!this.regionMatrix.isImpenetrable(tryPosition)) {
@@ -82,11 +84,11 @@ define(function(require) {
                 agent.setPosition(tryPosition);
             }
         },
-        examineTile: function(wCoords) {
-            return this.regionMatrix.getTileDescription(wCoords);
+        examineTile: function(coords) {
+            return this.levelMap.getTileDescription(coords);
         },
-        isImpenetrable: function(wCoords) {
-            return this.regionMatrix.isImpenetrable(wCoords);
+        isImpenetrable: function(coords) {
+            return this.levelMap.isImpenetrable(coords);
         },
         updateActiveRegions: function() {
             this.activeZone.forEach(function(region) {
@@ -101,7 +103,7 @@ define(function(require) {
             this.parent.endGame();
         },
         shortestPath: function(startCoords, endCoords) {
-            return getAstarShortestPath(startCoords, endCoords, this.regionMatrix);
+            return AstarPathfinder.getShortestPath(startCoords, endCoords, this.regionMatrix);
         }
     };
 

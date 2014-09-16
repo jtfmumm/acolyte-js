@@ -11,7 +11,6 @@ define(function(require) {
 
 //REMOVE LATER
     var Coords = require("js/utils/Coords");
-    var WorldCoords = require("js/utils/WorldCoords");
 
     var Console = require("js/screens/Console");
     var Calendar = require("js/utils/Calendar");

@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0fcb815-4522-43d8-ab85-418949e1769f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/js/world/RegionManager.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/js/data/elevationTypes.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/js/data/landmarkTypes.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/js/data/occupantTypes.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/app/js/data/TileDescriptions.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/app/js/data/terrainCodeTable.js" afterPath="$PROJECT_DIR$/src/app/js/data/terrainTypes.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/app/js/world/RegionMatrix.js" afterPath="$PROJECT_DIR$/src/app/js/world/LevelMap.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/world/Region.js" afterPath="$PROJECT_DIR$/src/app/js/world/Region.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/world/Tile.js" afterPath="$PROJECT_DIR$/src/app/js/world/Tile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/game/Game.js" afterPath="$PROJECT_DIR$/src/app/js/game/Game.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/test-worlds/TestWorldGenerator.js" afterPath="$PROJECT_DIR$/src/app/js/test-worlds/TestWorldGenerator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/world/VisibleMapManager.js" afterPath="$PROJECT_DIR$/src/app/js/world/VisibleMapManager.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/world/World.js" afterPath="$PROJECT_DIR$/src/app/js/world/World.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="acolyte.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,31 +30,41 @@
     <splitter split-orientation="horizontal" split-proportion="0.8605678">
       <split-first>
         <leaf>
-          <file leaf-file-name="Tile.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/app/js/world/Tile.js">
+          <file leaf-file-name="Game.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/js/game/Game.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="66" max-vertical-offset="1540">
-                  <caret line="39" column="49" selection-start-line="39" selection-start-column="49" selection-end-line="39" selection-end-column="49" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="1360" max-vertical-offset="2508">
+                  <caret line="87" column="17" selection-start-line="87" selection-start-column="17" selection-end-line="87" selection-end-column="17" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="terrainTypes.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/app/js/data/terrainTypes.js">
+          <file leaf-file-name="TestWorldGenerator.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/js/test-worlds/TestWorldGenerator.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
-                  <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="594">
+                  <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="terrainFrequencies.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/app/js/data/terrainFrequencies.js">
+          <file leaf-file-name="World.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/js/world/World.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="682">
-                  <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2552">
+                  <caret line="39" column="34" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="VisibleMapManager.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/js/world/VisibleMapManager.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1078">
+                  <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
                   <folding />
                 </state>
               </provider>
@@ -120,18 +123,8 @@
           <file leaf-file-name="LevelMap.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/app/js/world/LevelMap.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-2.5451808" vertical-offset="1866" max-vertical-offset="2530">
-                  <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GenerateFromMap.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/app/js/generators/GenerateFromMap.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="5" max-vertical-offset="704">
-                  <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
+                <state vertical-scroll-proportion="0.59638554" vertical-offset="0" max-vertical-offset="2530">
+                  <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
                   <folding />
                 </state>
               </provider>
@@ -196,17 +189,13 @@
         <option value="$PROJECT_DIR$/src/app/js/generators/MapValuesGenerator.js" />
         <option value="$PROJECT_DIR$/src/app/js/generators/JustSand.js" />
         <option value="$PROJECT_DIR$/src/app/js/displays/HTMLDisplay.js" />
-        <option value="$PROJECT_DIR$/src/app/js/world/VisibleMapManager.js" />
-        <option value="$PROJECT_DIR$/src/app/js/test-worlds/TestWorldGenerator.js" />
         <option value="$PROJECT_DIR$/src/app/js/utils/ComparatorHeap.js" />
         <option value="$PROJECT_DIR$/src/app/js/self/Self.js" />
         <option value="$PROJECT_DIR$/src/app/js/world/RegionMatrix.js" />
         <option value="$PROJECT_DIR$/src/app/js/agents/Agent.js" />
         <option value="$PROJECT_DIR$/src/app/js/algorithms/getAstarShortestPath.js" />
         <option value="$PROJECT_DIR$/src/app/js/main.js" />
-        <option value="$PROJECT_DIR$/src/app/js/game/Game.js" />
         <option value="$PROJECT_DIR$/src/app/js/world/RegionMatrixMapGenerator.js" />
-        <option value="$PROJECT_DIR$/src/app/js/world/World.js" />
         <option value="$PROJECT_DIR$/src/app/js/world/RegionManager.js" />
         <option value="$PROJECT_DIR$/src/app/js/data/elevationTypes.js" />
         <option value="$PROJECT_DIR$/src/app/js/data/terrainTypes.js" />
@@ -216,6 +205,10 @@
         <option value="$PROJECT_DIR$/src/app/js/world/Tile.js" />
         <option value="$PROJECT_DIR$/src/app/js/world/LevelMap.js" />
         <option value="$PROJECT_DIR$/src/app/js/world/Region.js" />
+        <option value="$PROJECT_DIR$/src/app/js/game/Game.js" />
+        <option value="$PROJECT_DIR$/src/app/js/test-worlds/TestWorldGenerator.js" />
+        <option value="$PROJECT_DIR$/src/app/js/world/VisibleMapManager.js" />
+        <option value="$PROJECT_DIR$/src/app/js/world/World.js" />
       </list>
     </option>
   </component>
@@ -920,12 +913,12 @@
       <workItem from="1410211290422" duration="3469000" />
       <workItem from="1410618012615" duration="20580000" />
       <workItem from="1410710722744" duration="488000" />
-      <workItem from="1410905837614" duration="3706000" />
+      <workItem from="1410905837614" duration="4166000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62497000" />
+    <option name="totallyTimeSpent" value="62957000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1175" extended-state="6" />
@@ -1122,14 +1115,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/test-worlds/TestWorldGenerator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="616">
-          <caret line="9" column="72" selection-start-line="9" selection-start-column="72" selection-end-line="9" selection-end-column="72" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/utils/ComparatorHeap.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="529" max-vertical-offset="2024">
@@ -1169,26 +1154,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/world/VisibleMapManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="23" max-vertical-offset="1100">
-          <caret line="36" column="49" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/world/RegionMatrixMapGenerator.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1584">
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/game/Game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="704" max-vertical-offset="2530">
-          <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
           <folding />
         </state>
       </provider>
@@ -1205,14 +1174,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/world/World.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2508">
-          <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
           <folding />
         </state>
       </provider>
@@ -1353,10 +1314,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/game/Game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1360" max-vertical-offset="2508">
+          <caret line="87" column="17" selection-start-line="87" selection-start-column="17" selection-end-line="87" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/test-worlds/TestWorldGenerator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="594">
+          <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/world/VisibleMapManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1078">
+          <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/world/World.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2552">
+          <caret line="39" column="34" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/world/LevelMap.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.5451808" vertical-offset="1866" max-vertical-offset="2530">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.59638554" vertical-offset="0" max-vertical-offset="2530">
+          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
           <folding />
         </state>
       </provider>
