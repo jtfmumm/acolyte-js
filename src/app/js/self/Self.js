@@ -19,11 +19,13 @@ define(function(require) {
             combatMode: CombatModes.NONE
         },
 
-        init: function(level, coords, input) {
-            this.level = level;
-            this.position = coords;
+        init: function(input) {
             this.input = input;
             this.updateConsoleStats();
+        },
+        enterLevel: function(level, coords) {
+            this.level = level;
+            this.position = coords;
         },
         getStats: function() {
             return this.stats;

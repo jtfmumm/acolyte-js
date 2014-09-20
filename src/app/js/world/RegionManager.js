@@ -30,6 +30,9 @@ define(function(require) {
         registerAgent: function(agent, coords) {
             this.getRegion(coords).registerAgent(agent);
         },
+        unregisterAgent: function(agent, coords) {
+            this.getRegion(coords).unregisterAgent(agent);
+        },
         getRegion: function(coords) {
             var originX = this.regionCoordFrom(coords.x);
             var originY = this.regionCoordFrom(coords.y);

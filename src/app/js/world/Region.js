@@ -1,7 +1,6 @@
 define(function(require) {
     "use strict";
 
-    var RegionMapGenerator = require("js/world/RegionMapGenerator");
     var ActiveAgentsManager = require("js/agents/ActiveAgentsManager");
     var Coords = require("js/utils/Coords");
 

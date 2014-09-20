@@ -7,6 +7,7 @@ define(function(require) {
     var RegionManager = require("js/world/RegionManager");
     var LevelSubMapper = require("js/world/LevelSubMapper");
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
+    var Self = require("js/self/Self");
 
     function Level(options) {
         options = options || {};
@@ -18,19 +19,25 @@ define(function(require) {
         this.regionManager = options.regionManager || null;
         this.focus = options.focus || new Coords(Math.floor(this.diameter / 2), Math.floor(this.diameter / 2));
 
+        options.landmarksAlg(this);
+
         this.visibleMapManager = new VisibleMapManager(this.levelMap, this.visibleDiameter);
         this.activeZone = LevelSubMapper.getActiveZone(this.regionManager, this.focus);
-        this.updateActiveRegions();
     }
 
     Level.prototype = {
         setRegistryId: function(registryId) {
             this.registryId = registryId;
         },
-        initializeSelf: function(self, input) {
-            self.init(this, this.focus, input);
-            this.placeAgent(self, this.focus);
-            this.registerAgent(self, this.focus);
+        enter: function() {
+            this.placeAgent(Self, this.focus);
+            Self.enterLevel(this, this.focus);
+            this.updateActiveRegions();
+            this.registerAgent(Self, this.focus);
+        },
+        exit: function() {
+            this.deactivate();
+            this.unregisterAgent(Self, this.focus);
         },
         placeAgent: function(agent, coords) {
             this.levelMap.placeAgent(agent, coords);
@@ -50,6 +57,10 @@ define(function(require) {
                 this.levelMap.moveAgent(self, position, tryPosition);
                 self.setPosition(tryPosition);
                 this.focus = tryPosition;
+                if (this.levelMap.hasSubLevel(tryPosition)) {
+                    var tile = this.levelMap.getTile(tryPosition);
+                    this.enterSubLevel(tile.getLevel(), tile);
+                }
             }
         },
         moveAgent: function(agent, position, posChange) {
@@ -67,6 +78,9 @@ define(function(require) {
         registerAgent: function(agent, coords) {
             this.regionManager.registerAgent(agent, coords);
         },
+        unregisterAgent: function(agent, coords) {
+            this.regionManager.unregisterAgent(agent, coords);
+        },
         examineTile: function(coords) {
             return this.levelMap.getTileDescription(coords);
         },
@@ -82,8 +96,16 @@ define(function(require) {
                 region.activate();
             });
         },
+        deactivate: function() {
+            this.activeZone.forEach(function(region) {
+                region.deactivate();
+            });
+        },
         shortestPath: function(startCoords, endCoords) {
             return AstarPathfinder.getShortestPath(startCoords, endCoords, this.levelMap);
+        },
+        enterSubLevel: function(sublevel, tile) {
+            this.parent.enterSubLevel(sublevel, tile);
         }
     };
 

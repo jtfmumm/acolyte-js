@@ -1,12 +1,13 @@
 define(function(require) {
 
     var Uid = require("js/utils/Uid");
+    var Level = require("js/world/Level");
+    var LevelFactory = require("js/world/LevelFactory");
 
     function LevelManager(level) {
-        this.currentLevel = level;
+        this.currentLevel = level || null;
         this.registry = {};
         this.nextRegistryId = Uid.makeGenerator(); //Function that returns next id
-        this.initializeLevel(level);
     }
 
     LevelManager.prototype = {
@@ -15,12 +16,22 @@ define(function(require) {
             level.setRegistryId(nextUid);
             this.registry[nextUid] = level;
             this.currentLevel = level;
+            this.currentLevel.enter();
         },
-        updateCurrentLevel: function(level) {
-            this.currentLevel = level;
+        enterSubLevel: function(levelOrSeed, tile) {
+            if (levelOrSeed instanceof Level) {
+                this.currentLevel.exit();
+                this.currentLevel = levelOrSeed;
+                this.currentLevel.enter();
+            } else {
+                var newLevel = LevelFactory[levelOrSeed](this.currentLevel);
+                tile.updateLevel(newLevel);
+                this.currentLevel.exit();
+                this.initializeLevel(newLevel)
+            }
         },
-        initializeSelf: function(self, focus) {
-            this.currentLevel.initializeSelf(self, focus);
+        enterCurrentLevel: function() {
+            this.currentLevel.enter();
         },
         display: function(display) {
             this.currentLevel.display(display);

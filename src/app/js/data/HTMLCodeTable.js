@@ -29,6 +29,11 @@ define(function(require) {
             symbol: "&nbsp;&nbsp;",
             backgroundColor: "black"
         },
+        //Landmarks
+        "shrine": {
+            symbol: "II",
+            backgroundColor: "highlight-back"
+        },
         //Elevations
         "-2": {
             color: "black"

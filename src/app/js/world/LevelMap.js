@@ -1,7 +1,6 @@
 define(function(require) {
     "use strict";
 
-    _ = require("lodash");
     var Matrix = require("js/utils/Matrix");
     var Coords = require("js/utils/Coords");
     var Tile = require("js/world/Tile");
@@ -13,6 +12,7 @@ define(function(require) {
         this.diameter = options.diameter;
         this.diameterPerRegion = options.diameterPerRegion || null;
         this.elevationGenAlg = options.elevationGenAlg || "diamondSquare";
+        this.landmarksAlg = options.landmarks;
         this.genAlg = options.genAlg || null;
         this.genMap = options.genMap || null;
         this.voidTerrain = options.voidTerrain || "void";
@@ -40,7 +40,6 @@ define(function(require) {
 
             for (var y = 0; y < this.diameter; y++) {
                 for (var x = 0; x < this.diameter; x++) {
-                    elevations.getCell(x, y);
                     this.getTile(new Coords(x, y)).updateElevation(elevations.getCell(x, y));
                 }
             }
@@ -50,7 +49,8 @@ define(function(require) {
 
             for (var y = 0; y < this.height; y++) {
                 for (var x = 0; x < this.width; x++) {
-                    this.getTile(new Coords(x, y)).updateLandmark(landmarks.getCell(x, y));
+                    var nextLandmark = landmarks.getCell(x, y);
+                    if (nextLandmark) this.getTile(new Coords(x, y)).updateLandmark(nextLandmark);
                 }
             }
         },
@@ -59,12 +59,7 @@ define(function(require) {
         },
         placeAgent: function(agent, coords) {
             this.addOccupant(coords, agent);
-            this.registerAgent(agent, coords);
         },
-        registerAgent: function(agent, coords) {
-//            this.getRegion(wCoords.getRegionMatrixCoords()).registerAgent(agent);
-        },
-        //MOVE LOGIC UP TO LEVEL
         moveAgent: function(agent, oldCoords, newCoords) {
             this.removeOccupant(oldCoords);
             this.addOccupant(newCoords, agent);
@@ -85,15 +80,15 @@ define(function(require) {
         getTileDescription: function(coords) {
             return this.getTile(coords).describe();
         },
-        getDiameter: function() {
-            return this.diameterPerRegion;
-        },
         getTile: function(coords) {
             if (this.isWithinBoundaries(coords)) {
                 return this.tileMap.getCell(coords.x, coords.y);
             } else {
                 return this.voidTile;
             }
+        },
+        hasSubLevel: function(coords) {
+            return this.getTile(coords).hasLevel();
         }
     };
 

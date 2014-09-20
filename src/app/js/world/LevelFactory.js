@@ -5,6 +5,7 @@ define(function(require) {
     var Coords = require("js/utils/Coords");
     var LevelMap = require("js/world/LevelMap");
     var RegionManager = require("js/world/RegionManager");
+    var LandmarkAlgorithms = require("js/generators/LandmarkAlgorithms");
 
     var LevelFactory = {
         create: function(levelType) {
@@ -13,13 +14,27 @@ define(function(require) {
         createLevelWithParent: function(levelType, parent) {
             return this[levelType](parent);
         },
+        createCustom: function(options) {
+            return this.level(options);
+        },
         world: function(parent) {
             return this.level({
                 parent: parent,
                 diameter: 325, //Probably not larger than 3250
                 diameterPerRegion: 65,
                 visibleDiameter: 51,
-                voidTerrain: "water"
+                voidTerrain: "water",
+                landmarks: LandmarkAlgorithms.world
+            });
+        },
+        shrine: function(parent) {
+            return this.level({
+                parent: parent,
+                diameter: 33,
+                diameterPerRegion: 33,
+                visibleDiameter: 51,
+                voidTerrain: "void",
+                landmarks: LandmarkAlgorithms.shrine
             });
         },
         level: function(options) {
@@ -28,6 +43,7 @@ define(function(require) {
             var diameterPerRegion = options.diameterPerRegion || diameter; //Default is 1 Region for Level
             var visibleDiameter = options.visibleDiameter;
             var voidTerrain = options.voidTerrain || "void";
+            var landmarks = options.landmarks || function() {};
             var levelMap = new LevelMap({
                 diameter: diameter,
                 diameterPerRegion: diameterPerRegion,
@@ -43,7 +59,8 @@ define(function(require) {
                 diameter: diameter,
                 visibleDiameter: visibleDiameter,
                 levelMap: levelMap,
-                regionManager: regionManager
+                regionManager: regionManager,
+                landmarksAlg: landmarks
             });
         }
     };

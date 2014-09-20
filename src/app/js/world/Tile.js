@@ -11,6 +11,7 @@ define(function(require) {
         this.landmark = options.landmark || null;
         this.terrain = options.terrain || "plains";
         this.elevation = options.elevation || 0;
+        this.level = options.level || null;
     }
 
     Tile.prototype = {
@@ -57,6 +58,7 @@ define(function(require) {
         },
         updateLandmark: function(landmark) {
             this.landmark = landmark;
+            if (landmarkTypes[landmark].seed) this.level = landmarkTypes[landmark].seed;
         },
         removeLandmark: function() {
             this.landmark = null;
@@ -66,6 +68,15 @@ define(function(require) {
         },
         updateElevation: function(elevation) {
             this.elevation = elevation;
+        },
+        updateLevel: function(level) {
+            this.level = level;
+        },
+        hasLevel: function() {
+            return Boolean(this.level);
+        },
+        getLevel: function() {
+            return this.level;
         }
     };
 

@@ -25,11 +25,13 @@ define(function(require) {
         init: function(inputDevice) {
             this.input = inputDevice;
 
-            var world = LevelFactory.create("world");
-            this.levelManager = new LevelManager(world);
+            this.levelManager = new LevelManager();
+            var world = LevelFactory.createLevelWithParent("world", this.levelManager);
+            this.levelManager.initializeLevel(world);
 
             this.input.connect();
-            this.levelManager.initializeSelf(Self, this.input);
+            Self.init(this.input);
+            this.levelManager.enterCurrentLevel();
             this.levelManager.display(display);
             Console.display(display);
 
