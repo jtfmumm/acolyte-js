@@ -1,7 +1,5 @@
 define(function(require) {
 
-
-
     var Console = {
         stats: {
         },

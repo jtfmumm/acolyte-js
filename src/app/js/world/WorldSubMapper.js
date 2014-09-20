@@ -5,63 +5,29 @@ define(function(require) {
     var Matrix = require("js/utils/Matrix");
 
     var WorldSubMapper = {
-        getCorners: function(regionMatrix, focus, radius) {
-            return {
-                NW: regionMatrix.offsetPosition(focus, Directions.northWest.scaledBy(radius)),
-                NE: regionMatrix.offsetPosition(focus, Directions.northEast.scaledBy(radius)),
-                SW: regionMatrix.offsetPosition(focus, Directions.southWest.scaledBy(radius)),
-                SE: regionMatrix.offsetPosition(focus, Directions.southEast.scaledBy(radius))
-            }
-        },
-        getSubMap: function(regionMatrix, focus, radius) {
-            var subMap, topSubMatrix, bottomSubMatrix;
+        getSubMap: function(levelMap, focus, radius) {
+            var diameter = (radius * 2) + 1;
+            var subMap = new Matrix().init(diameter, diameter);
 
-            var corners = this.getCorners(regionMatrix, focus, radius);
-
-            //Start with NW Corner
-            var NWMatrix = regionMatrix.getRegion(corners.NW.getRegionMatrixCoords())
-                .getSubMapByDirectionFrom("southeast", corners.NW.getLocalCoords());
-            var subMap = NWMatrix;
-
-            //Then NE
-            if (!regionMatrix.inTheSameRegion(corners.NW, corners.NE)) {
-                NEMatrix = regionMatrix.getRegion(corners.NE.getRegionMatrixCoords())
-                    .getSubMapByDirectionFrom("southwest", corners.NE.getLocalCoords());
-                subMap = Matrix.concatHorizontal(subMap, NEMatrix);
-            }
-
-            //Then SW
-            if (!regionMatrix.inTheSameRegion(corners.NW, corners.SW)) {
-                SWMatrix = regionMatrix.getRegion(corners.SW.getRegionMatrixCoords())
-                    .getSubMapByDirectionFrom("northeast", corners.SW.getLocalCoords());
-                bottomSubMatrix = SWMatrix;
-
-                //Then SE
-                if (!regionMatrix.inTheSameRegion(corners.SW, corners.SE)) {
-                    SEMatrix = regionMatrix.getRegion(corners.SE.getRegionMatrixCoords())
-                        .getSubMapByDirectionFrom("northwest", corners.SE.getLocalCoords());
-                    bottomSubMatrix = Matrix.concatHorizontal(bottomSubMatrix, SEMatrix);
+            for (var y = 0; y < diameter; y++) {
+                for (var x = 0; x < diameter; x++) {
+                    subMap.setCell(x, y, levelMap.getTile(new Coords(x, y)));
                 }
-
-                subMap = Matrix.concatVertical(subMap, bottomSubMatrix);
             }
 
             return subMap;
         },
-        getActiveZone: function(regionMatrix, focus) {
-            var regionFocus = focus.getRegionMatrixCoords();
+        getActiveZone: function(regionManager, regionFocus) {
             var topLeftRegion = regionFocus.minus(new Coords(1, 1));
-            var activeRegions = [];
-            for (var i = 0; i < 3; i++) {
-                var nextRow = [];
-                for (var j = 0; j < 3; j++) {
-                    var nextX = topLeftRegion.x + i;
-                    var nextY = topLeftRegion.y + j;
-                    nextRow.push(regionMatrix.getRegion(new Coords(nextX, nextY)));
+            var activeRegions = new Matrix().init(3, 3);
+            for (var yOffset = 0; yOffset < 3; yOffset++) {
+                for (var xOffset = 0; xOffset < 3; xOffset++) {
+                    var nextX = topLeftRegion.x + xOffset;
+                    var nextY = topLeftRegion.y + yOffset;
+                    activeRegions.setCell(xOffset, yOffset, regionManager.getRegion(new Coords(nextX, nextY)));
                 }
-                activeRegions.push(nextRow);
             }
-            return new Matrix(activeRegions);
+            return activeRegions;
         }
     };
 

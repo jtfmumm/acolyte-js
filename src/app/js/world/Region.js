@@ -6,9 +6,8 @@ define(function(require) {
     var Coords = require("js/utils/Coords");
 
     function Region(options) {
+        options = options || {};
         this.activeAgents = new RegionAgentsManager();
-        this.diameter = options.diameter;
-        this.type = options.type || "blank";
         this.owner = options.owner || null;
     }
 

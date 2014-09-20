@@ -6,13 +6,21 @@ define(function(require) {
     }
     
     Matrix.prototype = {
-        init: function(width, height) {
+        init: function(width, height, cellFn) {
             var newData = [];
             for (var i = 0; i < height; i++) {
                 newData.push(Array(width));
             }
             this.data = newData;
+            if (cellFn) this._initCellsWithFunction(cellFn);
             return this;
+        },
+        _initCellsWithFunction: function(cellFn) {
+            for (var y = 0; y < this.getHeight(); y++) {
+                for (var x = 0; x < this.getWidth(); x++) {
+                    this.setCell(x, y, cellFn());
+                }
+            }
         },
         getWidth: function() {
             return (this.data[0]) ? this.data[0].length : 0;

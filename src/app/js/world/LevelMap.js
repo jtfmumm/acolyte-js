@@ -4,57 +4,58 @@ define(function(require) {
     _ = require("lodash");
     var Matrix = require("js/utils/Matrix");
     var Coords = require("js/utils/Coords");
+    var Tile = require("js/world/Tile");
     var Rand = require("js/utils/Rand");
-    var RegionMatrixMapGenerator = require("js/world/RegionMatrixMapGenerator");
+    var LevelMapGenerator = require("js/world/LevelMapGenerator");
 
     //Takes width and height measured in regions, plus diameter per region
     function LevelMap(options) {
         this.diameter = options.diameter;
-//        this.diameterPerRegion = options.diameterPerRegion;
+        this.diameterPerRegion = options.diameterPerRegion || null;
         this.elevationGenAlg = options.elevationGenAlg || "diamondSquare";
         this.genAlg = options.genAlg || null;
         this.genMap = options.genMap || null;
-        this.regionMatrixMapGenerator = new RegionMatrixMapGenerator({
-            diameter: this.width,
+        this.voidTerrain = options.voidTerrain || "void";
+        this.levelMapGenerator = new LevelMapGenerator({
+            diameter: this.diameter,
             diameterPerRegion: this.diameterPerRegion,
             genMap: this.genMap
         });
-//        this.voidRegion = new VoidRegion({diameter: this.diameterPerRegion});
-//        this.regions = new Matrix().init(this.width, this.height);
 
-        this.tileMap = null; //GENERATE THESE!
+        this.voidTile = new Tile({terrain: this.voidTerrain});
+
+        this.tileMap = new Matrix().init(this.diameter, this.diameter, generateTile);
 
         this.initialize(this.elevationGenAlg);
         if (this.genAlg) {
             this.generateLandmarks(this.genAlg);
         }
 
-        this.startingRegionCoords = new Coords(Rand.rollFromZero(this.diameter), Rand.rollFromZero(this.diameter));
+        this.startingCoords = new Coords(Rand.rollFromZero(this.diameter), Rand.rollFromZero(this.diameter));
     }
 
     LevelMap.prototype = {
         initialize: function(algorithm) {
-            var elevations = this.regionMatrixMapGenerator.generate(algorithm);
+            var elevations = this.levelMapGenerator.generate(algorithm);
 
             for (var y = 0; y < this.diameter; y++) {
                 for (var x = 0; x < this.diameter; x++) {
-//                    this.tileMap.setCell(x, y, generateTile());
-                    this.getTile(x, y).updateElevation(elevations.getCell(x, y));
+                    elevations.getCell(x, y);
+                    this.getTile(new Coords(x, y)).updateElevation(elevations.getCell(x, y));
                 }
             }
         },
         generateLandmarks: function(algorithm) {
-            var landmarks = this.regionMatrixMapGenerator.generate(algorithm);
+            var landmarks = this.levelMapGenerator.generate(algorithm);
 
             for (var y = 0; y < this.height; y++) {
                 for (var x = 0; x < this.width; x++) {
-                    this.getTile(x, y).updateLandmark(landmarks.getCell(x, y));
+                    this.getTile(new Coords(x, y)).updateLandmark(landmarks.getCell(x, y));
                 }
             }
         },
         getStartingPosition: function() {
-            var startingLocalCoords = this.getRegion(this.startingRegionCoords).getStartingPosition();
-            return startingLocalCoords;
+            return this.startingCoords;
         },
         placeAgent: function(agent, coords) {
             this.addOccupant(coords, agent);
@@ -92,12 +93,20 @@ define(function(require) {
             return this.diameterPerRegion;
         },
         getTile: function(coords) {
-            return this.getCell(coords.x, coords.y);
+            if (this.isWithinBoundaries(coords)) {
+                return this.tileMap.getCell(coords.x, coords.y);
+            } else {
+                return this.voidTile;
+            }
         },
         offsetPosition: function(coords, offset) {
             return coords.plus(offset);
         }
     };
+
+    function generateTile() {
+        return new Tile();
+    }
 
     function getTileCode(tile) {
         if (tile.occupant)

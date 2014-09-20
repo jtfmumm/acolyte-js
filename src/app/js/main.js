@@ -13,6 +13,7 @@ require.config({
     }
 });
 
+
 require(["js/game/Game", "js/input/Keyboard"],
         function (Game, Keyboard) {
             Game.init(Keyboard);

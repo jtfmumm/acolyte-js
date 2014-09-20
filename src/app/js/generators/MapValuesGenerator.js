@@ -10,8 +10,7 @@ define(function(require) {
     function MapValuesGenerator(options) {
         this.diameter = options.diameter;
         this.diameterPerRegion = options.diameterPerRegion;
-        this.spanInCells = this.diameter * this.diameterPerRegion;
-        this.values = new Matrix().init(this.spanInCells, this.spanInCells);
+        this.values = new Matrix().init(this.diameter, this.diameter);
         this.genAlgorithm = algorithms[options.genAlgorithm];
         this.genMap = options.genMap || null;
     }

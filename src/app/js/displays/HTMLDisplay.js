@@ -12,11 +12,11 @@ define(function(require) {
     }
 
     HTMLDisplay.prototype = {
-        renderMap: function(tileCodes) {
+        renderMap: function(tiles) {
             var _this = this;
             var newDiv = document.createElement('div');
-            var newMap = tileCodes.map(function(tileCode) {
-                return _this.compileMapHTML(tileCode);
+            var newMap = tiles.map(function(tile) {
+                return _this.compileMapHTML(tile);
             });
 
             for (var y = 0; y < newMap.getHeight(); y++) {
@@ -40,9 +40,9 @@ define(function(require) {
             this.consoleEl.innerHTML = text;
             this.consoleEl.className = Self.getStats().combatMode;
         },
-        compileMapHTML: function(tileCode) {
-            var tileObject = HTMLCodeTable[tileCode.object];
-            var elevation = HTMLCodeTable[tileCode.elevation];
+        compileMapHTML: function(tile) {
+            var tileObject = HTMLCodeTable[tile.getDisplayCode()];
+            var elevation = HTMLCodeTable[tile.getElevation()];
             var color = tileObject.color ? tileObject.color : "black";
             var backColor = (tileObject.backgroundColor) ? tileObject.backgroundColor : elevation.color;
             var symbol = tileObject.symbol;

@@ -1,7 +1,5 @@
 define(function(require) {
 
-    var Directions = require("js/movement/Directions");
-    
     function Coords(x, y) {
         this.x = x;
         this.y = y;
@@ -82,14 +80,14 @@ define(function(require) {
         getNeighbors: function() {
             var neighbors = [];
 
-            for (var prop in Directions) {
-                neighbors.push(this.plus(Directions[prop]));
+            for (var prop in this.directions) {
+                neighbors.push(this.plus(this.directions[prop]));
             }
             return neighbors;
         },
         getCardinalNeighbors: function() {
             var neighbors = [];
-            var cardinalDirections = [Directions.north, Directions.east, Directions.south, Directions.west];
+            var cardinalDirections = [this.directions.north, this.directions.east, this.directions.south, this.directions.west];
 
             for (var direction in cardinalDirections) {
                 neighbors.push(this.plus(direction));
@@ -104,6 +102,17 @@ define(function(require) {
             var coordsDifference = this.minus(otherCoords);
             return Math.abs(coordsDifference.x) + Math.abs(coordsDifference.y);
         }
+    };
+
+    Coords.directions = {
+        north: new Coords(0, -1),
+        south: new Coords(0, 1),
+        east: new Coords(1, 0),
+        west: new Coords(-1, 0),
+        northWest: new Coords(-1, -1),
+        southWest: new Coords(-1, 1),
+        northEast: new Coords(1, -1),
+        southEast: new Coords(1, 1)
     };
 
     Coords.coordsFromString = function(str) {

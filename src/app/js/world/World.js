@@ -16,34 +16,37 @@ define(function(require) {
         this.genMap = options.genMap || null;
 
         this.visibleRadius = options.visibleRadius || 25;
-        this.visibleZone = null;
 
         this.horizontalRegions = options.horizontalRegions || 5;
         this.verticalRegions = options.verticalRegions || 5;
-        this.width = this.horizontalRegions * this.getVisibleDiameter();
-        this.height = this.verticalRegions * this.getVisibleDiameter();
 
         this.diameterPerRegion = options.diameterPerRegion || 65; //Must be a power of 2 + 1 for algorithms
 
-        this.regionMatrix = new RegionMatrix({
-            horizontalRegions: this.horizontalRegions,
-            verticalRegions: this.verticalRegions,
-            diameterPerRegion: this.diameterPerRegion,
-            elevationGenAlg: this.elevationGenAlg,
-            genAlg: this.genAlg,
-            genMap: this.genMap
+//        this.regionMatrix = new RegionMatrix({
+//            horizontalRegions: this.horizontalRegions,
+//            verticalRegions: this.verticalRegions,
+//            diameterPerRegion: this.diameterPerRegion,
+//            elevationGenAlg: this.elevationGenAlg,
+//            genAlg: this.genAlg,
+//            genMap: this.genMap
+//        });
+
+        this.levelMap = new LevelMap({
+            diameter: this.diameterPerRegion * this.horizontalRegions,
+            diameterPerRegion: this.diameterPerRegion
+        });
+        this.regionManager = new RegionManager({
+            regionRowCount: this.horizontalRegions,
+            diameterPerRegion: this.diameterPerRegion
         });
 
-        this.levelMap = new LevelMap();
-        this.regionMap = new RegionMap();
-
         this.focus = options.focus || new Coords(10, 10);
-        this.activeZone = WorldSubMapper.getActiveZone(this.regionMatrix, this.focus);
+        this.activeZone = WorldSubMapper.getActiveZone(this.regionManager, this.focus);
 
         //Temporary
         this.updateActiveRegions();
 
-        this.visibleMapManager = new VisibleMapManager(this.regionMatrix);
+        this.visibleMapManager = new VisibleMapManager(this.levelMap, this.getVisibleDiameter());
     }
     
     World.prototype = {
@@ -69,18 +72,18 @@ define(function(require) {
 
         //REFACTOR TO BRING UP LOGIC
         moveSelf: function(self, position, posChange) {
-            var tryPosition = this.regionMatrix.offsetPosition(position, posChange);
-            if (!this.regionMatrix.isImpenetrable(tryPosition)) {
-                this.regionMatrix.moveAgent(self, position, tryPosition);
+            var tryPosition = this.levelMap.offsetPosition(position, posChange);
+            if (!this.levelMap.isImpenetrable(tryPosition)) {
+                this.levelMap.moveAgent(self, position, tryPosition);
                 self.setPosition(tryPosition);
                 this.focus = tryPosition;
             }
         },
         //SAME
         moveAgent: function(agent, position, posChange) {
-            var tryPosition = this.regionMatrix.offsetPosition(position, posChange);
-            if (!this.regionMatrix.isImpenetrable(tryPosition)) {
-                this.regionMatrix.moveAgent(agent, position, tryPosition);
+            var tryPosition = this.levelMap.offsetPosition(position, posChange);
+            if (!this.levelMap.isImpenetrable(tryPosition)) {
+                this.levelMap.moveAgent(agent, position, tryPosition);
                 agent.setPosition(tryPosition);
             }
         },
@@ -94,7 +97,7 @@ define(function(require) {
             this.activeZone.forEach(function(region) {
                 region.deactivate();
             });
-            this.activeZone = WorldSubMapper.getActiveZone(this.regionMatrix, this.focus);
+            this.activeZone = WorldSubMapper.getActiveZone(this.regionManager, this.focus);
             this.activeZone.forEach(function(region) {
                 region.activate();
             });
@@ -103,7 +106,7 @@ define(function(require) {
             this.parent.endGame();
         },
         shortestPath: function(startCoords, endCoords) {
-            return AstarPathfinder.getShortestPath(startCoords, endCoords, this.regionMatrix);
+            return AstarPathfinder.getShortestPath(startCoords, endCoords, this.levelMap);
         }
     };
 

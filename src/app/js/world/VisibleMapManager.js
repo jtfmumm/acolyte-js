@@ -4,41 +4,21 @@ define(function(require) {
     var Coords = require("js/utils/Coords");
     var WorldSubMapper = require("js/world/WorldSubMapper");
 
-    function VisibleMapManager(regionMatrix) {
-        var regionCoords = regionMatrix.getStartingRegionCoords();
-        this.diameter = regionMatrix.getDiameter();
-        this.regionMatrix = regionMatrix;
-        this.map = new Matrix();
+    function VisibleMapManager(levelMap, visibleDiameter) {
+        this.visibleDiameter = visibleDiameter;
+        this.levelMap = levelMap;
+        this.visibleMap = new Matrix();
     }
 
     VisibleMapManager.prototype = {
         display: function(display, focus) {
             this.updateMap(focus);
-            var codeMap = this.map.map(getTileCode);
-            display.renderMap(codeMap);
-        },
-        getRegion: function(wCoords) {
-            var regionMatrixCoords = wCoords.getRegionMatrixCoords();
-            return this.regionMatrix.getRegion(regionMatrixCoords);
+            display.renderMap(this.visibleMap);
         },
         updateMap: function(focus) {
-            this.map = WorldSubMapper.getSubMap(this.regionMatrix, focus, Math.floor(this.diameter / 2));
+            this.visibleMap = WorldSubMapper.getSubMap(this.levelMap, focus, Math.floor(this.visibleDiameter / 2));
         }
     };
-
-    function getTileCode(tile) {
-        var tileCode = {
-            elevation: tile.elevation
-        };
-        if (tile.occupant) {
-            tileCode.object = tile.occupant.getCode();
-        } else if (tile.landmark) {
-            tileCode.object = tile.landmark.code;
-        } else {
-            tileCode.object = tile.terrain.code;
-        }
-        return tileCode;
-    }
 
     return VisibleMapManager;
 });

@@ -6,9 +6,9 @@ define(function(require) {
 
     var DiamondSquareAlgorithm = {
         generate: function(options) {
-            var diameter = options.diameter;
+            var diameter = options.diameter / options.diameterPerRegion;
             var diameterPerRegion = options.diameterPerRegion;
-            var span = diameter * diameterPerRegion;
+            var span = options.diameter;
             var matrix = new Matrix().init(span, span);
 
             //Create random seed points

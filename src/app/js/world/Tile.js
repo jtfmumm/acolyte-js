@@ -1,6 +1,12 @@
 define(function(require) {
 
+    var occupantTypes = require("js/data/occupantTypes");
+    var landmarkTypes = require("js/data/landmarkTypes");
+    var terrainTypes = require("js/data/terrainTypes");
+    var elevationTypes = require("js/data/elevationTypes");
+
     function Tile(options) {
+        options = options || {};
         this.occupant = options.occupant || null;
         this.landmark = options.landmark || null;
         this.terrain = options.terrain || "plains";
@@ -9,31 +15,34 @@ define(function(require) {
 
     Tile.prototype = {
         isImpenetrable: function() {
-            if (tile.occupant) {
-                return tile.occupant.isImpenetrable();
-            } else if (tile.landmark) {
-                return tile.landmark.impenetrable;
-            } else if (tile.terrain) {
-                return tile.terrain.impenetrable;
+            if (this.occupant) {
+                return this.occupant.isImpenetrable();
+            } else if (this.landmark) {
+                return landmarkTypes[this.landmark].impenetrable;
+            } else if (this.terrain) {
+                return terrainTypes[this.terrain].impenetrable;
             } else return false;
         },
         describe: function() {
-            if (tile.occupant) {
-                return "You see " + tile.occupant.describe();
-            } else if (tile.landmark) {
-                return "You see " + tile.landmark.description;
-            } else if (tile.terrain) {
-                return "You see " + tile.terrain.description;
+            if (this.occupant) {
+                return "You see " + this.occupant.describe();
+            } else if (this.landmark) {
+                return "You see " + landmarkTypes[this.landmark].description;
+            } else if (this.terrain) {
+                return "You see " + terrainTypes[this.terrain].description;
             } else return "There is nothing here.";
         },
         getDisplayCode: function() {
             if (this.occupant) {
                 return this.occupant.getCode();
             } else if (this.landmark) {
-                return this.landmark.code;
+                return this.landmark;
             } else {
-                return this.terrain.code;
+                return this.terrain;
             }
+        },
+        getElevation: function() {
+            return this.elevation;
         },
         updateFromProperties: function(newProperties) {
             for (var prop in newProperties) {

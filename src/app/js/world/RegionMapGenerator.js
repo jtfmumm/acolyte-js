@@ -3,7 +3,7 @@ define(function(require) {
 
 
     var Matrix = require("js/utils/Matrix");
-    var terrainCodeTable = require("js/data/terrainCodeTable");
+    var terrainTypes = require("js/data/terrainTypes");
     var terrainFrequencies = require("js/data/terrainFrequencies");
     var Rand = require("js/utils/Rand");
 
@@ -87,7 +87,7 @@ define(function(require) {
     function constructTile(terrain) {
         return {
             elevation: 0,
-            terrain: terrainCodeTable[terrain],
+            terrain: terrainTypes[terrain],
             landmark: null,
             occupant: null
         }
@@ -96,7 +96,7 @@ define(function(require) {
     function constructVoidTile() {
         return {
             elevation: -1,
-            terrain: terrainCodeTable["void"],
+            terrain: terrainTypes["void"],
             landmark: null,
             occupant: null
         }
