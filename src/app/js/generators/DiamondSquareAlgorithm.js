@@ -6,52 +6,52 @@ define(function(require) {
 
     var DiamondSquareAlgorithm = {
         generate: function(options) {
-            var diameter = options.diameter / options.diameterPerRegion;
-            var diameterPerRegion = options.diameterPerRegion;
-            var span = options.diameter;
-            var matrix = new Matrix().init(span, span);
+            var diameter = options.diameter;
+            var diameterPerRegion = options.diameterPerRegion || diameter;
+            console.log(diameter, diameterPerRegion);
+            var matrix = new Matrix().init(diameter, diameter);
 
             //Create random seed points
             matrix = createCornerValues(matrix, diameter, diameterPerRegion);
 
             //Run diamondSquare on each subsection and add it as a matrix to newMatrixOfMatrices
-            for (var y = 0; y < span; y += diameterPerRegion) {
-                for (var x = 0; x < span; x += diameterPerRegion) {
+            for (var y = 0; y < diameter; y += diameterPerRegion) {
+                for (var x = 0; x < diameter; x += diameterPerRegion) {
                     diamondSquare(matrix, x, y, diameterPerRegion);
                 }
             }
 
+            console.log(matrix);
             return matrix;
         }
     };
 
     function createCornerValues(matrix, diameter, diameterPerRegion) {
-        var span = diameter * diameterPerRegion;
         //Top
-        for (var x = 0; x < span; x += diameterPerRegion) {
+        for (var x = 0; x < diameter; x += diameterPerRegion) {
             var point = randomElevation();
             matrix.setCell(x, 0, point + smallNoise());
             matrix.setCell(x - 1, 0, point + smallNoise());
         }
 
         //Right
-        for (var y = 0; y < span; y += diameterPerRegion) {
+        for (var y = 0; y < diameter; y += diameterPerRegion) {
             var point = randomElevation();
-            matrix.setCell(span - 1, y, point + smallNoise());
-            matrix.setCell(span - 1, y - 1, point + smallNoise());
+            matrix.setCell(diameter - 1, y, point + smallNoise());
+            matrix.setCell(diameter - 1, y - 1, point + smallNoise());
         }
-        matrix.setCell(span - 1, span - 1, randomElevation());
+        matrix.setCell(diameter - 1, diameter - 1, randomElevation());
 
         //Bottom
-        for (var x = 0; x < span; x += diameterPerRegion) {
+        for (var x = 0; x < diameter; x += diameterPerRegion) {
             var point = randomElevation();
-            matrix.setCell(x, span - 1, point + smallNoise());
-            matrix.setCell(x - 1, span - 1, point + smallNoise());
+            matrix.setCell(x, diameter - 1, point + smallNoise());
+            matrix.setCell(x - 1, diameter - 1, point + smallNoise());
         }
 
         //Remaining
-        for (var y = 0; y < span; y += diameterPerRegion) {
-            for (var x = 0; x < span; x += diameterPerRegion) {
+        for (var y = 0; y < diameter; y += diameterPerRegion) {
+            for (var x = 0; x < diameter; x += diameterPerRegion) {
                 var point = randomElevation();
                 matrix.setCell(x, y, point + smallNoise());
                 matrix.setCell(x, y - 1, point + smallNoise());

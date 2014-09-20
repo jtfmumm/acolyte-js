@@ -24,7 +24,7 @@ define(function(require) {
             this.registerAgent(agent, coords);
         },
         registerAgent: function(agent, coords) {
-            this.getRegion(wCoords.getRegionMatrixCoords()).registerAgent(agent);
+            this.getRegion(coords).registerAgent(agent);
         },
         getRegion: function(coords) {
             var originX = this.originCoordFrom(coords.x);

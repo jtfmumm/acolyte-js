@@ -4,14 +4,16 @@ define(function(require) {
     var Coords = require("js/utils/Coords");
     var Matrix = require("js/utils/Matrix");
 
-    var WorldSubMapper = {
+    var LevelSubMapper = {
         getSubMap: function(levelMap, focus, radius) {
             var diameter = (radius * 2) + 1;
             var subMap = new Matrix().init(diameter, diameter);
 
+            var originX = focus.x - radius;
+            var originY = focus.y - radius;
             for (var y = 0; y < diameter; y++) {
                 for (var x = 0; x < diameter; x++) {
-                    subMap.setCell(x, y, levelMap.getTile(new Coords(x, y)));
+                    subMap.setCell(x, y, levelMap.getTile(new Coords(x + originX, y + originY)));
                 }
             }
 
@@ -31,5 +33,5 @@ define(function(require) {
         }
     };
 
-    return WorldSubMapper;
+    return LevelSubMapper;
 });

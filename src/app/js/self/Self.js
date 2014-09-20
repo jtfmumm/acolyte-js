@@ -8,12 +8,10 @@ define(function(require) {
     var Console = require("js/screens/Console");
     var CombatModes = require("js/data/CombatModes");
 
-    // var self = self || null;
-
     var Self = {
-        position: null, //in wCoords
+        position: null,
         nextInputList: [], //Can hold a command and followup commands
-        world: null,
+        level: null,
         stats: {
             name: "Acolyte",
             level: 1,
@@ -21,9 +19,9 @@ define(function(require) {
             combatMode: CombatModes.NONE
         },
 
-        init: function(world, wCoords, input) {
-            this.world = world;
-            this.position = wCoords;
+        init: function(level, coords, input) {
+            this.level = level;
+            this.position = coords;
             this.input = input;
             this.updateConsoleStats();
         },
@@ -38,14 +36,14 @@ define(function(require) {
         getName: function() {
             return this.stats.name;
         },
-        setWorld: function(world) {
-            this.world = world;
+        updateLevel: function(level) {
+            this.level = level;
         },
         setPosition: function(position) {
             this.position = position;
         },
         move: function(posChange) {
-            this.world.moveSelf(this, this.position, posChange);
+            this.level.moveSelf(this, this.position, posChange);
         },
         getCode: function() {
             return "self";
@@ -56,7 +54,6 @@ define(function(require) {
         act: function() {
             if (this.stats.hp < 1) {
                 Console.msg("You have fallen!");
-                this.world.endGame();
                 return;
             }
             switch (this.nextInputList[0]) {
@@ -117,7 +114,7 @@ define(function(require) {
                     }
                     break;
                 case "EXAMINE":
-                    var thisTile = this.world.examineTile(this.position);
+                    var thisTile = this.level.examineTile(this.position);
                     Console.msg(thisTile);
                 default:
                     break;
@@ -125,12 +122,13 @@ define(function(require) {
             this.nextInputList = [];
             this.updateConsoleStats();
         },
+        isDead: function() {
+            return this.stats.hp < 1;
+        },
         isImpenetrable: function() {
             return true;
         }
     };
-
-    // if (!self) self = Object.create(Self);
 
     return Self;
 });

@@ -1,6 +1,7 @@
 define(function(require) {
     "use strict";
 
+    var LevelManager = require("js/world/LevelManager");
     var World = require("js/world/World");
     var HTMLDisplay = require("js/displays/HTMLDisplay");
     var Self = require("js/self/Self");
@@ -23,15 +24,19 @@ define(function(require) {
         input: null,
         init: function(inputDevice) {
             this.input = inputDevice;
-            this.world = new World({parent: this});
+
+            var world = new World();
+            this.levelManager = new LevelManager(world);
+
             this.input.connect();
-            this.world.initializeSelf(Self, this.input);
-            this.world.display(display);
+            this.levelManager.initializeSelf(Self, this.input);
+            this.levelManager.display(display);
             Console.display(display);
 
             this.watchInput();
         },
         watchInput: function() {
+            if (Self.isDead()) this.endGame();
             var _this = this;
             setTimeout(function() {
                 if (_this.input.isReady()) {
@@ -44,7 +49,7 @@ define(function(require) {
             Calendar.addTick();
             processNextKey(this.input);
             ActiveAgents.prepareAgents();
-            this.world.display(display);
+            this.levelManager.display(display);
             Console.display(display, Self.getStats());
         },
         pause: function() {
@@ -64,17 +69,11 @@ define(function(require) {
         },
         test: function(inputDevice, testMap) {
             this.input = inputDevice;
-            this.world = TestWorldGenerator.generateFromMap(testMap);
-            this.world.display(display);
+            var world = TestWorldGenerator.generateFromMap(testMap);
+            this.levelManager = new LevelManager(world);
 
-            var region = new Coords(0, 0);
-            var start = new Coords(0, 0);
-            var end = new Coords(10, 10);
-            var wall = new Coords(1, 2);
-            this.world.isImpenetrable(new WorldCoords(region, wall, this.world.regionMatrix));
-
-            console.log("Shortest Path", AstarPathfinder.getShortestPath(new WorldCoords(region, start, 11), new WorldCoords(region, end, 11), this.world.regionMatrix));
-        }
+            this.levelManager.display(display);
+       }
     };
 
     function processNextKey(input) {

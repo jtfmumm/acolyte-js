@@ -2,7 +2,7 @@ define(function(require) {
 
     var Matrix = require("js/utils/Matrix");
     var Coords = require("js/utils/Coords");
-    var WorldSubMapper = require("js/world/WorldSubMapper");
+    var LevelSubMapper = require("js/world/LevelSubMapper");
 
     function VisibleMapManager(levelMap, visibleDiameter) {
         this.visibleDiameter = visibleDiameter;
@@ -16,7 +16,7 @@ define(function(require) {
             display.renderMap(this.visibleMap);
         },
         updateMap: function(focus) {
-            this.visibleMap = WorldSubMapper.getSubMap(this.levelMap, focus, Math.floor(this.visibleDiameter / 2));
+            this.visibleMap = LevelSubMapper.getSubMap(this.levelMap, focus, Math.floor(this.visibleDiameter / 2));
         }
     };
 

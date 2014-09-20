@@ -66,10 +66,6 @@ define(function(require) {
         },
         //MOVE LOGIC UP TO LEVEL
         moveAgent: function(agent, oldCoords, newCoords) {
-//            if (!this.inTheSameRegion(oldWCoords, newWCoords)) {
-//                this.getRegion(oldWCoords).unregisterAgent(agent);
-//                this.getRegion(newWCoords).registerAgent(agent);
-//            }
             this.removeOccupant(oldCoords);
             this.addOccupant(newCoords, agent);
         },
@@ -98,9 +94,6 @@ define(function(require) {
             } else {
                 return this.voidTile;
             }
-        },
-        offsetPosition: function(coords, offset) {
-            return coords.plus(offset);
         }
     };
 
