@@ -21,7 +21,7 @@ define(function(require) {
                 return landmarkTypes[this.landmark].impenetrable;
             } else if (this.terrain) {
                 return terrainTypes[this.terrain].impenetrable;
-            } else return false;
+            } else return true;
         },
         describe: function() {
             if (this.occupant) {

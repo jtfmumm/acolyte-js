@@ -2,12 +2,12 @@ define(function(require) {
 
     var ActiveAgents = require("js/agents/ActiveAgents");
 
-    function RegionAgentsManager() {
+    function ActiveAgentsManager() {
         this.activeList = [];
         this.active = false;
     }
 
-    RegionAgentsManager.prototype = {
+    ActiveAgentsManager.prototype = {
         addAgent: function(agent) {
             this.activeList.unshift(agent);
         },
@@ -37,5 +37,5 @@ define(function(require) {
         }
     };
 
-    return RegionAgentsManager;
+    return ActiveAgentsManager;
 });

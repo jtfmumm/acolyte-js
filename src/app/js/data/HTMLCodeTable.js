@@ -18,16 +18,23 @@ define(function(require) {
             symbol: " F",
             color: "dark-light-green-back"
         },
+        "water": {
+            symbol: "&nbsp;&nbsp;",
+            backgroundColor: "blue"
+        },
         "drunk": {
             symbol: " &"
         },
         "void": {
             symbol: "&nbsp;&nbsp;",
-            color: "black-back"
+            backgroundColor: "black"
         },
         //Elevations
-        "-1": {
+        "-2": {
             color: "black"
+        },
+        "-1": {
+            color: "blue"
         },
         0: {
             color: "light-tan-back"

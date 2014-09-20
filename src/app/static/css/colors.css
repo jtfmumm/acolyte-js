@@ -1,9 +1,21 @@
-.red: {
-    color: red
+.red {
+    color: red;
 }
 
-.blue: {
-    color: blue
+.blue {
+    color: blue;
+}
+
+.aqua {
+    color: aqua;
+}
+
+.background-blue {
+    background-color: blue;
+}
+
+.background-aqua {
+    background-color: aqua;
 }
 
 .background-black {

@@ -8,7 +8,6 @@ define(function(require) {
         generate: function(options) {
             var diameter = options.diameter;
             var diameterPerRegion = options.diameterPerRegion || diameter;
-            console.log(diameter, diameterPerRegion);
             var matrix = new Matrix().init(diameter, diameter);
 
             //Create random seed points
@@ -21,7 +20,6 @@ define(function(require) {
                 }
             }
 
-            console.log(matrix);
             return matrix;
         }
     };

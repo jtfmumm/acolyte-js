@@ -4,24 +4,23 @@ define(function(require) {
     var Matrix = require("js/utils/Matrix");
     var LevelMap = require("js/world/LevelMap");
     var VisibleMapManager = require("js/world/VisibleMapManager");
+    var RegionManager = require("js/world/RegionManager");
+    var LevelSubMapper = require("js/world/LevelSubMapper");
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
-
 
     function Level(options) {
         options = options || {};
         this.parent = options.parent || null;
         this.registryId = null;
+        this.diameter = options.diameter || 1;
+        this.visibleDiameter = options.visibleDiameter || 1;
+        this.levelMap = options.levelMap || null;
+        this.regionManager = options.regionManager || null;
+        this.focus = options.focus || new Coords(Math.floor(this.diameter / 2), Math.floor(this.diameter / 2));
 
-        this.diameter = options.diameter || null;
-        this.visibleDiameter = options.visibleDiameter || null;
-        this.levelMap = options.levelMap || new LevelMap({
-            diameter: this.diameter
-        });
-
-        this.focus = options.focus || new Coords(10, 10);
-
-        this.activeAgents = null;
         this.visibleMapManager = new VisibleMapManager(this.levelMap, this.visibleDiameter);
+        this.activeZone = LevelSubMapper.getActiveZone(this.regionManager, this.focus);
+        this.updateActiveRegions();
     }
 
     Level.prototype = {
@@ -58,17 +57,30 @@ define(function(require) {
             if (!this.levelMap.isImpenetrable(tryPosition)) {
                 this.levelMap.moveAgent(agent, position, tryPosition);
                 agent.setPosition(tryPosition);
+
+                if (!this.regionManager.inTheSameRegion(position, tryPosition)) {
+                    this.getRegion(position).unregisterAgent(agent);
+                    this.getRegion(tryPosition).registerAgent(agent);
+                }
             }
         },
         registerAgent: function(agent, coords) {
-            //coords is for region-based levels
-            this.activeAgents.addAgent(agent);
+            this.regionManager.registerAgent(agent, coords);
         },
         examineTile: function(coords) {
             return this.levelMap.getTileDescription(coords);
         },
         isImpenetrable: function(coords) {
             return this.levelMap.isImpenetrable(coords);
+        },
+        updateActiveRegions: function() {
+            this.activeZone.forEach(function(region) {
+                region.deactivate();
+            });
+            this.activeZone = LevelSubMapper.getActiveZone(this.regionManager, this.focus);
+            this.activeZone.forEach(function(region) {
+                region.activate();
+            });
         },
         shortestPath: function(startCoords, endCoords) {
             return AstarPathfinder.getShortestPath(startCoords, endCoords, this.levelMap);

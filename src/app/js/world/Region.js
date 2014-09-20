@@ -2,12 +2,12 @@ define(function(require) {
     "use strict";
 
     var RegionMapGenerator = require("js/world/RegionMapGenerator");
-    var RegionAgentsManager = require("js/agents/RegionAgentsManager");
+    var ActiveAgentsManager = require("js/agents/ActiveAgentsManager");
     var Coords = require("js/utils/Coords");
 
     function Region(options) {
         options = options || {};
-        this.activeAgents = new RegionAgentsManager();
+        this.activeAgents = new ActiveAgentsManager();
         this.owner = options.owner || null;
     }
 
@@ -26,7 +26,7 @@ define(function(require) {
         },
         deactivate: function() {
             this.activeAgents.deactivate();
-        },
+        }
     };
 
 

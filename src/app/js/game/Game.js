@@ -2,7 +2,7 @@ define(function(require) {
     "use strict";
 
     var LevelManager = require("js/world/LevelManager");
-    var World = require("js/world/World");
+    var LevelFactory = require("js/world/LevelFactory");
     var HTMLDisplay = require("js/displays/HTMLDisplay");
     var Self = require("js/self/Self");
     var ActiveAgents = require("js/agents/ActiveAgents");
@@ -25,7 +25,7 @@ define(function(require) {
         init: function(inputDevice) {
             this.input = inputDevice;
 
-            var world = new World();
+            var world = LevelFactory.create("world");
             this.levelManager = new LevelManager(world);
 
             this.input.connect();

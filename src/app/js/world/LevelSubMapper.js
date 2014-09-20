@@ -19,16 +19,23 @@ define(function(require) {
 
             return subMap;
         },
-        getActiveZone: function(regionManager, regionFocus) {
-            var topLeftRegion = regionFocus.minus(new Coords(1, 1));
-            var activeRegions = new Matrix().init(3, 3);
-            for (var yOffset = 0; yOffset < 3; yOffset++) {
-                for (var xOffset = 0; xOffset < 3; xOffset++) {
-                    var nextX = topLeftRegion.x + xOffset;
-                    var nextY = topLeftRegion.y + yOffset;
-                    activeRegions.setCell(xOffset, yOffset, regionManager.getRegion(new Coords(nextX, nextY)));
+        getActiveZone: function(regionManager, levelFocus) {
+            if (regionManager.getDiameterInRegions() > 1) {
+                var regionFocus = regionManager.regionCoordsFrom(levelFocus);
+                var topLeftRegion = regionFocus.minus(new Coords(1, 1));
+                var activeRegions = new Matrix().init(3, 3);
+                for (var yOffset = 0; yOffset < 3; yOffset++) {
+                    for (var xOffset = 0; xOffset < 3; xOffset++) {
+                        var nextX = topLeftRegion.x + xOffset;
+                        var nextY = topLeftRegion.y + yOffset;
+                        activeRegions.setCell(xOffset, yOffset, regionManager.getRegionByRegionCoords(new Coords(nextX, nextY)));
+                    }
                 }
+            } else {
+                var activeRegions = new Matrix().init(1, 1);
+                activeRegions.setCell(0, 0, regionManager.getRegionByRegionCoords(new Coords(0, 0)));
             }
+
             return activeRegions;
         }
     };
