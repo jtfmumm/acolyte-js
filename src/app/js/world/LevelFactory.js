@@ -27,9 +27,10 @@ define(function(require) {
                 levelMapAlgorithms: LevelMapAlgorithms.world
             });
         },
-        shrine: function(parent) {
+        shrine: function(parent, parentCoords) {
             return this.level({
                 parent: parent,
+                parentCoords: parentCoords,
                 diameter: 13,
                 diameterPerRegion: 13,
                 visibleDiameter: 51,
@@ -40,6 +41,7 @@ define(function(require) {
         },
         level: function(options) {
             var parent = options.parent;
+            var parentCoords = options.parentCoords || null;
             var diameter = options.diameter;
             var diameterPerRegion = options.diameterPerRegion || diameter; //Default is 1 Region for Level
             var visibleDiameter = options.visibleDiameter;
@@ -59,6 +61,7 @@ define(function(require) {
 
             return new Level({
                 parent: parent,
+                parentCoords: parentCoords,
                 diameter: diameter,
                 visibleDiameter: visibleDiameter,
                 levelMap: levelMap,

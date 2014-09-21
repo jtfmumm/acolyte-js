@@ -11,6 +11,7 @@ define(function(require) {
         this.landmark = options.landmark || null;
         this.terrain = options.terrain || "plains";
         this.elevation = options.elevation || 0;
+        this.returnPoint = options.returnPoint || false;
         this.level = options.level || null;
     }
 
@@ -80,6 +81,9 @@ define(function(require) {
         },
         getLevel: function() {
             return this.level;
+        },
+        isReturnPoint: function() {
+            return this.returnPoint;
         }
     };
 

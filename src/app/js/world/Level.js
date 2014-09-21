@@ -12,12 +12,14 @@ define(function(require) {
     function Level(options) {
         options = options || {};
         this.parent = options.parent || null;
+        this.parentCoords = options.parentCoords || null;
         this.registryId = null;
         this.diameter = options.diameter || 1;
         this.visibleDiameter = options.visibleDiameter || 1;
         this.levelMap = options.levelMap || null;
         this.regionManager = options.regionManager || null;
-        this.focus = options.focus || new Coords(Math.floor(this.diameter / 2), Math.floor(this.diameter / 2));
+        this.startingCoords = options.focus || new Coords(Math.floor(this.diameter / 2), Math.floor(this.diameter / 2));
+        this.focus = this.startingCoords;
 
         options.landmarksAlg(this);
 
@@ -33,15 +35,19 @@ define(function(require) {
         setRegistryId: function(registryId) {
             this.registryId = registryId;
         },
-        enter: function() {
-            this.placeAgent(Self, this.focus);
-            Self.enterLevel(this, this.focus);
+        enter: function(coords) {
+            var newFocus = coords ? coords : this.focus;
+            this.focus = newFocus;
+            this.placeAgent(Self, newFocus);
+            Self.enterLevel(this, newFocus);
             this.updateActiveRegions();
-            this.registerAgent(Self, this.focus);
+            this.registerAgent(Self, newFocus);
         },
         exit: function() {
             this.deactivate();
             this.unregisterAgent(Self, this.focus);
+            this.removeOccupant(this.focus);
+            this.focus = this.startingCoords;
         },
         placeAgent: function(agent, coords) {
             this.levelMap.placeAgent(agent, coords);
@@ -58,12 +64,16 @@ define(function(require) {
         moveSelf: function(self, position, posChange) {
             var tryPosition = position.plus(posChange);
             if (!this.levelMap.isImpenetrable(tryPosition)) {
-                this.levelMap.moveAgent(self, position, tryPosition);
-                self.setPosition(tryPosition);
-                this.focus = tryPosition;
-                if (this.levelMap.hasSubLevel(tryPosition)) {
-                    var tile = this.levelMap.getTile(tryPosition);
-                    this.enterSubLevel(tile.getLevel(), tile);
+                if (this.levelMap.isReturnPoint(tryPosition)) {
+                    this.enterParentLevel();
+                } else {
+                    this.levelMap.moveAgent(self, position, tryPosition);
+                    self.setPosition(tryPosition);
+                    this.focus = tryPosition;
+                    if (this.levelMap.hasSubLevelAt(tryPosition)) {
+                        var tile = this.levelMap.getTile(tryPosition);
+                        this.enterSubLevel(tile.getLevel(), tile);
+                    }
                 }
             }
         },
@@ -109,7 +119,12 @@ define(function(require) {
             return AstarPathfinder.getShortestPath(startCoords, endCoords, this.levelMap);
         },
         enterSubLevel: function(sublevel, tile) {
-            this.parent.enterSubLevel(sublevel, tile);
+            this.parent.enterSubLevel(sublevel, tile, this.focus);
+        },
+        enterParentLevel: function(parent, parentCoords) {
+            var parent = parent || this.parent;
+            var parentCoords = parentCoords || this.parentCoords;
+            this.parent.enterParentLevel(parent, parentCoords);
         }
     };
 

@@ -22,20 +22,25 @@ define(function(require) {
         placeInitialShrine: function() {
             this.currentLevel.placeInitialShrine();
         },
-        enterSubLevel: function(levelOrSeed, tile) {
+        enterSubLevel: function(levelOrSeed, tile, parentCoords) {
             if (levelOrSeed instanceof Level) {
                 this.currentLevel.exit();
                 this.currentLevel = levelOrSeed;
                 this.currentLevel.enter();
             } else {
-                var newLevel = LevelFactory[levelOrSeed](this.currentLevel);
+                var newLevel = LevelFactory[levelOrSeed](this.currentLevel, parentCoords);
                 tile.updateLevel(newLevel);
                 this.currentLevel.exit();
                 this.initializeLevel(newLevel)
             }
         },
-        enterCurrentLevel: function() {
-            this.currentLevel.enter();
+        enterParentLevel: function(parent, returnCoords) {
+            this.currentLevel.exit();
+            this.currentLevel = parent;
+            this.enterCurrentLevel(returnCoords);
+        },
+        enterCurrentLevel: function(coords) {
+            this.currentLevel.enter(coords);
         },
         display: function(display) {
             this.currentLevel.display(display);

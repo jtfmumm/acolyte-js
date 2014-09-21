@@ -11,10 +11,12 @@ define(function(require) {
     function LevelMap(options) {
         this.diameter = options.diameter;
         this.diameterPerRegion = options.diameterPerRegion || null;
+        this.parentFocus = options.parentFocus || null;
         this.levelMapAlgorithms = options.levelMapAlgorithms;
 
         this.voidTerrain = options.voidTerrain || "void";
-        this.voidTile = new Tile({terrain: this.voidTerrain});
+        var returnPointFlag = this.voidTerrain === "void" ? true : false;
+        this.voidTile = new Tile({terrain: this.voidTerrain, returnPoint: returnPointFlag});
         this.tileMap = new Matrix().init(this.diameter, this.diameter, generateTile);
 
         this.levelMapGenerator = new LevelMapGenerator({
@@ -62,7 +64,6 @@ define(function(require) {
             return this.tileMap.isWithinMatrix(coords.x, coords.y);
         },
         isImpenetrable: function(coords) {
-            if (!this.isWithinBoundaries(coords)) return true;
             return this.getTile(coords).isImpenetrable();
         },
         getTileDescription: function(coords) {
@@ -75,8 +76,11 @@ define(function(require) {
                 return this.voidTile;
             }
         },
-        hasSubLevel: function(coords) {
+        hasSubLevelAt: function(coords) {
             return this.getTile(coords).hasLevel();
+        },
+        isReturnPoint: function(coords) {
+            return this.getTile(coords).isReturnPoint();
         }
     };
 

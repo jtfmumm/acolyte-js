@@ -24,6 +24,7 @@ define(function(require) {
         },
         "grass": {
             symbol: " ,",
+            color: "dark-green",
             backgroundColor: "light-green"
         },
         "pylon": {

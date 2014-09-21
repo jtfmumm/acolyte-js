@@ -38,7 +38,7 @@ define(function(require) {
         "void": {
             code: "void",
             description: "the void.",
-            impenetrable: true
+            impenetrable: false
         }
     }
 });
