@@ -64,17 +64,15 @@ define(function(require) {
         moveSelf: function(self, position, posChange) {
             var tryPosition = position.plus(posChange);
             if (!this.levelMap.isImpenetrable(tryPosition)) {
-                if (this.levelMap.isReturnPoint(tryPosition)) {
-                    this.enterParentLevel();
-                } else {
-                    this.levelMap.moveAgent(self, position, tryPosition);
-                    self.setPosition(tryPosition);
-                    this.focus = tryPosition;
-                    if (this.levelMap.hasSubLevelAt(tryPosition)) {
-                        var tile = this.levelMap.getTile(tryPosition);
-                        this.enterSubLevel(tile.getLevel(), tile);
-                    }
+                this.levelMap.moveAgent(self, position, tryPosition);
+                self.setPosition(tryPosition);
+                this.focus = tryPosition;
+                if (this.levelMap.hasSubLevelAt(tryPosition)) {
+                    var tile = this.levelMap.getTile(tryPosition);
+                    this.enterSubLevel(tile.getLevel(), tile);
                 }
+            } else if (this.levelMap.isReturnPoint(tryPosition)) {
+                this.enterParentLevel();
             }
         },
         moveAgent: function(agent, position, posChange) {
@@ -94,6 +92,9 @@ define(function(require) {
         },
         unregisterAgent: function(agent, coords) {
             this.regionManager.unregisterAgent(agent, coords);
+        },
+        findEmptyTileCoords: function() {
+            return this.levelMap.findEmptyTileCoords();
         },
         examineTile: function(coords) {
             return this.levelMap.getTileDescription(coords);

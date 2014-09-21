@@ -33,7 +33,7 @@ define(function(require) {
         },
         initializeLevelManager: function() {
             this.levelManager = new LevelManager();
-            var world = LevelFactory.createLevelWithParent("world", this.levelManager);
+            var world = LevelFactory.world(this.levelManager);
             this.levelManager.initializeLevel(world);
             this.levelManager.placeInitialShrine();
             this.levelManager.enterCurrentLevel();

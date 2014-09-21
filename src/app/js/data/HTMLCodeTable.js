@@ -35,9 +35,6 @@ define(function(require) {
             symbol: " .",
             backgroundColor: "dark-white"
         },
-        "drunk": {
-            symbol: " &"
-        },
         "void": {
             symbol: "&nbsp;&nbsp;",
             backgroundColor: "black"
@@ -46,6 +43,13 @@ define(function(require) {
         "shrine": {
             symbol: "II",
             backgroundColor: "highlight-back"
+        },
+        //Agents
+        "drunk": {
+            symbol: " &"
+        },
+        "priest": {
+            symbol: " P"
         },
         //Elevations
         "-2": {

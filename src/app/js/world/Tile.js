@@ -43,6 +43,16 @@ define(function(require) {
                 return this.terrain;
             }
         },
+        getTerrainCode: function() {
+            if (this.terrain) {
+                return this.terrain;
+            } else {
+                return {};
+            }
+        },
+        isEmpty: function() {
+            return (!this.occupant && !this.landmark);
+        },
         getElevation: function() {
             return this.elevation;
         },

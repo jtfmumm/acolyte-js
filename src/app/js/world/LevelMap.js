@@ -76,6 +76,19 @@ define(function(require) {
                 return this.voidTile;
             }
         },
+        findEmptyTileCoords: function() {
+            var coords = null;
+            var tried = {};
+            while(!coords) {
+                var next = new Coords(Rand.rollFromZero(this.diameter), Rand.rollFromZero(this.diameter));
+                var key = next.toString();
+                if (!tried[key]) {
+                    tried[next.toString()] = true;
+                    if (this.getTile(next.x, next.y).isEmpty()) coords = next;
+                }
+            }
+            return coords;
+        },
         hasSubLevelAt: function(coords) {
             return this.getTile(coords).hasLevel();
         },

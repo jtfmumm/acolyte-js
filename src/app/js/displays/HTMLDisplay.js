@@ -42,9 +42,21 @@ define(function(require) {
         },
         compileMapHTML: function(tile) {
             var tileObject = HTMLCodeTable[tile.getDisplayCode()];
+            var tileTerrain = HTMLCodeTable[tile.getTerrainCode()];
             var elevation = HTMLCodeTable[tile.getElevation()];
             var color = tileObject.color ? tileObject.color : "black";
-            var backColor = (tileObject.backgroundColor) ? tileObject.backgroundColor : elevation.color;
+            var backColor;
+            switch(true) {
+                case Boolean(tileObject.backgroundColor):
+                    backColor = tileObject.backgroundColor;
+                    break;
+                case Boolean(tileTerrain.backgroundColor):
+                    backColor = tileTerrain.backgroundColor;
+                    break;
+                default:
+                    backColor = elevation.color;
+                    break;
+            }
             var symbol = tileObject.symbol;
 
             var newEl = "" + color + backColor + symbol;
