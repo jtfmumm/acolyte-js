@@ -16,7 +16,7 @@ require.config({
 
 require(["js/game/Game", "js/input/Keyboard"],
         function (Game, Keyboard) {
-            Game.init(Keyboard);
+            new Game().init(Keyboard);
 
             //For tests.  Normally commented out
 //            Game.test(Keyboard, testMap);

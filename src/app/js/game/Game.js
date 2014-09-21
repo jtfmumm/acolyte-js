@@ -9,37 +9,42 @@ define(function(require) {
     var TestWorldGenerator = require("js/test-worlds/TestWorldGenerator");
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
 
-
-//REMOVE LATER
-    var Coords = require("js/utils/Coords");
-
     var Console = require("js/screens/Console");
     var Calendar = require("js/utils/Calendar");
 
-    var display = new HTMLDisplay();
-    var pauseState = false;
 
+    function Game() {
+        this.display = new HTMLDisplay();
+        this.input = null;
+        this.levelManager = null;
+        this.pauseState = false;
+    }
 
-    var Game = {
-        input: null,
+    Game.prototype = {
         init: function(inputDevice) {
             this.input = inputDevice;
+            this.input.connect();
 
+            this.initializeLevelManager();
+            Self.init(this.input);
+
+            this.displayScreens();
+            this.watchInput();
+        },
+        initializeLevelManager: function() {
             this.levelManager = new LevelManager();
             var world = LevelFactory.createLevelWithParent("world", this.levelManager);
             this.levelManager.initializeLevel(world);
-
-            this.input.connect();
-            Self.init(this.input);
+            this.levelManager.placeInitialShrine();
             this.levelManager.enterCurrentLevel();
-            this.levelManager.display(display);
-            Console.display(display);
-
-            this.watchInput();
+        },
+        displayScreens: function() {
+            this.levelManager.display(this.display);
+            Console.display(this.display, Self.getStats());
         },
         watchInput: function() {
-            if (Self.isDead()) this.endGame();
             var _this = this;
+            if (Self.isDead()) this.endGame();
             setTimeout(function() {
                 if (_this.input.isReady()) {
                     _this.nextStep();
@@ -51,12 +56,11 @@ define(function(require) {
             Calendar.addTick();
             processNextKey(this.input);
             ActiveAgents.prepareAgents();
-            this.levelManager.display(display);
-            Console.display(display, Self.getStats());
+            this.displayScreens();
         },
         pause: function() {
-            pauseState = !pauseState;
-            if (pauseState === true) {
+            this.pauseState = !this.pauseState;
+            if (this.pauseState === true) {
                 Console.msg("Game is paused!");
                 this.input.disconnect();
             } else {
@@ -74,8 +78,8 @@ define(function(require) {
             var world = TestWorldGenerator.generateFromMap(testMap);
             this.levelManager = new LevelManager(world);
 
-            this.levelManager.display(display);
-       }
+            this.levelManager.display(this.display);
+        }
     };
 
     function processNextKey(input) {
@@ -107,4 +111,4 @@ define(function(require) {
     }
 
     return Game;
-})
+});

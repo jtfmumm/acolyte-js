@@ -11,8 +11,7 @@ define(function(require) {
         this.diameter = options.diameter;
         this.diameterPerRegion = options.diameterPerRegion;
         this.values = new Matrix().init(this.diameter, this.diameter);
-        this.genAlgorithm = algorithms[options.genAlgorithm];
-        this.genMap = options.genMap || null;
+        this.genAlgorithm = options.genAlgorithm;
     }
 
     MapValuesGenerator.prototype = {
@@ -20,15 +19,8 @@ define(function(require) {
             return this.genAlgorithm.generate({
                 diameter: this.diameter,
                 diameterPerRegion: this.diameterPerRegion,
-                genMap: this.genMap
             });
         }
-    };
-
-    var algorithms = {
-        "diamondSquare": DiamondSquareAlgorithm,
-        "generateFromMap": GenerateFromMap,
-        "justSand": JustSand
     };
 
     return MapValuesGenerator;

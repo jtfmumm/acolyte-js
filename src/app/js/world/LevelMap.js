@@ -11,46 +11,34 @@ define(function(require) {
     function LevelMap(options) {
         this.diameter = options.diameter;
         this.diameterPerRegion = options.diameterPerRegion || null;
-        this.elevationGenAlg = options.elevationGenAlg || "diamondSquare";
-        this.landmarksAlg = options.landmarks;
-        this.genAlg = options.genAlg || null;
-        this.genMap = options.genMap || null;
+        this.levelMapAlgorithms = options.levelMapAlgorithms;
+
         this.voidTerrain = options.voidTerrain || "void";
+        this.voidTile = new Tile({terrain: this.voidTerrain});
+        this.tileMap = new Matrix().init(this.diameter, this.diameter, generateTile);
+
         this.levelMapGenerator = new LevelMapGenerator({
             diameter: this.diameter,
             diameterPerRegion: this.diameterPerRegion,
-            genMap: this.genMap
+            levelMapAlgorithms: this.levelMapAlgorithms
         });
-
-        this.voidTile = new Tile({terrain: this.voidTerrain});
-
-        this.tileMap = new Matrix().init(this.diameter, this.diameter, generateTile);
-
-        this.initialize(this.elevationGenAlg);
-        if (this.genAlg) {
-            this.generateLandmarks(this.genAlg);
-        }
+        this.initialize();
 
         this.startingCoords = new Coords(Rand.rollFromZero(this.diameter), Rand.rollFromZero(this.diameter));
     }
 
     LevelMap.prototype = {
-        initialize: function(algorithm) {
-            var elevations = this.levelMapGenerator.generate(algorithm);
+        initialize: function() {
+            var levelMapProperties = this.levelMapGenerator.generate(this.levelMapAlgorithm);
 
-            for (var y = 0; y < this.diameter; y++) {
-                for (var x = 0; x < this.diameter; x++) {
-                    this.getTile(new Coords(x, y)).updateElevation(elevations.getCell(x, y));
-                }
+            for (var valueType in levelMapProperties) {
+                this.updateFrom(levelMapProperties[valueType]);
             }
         },
-        generateLandmarks: function(algorithm) {
-            var landmarks = this.levelMapGenerator.generate(algorithm);
-
-            for (var y = 0; y < this.height; y++) {
-                for (var x = 0; x < this.width; x++) {
-                    var nextLandmark = landmarks.getCell(x, y);
-                    if (nextLandmark) this.getTile(new Coords(x, y)).updateLandmark(nextLandmark);
+        updateFrom: function(values) {
+            for (var y = 0; y < this.diameter; y++) {
+                for (var x = 0; x < this.diameter; x++) {
+                    this.getTile(new Coords(x, y)).updateFromProperties(values.getCell(x, y));
                 }
             }
         },

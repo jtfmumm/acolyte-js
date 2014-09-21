@@ -5,7 +5,7 @@ define(function(require) {
     var Coords = require("js/utils/Coords");
     var LevelMap = require("js/world/LevelMap");
     var RegionManager = require("js/world/RegionManager");
-    var LandmarkAlgorithms = require("js/generators/LandmarkAlgorithms");
+    var LevelMapAlgorithms = require("js/generators/LevelMapAlgorithms");
 
     var LevelFactory = {
         create: function(levelType) {
@@ -24,7 +24,7 @@ define(function(require) {
                 diameterPerRegion: 65,
                 visibleDiameter: 51,
                 voidTerrain: "water",
-                landmarks: LandmarkAlgorithms.world
+                levelMapAlgorithms: LevelMapAlgorithms.world
             });
         },
         shrine: function(parent) {
@@ -34,7 +34,7 @@ define(function(require) {
                 diameterPerRegion: 33,
                 visibleDiameter: 51,
                 voidTerrain: "void",
-                landmarks: LandmarkAlgorithms.shrine
+                levelMapAlgorithms: LevelMapAlgorithms.shrine
             });
         },
         level: function(options) {
@@ -47,7 +47,8 @@ define(function(require) {
             var levelMap = new LevelMap({
                 diameter: diameter,
                 diameterPerRegion: diameterPerRegion,
-                voidTerrain: voidTerrain
+                voidTerrain: voidTerrain,
+                levelMapAlgorithms: options.levelMapAlgorithms
             });
             var regionManager = new RegionManager({
                 diameter: diameter,

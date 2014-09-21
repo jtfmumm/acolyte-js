@@ -26,6 +26,10 @@ define(function(require) {
     }
 
     Level.prototype = {
+        //Eventually remove this method
+        placeInitialShrine: function() {
+            this.levelMap.getTile(this.focus).updateLandmark("shrine");
+        },
         setRegistryId: function(registryId) {
             this.registryId = registryId;
         },

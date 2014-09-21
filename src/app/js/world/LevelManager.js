@@ -18,6 +18,10 @@ define(function(require) {
             this.currentLevel = level;
             this.currentLevel.enter();
         },
+        //Eventually remove this method
+        placeInitialShrine: function() {
+            this.currentLevel.placeInitialShrine();
+        },
         enterSubLevel: function(levelOrSeed, tile) {
             if (levelOrSeed instanceof Level) {
                 this.currentLevel.exit();

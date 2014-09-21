@@ -50,6 +50,9 @@ define(function(require) {
                 this[prop] = newProperties[prop];
             }
         },
+        updateByProperty: function(property, propertyType) {
+
+        },
         updateOccupant: function(occupant) {
             this.occupant = occupant;
         },
