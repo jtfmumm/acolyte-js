@@ -38,6 +38,10 @@
     background-color: #ffbc00;
 }
 
+.background-dark-white {
+    background-color: rgba(245, 245, 245);
+}
+
 .background-highlight-back {
     background-color: #ffeb00;
 }

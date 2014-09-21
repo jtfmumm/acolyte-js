@@ -32,7 +32,7 @@ define(function(require) {
         },
         "altar": {
             symbol: " .",
-            backgroundColor: "dark-gold"
+            backgroundColor: "dark-white"
         },
         "drunk": {
             symbol: " &"

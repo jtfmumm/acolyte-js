@@ -86,12 +86,10 @@ define(function(require) {
         var nextInput = input.nextInput();
         if (nextInput) console.log(nextInput);
         if (input.waiting && nextInput) {
+            console.log(nextInput);
             switch (nextInput) {
-                case "UP":
-                    Console.msg("UP");
-                    break;
                 default:
-                    Console.msg(nextInput);
+                    Self.setInputList([input.pendingCommand, nextInput]);
                     break;
             }
             input.toggleWaiting();

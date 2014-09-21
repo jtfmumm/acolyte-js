@@ -47,6 +47,10 @@ define(function(require) {
         move: function(posChange) {
             this.level.moveSelf(this, this.position, posChange);
         },
+        look: function(posChange) {
+            var thisTile = this.level.examineTile(this.position.plus(posChange));
+            Console.msg(thisTile);
+        },
         getCode: function() {
             return "self";
         },
@@ -108,16 +112,46 @@ define(function(require) {
                 case "LOOK":
                     switch (this.nextInputList[1]) {
                         case "UP":
-                            Console.msg("UP");
+                            this.look(Directions.north);
+                            break;
+                        case "DOWN":
+                            this.look(Directions.south);
+                            break;
+                        case "LEFT":
+                            this.look(Directions.west);
+                            break;
+                        case "RIGHT":
+                            this.look(Directions.east);
+                            break;
+                        case "NORTH":
+                            this.look(Directions.north);
+                            break;
+                        case "SOUTH":
+                            this.look(Directions.south);
+                            break;
+                        case "WEST":
+                            this.look(Directions.west);
+                            break;
+                        case "EAST":
+                            this.look(Directions.east);
+                            break;
+                        case "NORTHWEST":
+                            this.look(Directions.northWest);
+                            break;
+                        case "NORTHEAST":
+                            this.look(Directions.northEast);
+                            break;
+                        case "SOUTHWEST":
+                            this.look(Directions.southWest);
+                            break;
+                        case "SOUTHEAST":
+                            this.look(Directions.southEast);
                             break;
                         default:
-                            Console.msg(this.nextInputList[1]);
+                            Console.msg("Invalid direction");
                             break;
                     }
                     break;
-                case "EXAMINE":
-                    var thisTile = this.level.examineTile(this.position);
-                    Console.msg(thisTile);
                 default:
                     break;
             }
