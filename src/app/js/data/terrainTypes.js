@@ -20,6 +20,21 @@ define(function(require) {
             description: "a forest.",
             impenetrable: false
         },
+        "grass": {
+            code: "grass",
+            description: "grass.",
+            impenetrable: false
+        },
+        "pylon": {
+            code: "pylon",
+            description: "a pylon.",
+            impenetrable: true
+        },
+        "altar": {
+            code: "altar",
+            description: "an altar.",
+            impenetrable: false
+        },
         "void": {
             code: "void",
             description: "the void.",

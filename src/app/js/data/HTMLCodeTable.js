@@ -22,6 +22,18 @@ define(function(require) {
             symbol: "&nbsp;&nbsp;",
             backgroundColor: "blue"
         },
+        "grass": {
+            symbol: " ,",
+            backgroundColor: "light-green"
+        },
+        "pylon": {
+            symbol: "||",
+            backgroundColor: "light-grey"
+        },
+        "altar": {
+            symbol: " .",
+            backgroundColor: "dark-gold"
+        },
         "drunk": {
             symbol: " &"
         },

@@ -18,12 +18,24 @@
     background-color: aqua;
 }
 
+.background-light-green {
+    background-color: lightgreen;
+}
+
 .background-black {
     background-color: black;
 }
 
+.background-light-grey {
+    background-color: lightgrey;
+}
+
 .background-gold {
     background-color: gold;
+}
+
+.background-dark-gold {
+    background-color: #ffbc00;
 }
 
 .background-highlight-back {

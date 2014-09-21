@@ -84,12 +84,5 @@ define(function(require) {
         return new Tile();
     }
 
-    function getTileCode(tile) {
-        if (tile.occupant)
-            return tile.occupant.getCode();
-        else
-            return tile.terrain.code;
-    }
-
     return LevelMap;
 });

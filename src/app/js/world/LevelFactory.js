@@ -30,11 +30,12 @@ define(function(require) {
         shrine: function(parent) {
             return this.level({
                 parent: parent,
-                diameter: 33,
-                diameterPerRegion: 33,
+                diameter: 13,
+                diameterPerRegion: 13,
                 visibleDiameter: 51,
                 voidTerrain: "void",
-                levelMapAlgorithms: LevelMapAlgorithms.shrine
+                levelMapAlgorithms: LevelMapAlgorithms.shrine,
+                focus: new Coords(Math.floor(13 / 2), 12)
             });
         },
         level: function(options) {
@@ -43,6 +44,7 @@ define(function(require) {
             var diameterPerRegion = options.diameterPerRegion || diameter; //Default is 1 Region for Level
             var visibleDiameter = options.visibleDiameter;
             var voidTerrain = options.voidTerrain || "void";
+            var focus = options.focus || null;
             var landmarks = options.landmarks || function() {};
             var levelMap = new LevelMap({
                 diameter: diameter,
@@ -61,7 +63,8 @@ define(function(require) {
                 visibleDiameter: visibleDiameter,
                 levelMap: levelMap,
                 regionManager: regionManager,
-                landmarksAlg: landmarks
+                landmarksAlg: landmarks,
+                focus: focus
             });
         }
     };
