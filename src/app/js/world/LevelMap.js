@@ -4,6 +4,7 @@ define(function(require) {
     var Matrix = require("js/utils/Matrix");
     var Coords = require("js/utils/Coords");
     var Tile = require("js/world/Tile");
+    var VoidTile = require("js/world/VoidTile");
     var Rand = require("js/utils/Rand");
     var LevelMapGenerator = require("js/world/LevelMapGenerator");
 
@@ -14,9 +15,8 @@ define(function(require) {
         this.parentFocus = options.parentFocus || null;
         this.levelMapAlgorithms = options.levelMapAlgorithms;
 
-        this.voidTerrain = options.voidTerrain || "void";
-        var returnPointFlag = this.voidTerrain === "void" ? true : false;
-        this.voidTile = new Tile({terrain: this.voidTerrain, returnPoint: returnPointFlag});
+        this.voidType = options.voidType;
+        this.voidTile = new VoidTile(this.voidType);
         this.tileMap = new Matrix().init(this.diameter, this.diameter, generateTile);
 
         this.levelMapGenerator = new LevelMapGenerator({

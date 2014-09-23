@@ -25,9 +25,9 @@ define(function(require) {
             description: "grass.",
             impenetrable: false
         },
-        "pylon": {
-            code: "pylon",
-            description: "a pylon.",
+        "pillar": {
+            code: "pillar",
+            description: "a pillar.",
             impenetrable: true
         },
         "altar": {
@@ -37,7 +37,12 @@ define(function(require) {
         },
         "void": {
             code: "void",
-            description: "the void.",
+            description: "a way out.",
+            impenetrable: true
+        },
+        "water": {
+            code: "water",
+            description: "the endless ocean.",
             impenetrable: true
         }
     }

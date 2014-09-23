@@ -27,7 +27,7 @@ define(function(require) {
             color: "dark-green",
             backgroundColor: "light-green"
         },
-        "pylon": {
+        "pillar": {
             symbol: "||",
             backgroundColor: "light-grey"
         },

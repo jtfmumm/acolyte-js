@@ -2,7 +2,7 @@ define(function(require) {
     "use strict";
 
     var LevelManager = require("js/world/LevelManager");
-    var LevelFactory = require("js/world/LevelFactory");
+    var World = require("js/world/World");
     var HTMLDisplay = require("js/displays/HTMLDisplay");
     var Self = require("js/self/Self");
     var ActiveAgents = require("js/agents/ActiveAgents");
@@ -33,7 +33,7 @@ define(function(require) {
         },
         initializeLevelManager: function() {
             this.levelManager = new LevelManager();
-            var world = LevelFactory.world(this.levelManager);
+            var world = new World(this.levelManager);
             this.levelManager.initializeLevel(world);
             this.levelManager.placeInitialShrine();
             this.levelManager.enterCurrentLevel();
@@ -54,7 +54,7 @@ define(function(require) {
         },
         nextStep: function() {
             Calendar.addTick();
-            processNextKey(this.input);
+            processNextKey(this.input, this);
             ActiveAgents.prepareAgents();
             this.displayScreens();
         },
@@ -82,7 +82,7 @@ define(function(require) {
         }
     };
 
-    function processNextKey(input) {
+    function processNextKey(input, game) {
         var nextInput = input.nextInput();
         if (nextInput) console.log(nextInput);
         if (input.waiting && nextInput) {
@@ -96,7 +96,7 @@ define(function(require) {
         } else if (!input.waiting) {
             switch (nextInput) {
                 case "PAUSE":
-                    Game.pause();
+                    game.pause();
                     break;
                 case "LOOK":
                     input.toggleWaiting("LOOK");

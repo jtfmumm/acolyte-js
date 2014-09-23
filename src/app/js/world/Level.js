@@ -8,6 +8,7 @@ define(function(require) {
     var LevelSubMapper = require("js/world/LevelSubMapper");
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
     var Self = require("js/self/Self");
+    var Calendar = require("js/utils/Calendar");
 
     function Level(options) {
         options = options || {};
@@ -20,6 +21,8 @@ define(function(require) {
         this.regionManager = options.regionManager || null;
         this.startingCoords = options.focus || new Coords(Math.floor(this.diameter / 2), Math.floor(this.diameter / 2));
         this.focus = this.startingCoords;
+
+        this.exitTime = Calendar.getTime();
 
         options.landmarksAlg(this);
 
@@ -36,14 +39,20 @@ define(function(require) {
             this.registryId = registryId;
         },
         enter: function(coords) {
+            //Prepare level
             var newFocus = coords ? coords : this.focus;
             this.focus = newFocus;
+            this.updateActiveRegions();
+            var timeAbsent = Calendar.getTime() - this.exitTime;
+            console.log("You were away for " + timeAbsent + "ticks!");
+
+            //Self enters
             this.placeAgent(Self, newFocus);
             Self.enterLevel(this, newFocus);
-            this.updateActiveRegions();
             this.registerAgent(Self, newFocus);
         },
         exit: function() {
+            this.exitTime = Calendar.getTime();
             this.deactivate();
             this.unregisterAgent(Self, this.focus);
             this.removeOccupant(this.focus);
@@ -72,6 +81,7 @@ define(function(require) {
                     this.enterSubLevel(tile.getLevel(), tile);
                 }
             } else if (this.levelMap.isReturnPoint(tryPosition)) {
+                console.log("hi");
                 this.enterParentLevel();
             }
         },

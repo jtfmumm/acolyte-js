@@ -2,7 +2,7 @@ define(function(require) {
 
     var Calendar = {
         ticks: 0,
-        getTicks: function() {
+        getTime: function() {
             return this.ticks;
         },
         addTick: function() {
