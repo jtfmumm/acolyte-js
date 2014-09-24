@@ -5,9 +5,11 @@ define(function(require) {
     var World = require("js/world/World");
     var HTMLDisplay = require("js/displays/HTMLDisplay");
     var Self = require("js/self/Self");
-    var ActiveAgents = require("js/agents/ActiveAgents");
     var TestWorldGenerator = require("js/test-worlds/TestWorldGenerator");
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
+    var Simulator = require("js/game/Simulator");
+    var InputProcessor = require("js/input/InputProcessor");
+
 
     var Console = require("js/screens/Console");
     var Calendar = require("js/utils/Calendar");
@@ -15,15 +17,12 @@ define(function(require) {
 
     function Game() {
         this.display = new HTMLDisplay();
-        this.input = null;
         this.levelManager = null;
-        this.pauseState = false;
     }
 
     Game.prototype = {
         init: function(inputDevice) {
-            this.input = inputDevice;
-            this.input.connect();
+            InputProcessor.init(inputDevice);
 
             this.initializeLevelManager();
             Self.init(this.input);
@@ -46,7 +45,7 @@ define(function(require) {
             var _this = this;
             if (Self.isDead()) this.endGame();
             setTimeout(function() {
-                if (_this.input.isReady()) {
+                if (InputProcessor.isReady()) {
                     _this.nextStep();
                 }
                 _this.watchInput();
@@ -54,59 +53,24 @@ define(function(require) {
         },
         nextStep: function() {
             Calendar.addTick();
-            processNextKey(this.input, this);
-            ActiveAgents.prepareAgents();
+            InputProcessor.processNextKey();
+            Simulator.nextStep();
             this.displayScreens();
-        },
-        pause: function() {
-            this.pauseState = !this.pauseState;
-            if (this.pauseState === true) {
-                Console.msg("Game is paused!");
-                this.input.disconnect();
-            } else {
-                Console.msg("Game is unpaused!");
-                this.input.connect();
-            }
         },
         endGame: function() {
             Console.msg("Game over!");
-            this.input.reset();
-            this.input.disconnect();
+            InputProcessor.shutdown();
         },
-        test: function(inputDevice, testMap) {
-            this.input = inputDevice;
-            var world = TestWorldGenerator.generateFromMap(testMap);
-            this.levelManager = new LevelManager(world);
-
-            this.levelManager.display(this.display);
-        }
+//        test: function(inputDevice, testMap) {
+//            this.input = inputDevice;
+//            var world = TestWorldGenerator.generateFromMap(testMap);
+//            this.levelManager = new LevelManager(world);
+//
+//            this.levelManager.display(this.display);
+//        }
     };
 
-    function processNextKey(input, game) {
-        var nextInput = input.nextInput();
-        if (nextInput) console.log(nextInput);
-        if (input.waiting && nextInput) {
-            console.log(nextInput);
-            switch (nextInput) {
-                default:
-                    Self.setInputList([input.pendingCommand, nextInput]);
-                    break;
-            }
-            input.toggleWaiting();
-        } else if (!input.waiting) {
-            switch (nextInput) {
-                case "PAUSE":
-                    game.pause();
-                    break;
-                case "LOOK":
-                    input.toggleWaiting("LOOK");
-                    break;
-                default:
-                    Self.setInputList([nextInput]);
-                    break;
-            }
-        }
-    }
+
 
     return Game;
 });
