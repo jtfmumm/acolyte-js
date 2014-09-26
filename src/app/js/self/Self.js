@@ -9,6 +9,7 @@ define(function(require) {
     var CombatModes = require("js/data/CombatModes");
 
     var Self = {
+        isActive: false,
         position: null,
         nextInputList: [], //Can hold a command and followup commands
         level: null,
@@ -58,48 +59,24 @@ define(function(require) {
             this.nextInputList = input;
         },
         act: function() {
-            if (this.stats.hp < 1) {
-                Console.msg("You have fallen!");
-                return;
-            }
-            switch (this.nextInputList[0]) {
-                case "UP":
-                    this.move(Directions.north);
-                    break;
-                case "DOWN":
-                    this.move(Directions.south);
-                    break;
-                case "LEFT":
-                    this.move(Directions.west);
-                    break;
-                case "RIGHT":
-                    this.move(Directions.east);
-                    break;
-                case "NORTH":
-                    this.move(Directions.north);
-                    break;
-                case "SOUTH":
-                    this.move(Directions.south);
-                    break;
-                case "WEST":
-                    this.move(Directions.west);
-                    break;
-                case "EAST":
-                    this.move(Directions.east);
-                    break;
-                case "NORTHWEST":
-                    this.move(Directions.northWest);
-                    break;
-                case "NORTHEAST":
-                    this.move(Directions.northEast);
-                    break;
-                case "SOUTHWEST":
-                    this.move(Directions.southWest);
-                    break;
-                case "SOUTHEAST":
-                    this.move(Directions.southEast);
-                    break;
+            if (this.isActive) {
+                if (this.stats.hp < 1) {
+                    Console.msg("You have fallen!");
+                    return;
+                }
 
+                if (Directions.isDirection(this.nextInputList[0])) {
+                    this.move(Directions[this.nextInputList[0]]);
+                } else {
+                    this.lookUpAction();
+                }
+
+                this.nextInputList = [];
+                this.updateConsoleStats();
+            }
+        },
+        lookUpAction: function() {
+            switch (this.nextInputList[0]) {
                 case "ATTACK":
                     this.stats.combatMode = CombatModes.ATTACK;
                     break;
@@ -110,59 +87,24 @@ define(function(require) {
                     this.stats.combatMode = CombatModes.NONE;
                     break;
                 case "LOOK":
-                    switch (this.nextInputList[1]) {
-                        case "UP":
-                            this.look(Directions.north);
-                            break;
-                        case "DOWN":
-                            this.look(Directions.south);
-                            break;
-                        case "LEFT":
-                            this.look(Directions.west);
-                            break;
-                        case "RIGHT":
-                            this.look(Directions.east);
-                            break;
-                        case "NORTH":
-                            this.look(Directions.north);
-                            break;
-                        case "SOUTH":
-                            this.look(Directions.south);
-                            break;
-                        case "WEST":
-                            this.look(Directions.west);
-                            break;
-                        case "EAST":
-                            this.look(Directions.east);
-                            break;
-                        case "NORTHWEST":
-                            this.look(Directions.northWest);
-                            break;
-                        case "NORTHEAST":
-                            this.look(Directions.northEast);
-                            break;
-                        case "SOUTHWEST":
-                            this.look(Directions.southWest);
-                            break;
-                        case "SOUTHEAST":
-                            this.look(Directions.southEast);
-                            break;
-                        default:
-                            Console.msg("Invalid direction");
-                            break;
+                    if (Directions.isDirection(this.nextInputList[1])) {
+                        this.look(Directions[this.nextInputList[1]]);
+                    } else {
+                        Console.msg("Invalid direction");
                     }
-                    break;
-                default:
-                    break;
             }
-            this.nextInputList = [];
-            this.updateConsoleStats();
         },
         isDead: function() {
             return this.stats.hp < 1;
         },
         isImpenetrable: function() {
             return true;
+        },
+        activate: function() {
+            this.isActive = true;
+        },
+        deactivate: function() {
+            this.isActive = false;
         }
     };
 

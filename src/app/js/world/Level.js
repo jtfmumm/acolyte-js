@@ -8,7 +8,9 @@ define(function(require) {
     var LevelSubMapper = require("js/world/LevelSubMapper");
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
     var Self = require("js/self/Self");
-    var Calendar = require("js/utils/Calendar");
+    var Calendar = require("js/time/Calendar");
+    var Simulator = require("js/game/Simulator");
+    var ActiveAgents = require("js/agents/ActiveAgents");
 
     function Level(options) {
         options = options || {};
@@ -22,7 +24,7 @@ define(function(require) {
         this.startingCoords = options.focus || new Coords(Math.floor(this.diameter / 2), Math.floor(this.diameter / 2));
         this.focus = this.startingCoords;
 
-        this.exitTime = Calendar.getTime();
+        this.lastTime = Calendar.getTime();
 
         options.landmarksAlg(this);
 
@@ -43,19 +45,25 @@ define(function(require) {
             var newFocus = coords ? coords : this.focus;
             this.focus = newFocus;
             this.updateActiveRegions();
-            var timeAbsent = Calendar.getTime() - this.exitTime;
+            var timeAbsent = this.calculateTimeAbsent();
+            Simulator.catchUpBy(timeAbsent);
+
             console.log("You were away for " + timeAbsent + "ticks!");
 
             //Self enters
+            Self.activate();
             this.placeAgent(Self, newFocus);
             Self.enterLevel(this, newFocus);
             this.registerAgent(Self, newFocus);
         },
         exit: function() {
-            this.exitTime = Calendar.getTime();
-            this.deactivate();
+            Self.deactivate();
+            this.lastTime = Calendar.getTime();
             this.unregisterAgent(Self, this.focus);
             this.removeOccupant(this.focus);
+            this.deactivate();
+            ActiveAgents.clearAll(); //Should probably move this
+            this.updateActiveRegions();
             this.focus = this.startingCoords;
         },
         placeAgent: function(agent, coords) {
@@ -73,15 +81,15 @@ define(function(require) {
         moveSelf: function(self, position, posChange) {
             var tryPosition = position.plus(posChange);
             if (!this.levelMap.isImpenetrable(tryPosition)) {
+                this.focus = tryPosition;
                 this.levelMap.moveAgent(self, position, tryPosition);
                 self.setPosition(tryPosition);
-                this.focus = tryPosition;
+                console.log("Just moved to: ", tryPosition);
                 if (this.levelMap.hasSubLevelAt(tryPosition)) {
                     var tile = this.levelMap.getTile(tryPosition);
                     this.enterSubLevel(tile.getLevel(), tile);
                 }
             } else if (this.levelMap.isReturnPoint(tryPosition)) {
-                console.log("hi");
                 this.enterParentLevel();
             }
         },
@@ -136,8 +144,22 @@ define(function(require) {
             var parent = parent || this.parent;
             var parentCoords = parentCoords || this.parentCoords;
             this.parent.enterParentLevel(parent, parentCoords);
+        },
+        calculateTimeAbsent: function() {
+            return noMoreThan(
+                1000,
+                noLessThanZero(Calendar.getTime() - this.lastTime)
+            );
         }
     };
+
+    function noLessThanZero(n) {
+        return (n < 0) ? 0 : n;
+    }
+
+    function noMoreThan(max, n) {
+        return (n > max) ? max : n;
+    }
 
     return Level;
 });

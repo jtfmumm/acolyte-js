@@ -24,13 +24,14 @@ define(function(require) {
         },
         enterSubLevel: function(levelOrSeed, tile, parentCoords) {
             if (levelOrSeed instanceof Level) {
+                console.log("ENTERING");
                 this.currentLevel.exit();
                 this.currentLevel = levelOrSeed;
                 this.currentLevel.enter();
             } else {
+                this.currentLevel.exit();
                 var newLevel = LevelFactory[levelOrSeed](this.currentLevel, parentCoords);
                 tile.updateLevel(newLevel);
-                this.currentLevel.exit();
                 this.initializeLevel(newLevel)
             }
         },

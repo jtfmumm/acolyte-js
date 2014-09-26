@@ -12,7 +12,7 @@ define(function(require) {
 
 
     var Console = require("js/screens/Console");
-    var Calendar = require("js/utils/Calendar");
+    var Calendar = require("js/time/Calendar");
 
 
     function Game() {
@@ -52,7 +52,6 @@ define(function(require) {
             }, 1);
         },
         nextStep: function() {
-            Calendar.addTick();
             InputProcessor.processNextKey();
             Simulator.nextStep();
             this.displayScreens();

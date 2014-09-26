@@ -7,8 +7,8 @@ app = connect()
   .use('/js/lib/', connect.static('node_modules/requirejs/'))
   .use('/node_modules', connect.static('node_modules'));
 
-http.createServer(app).listen(8380, function() {
-  console.log('App running on http://localhost:8380');
+http.createServer(app).listen(8480, function() {
+  console.log('App running on http://localhost:8480');
 });
 
 test = connect()
@@ -16,6 +16,6 @@ test = connect()
   .use('/app/js/lib/', connect.static('node_modules/requirejs/'))
   .use('/node_modules', connect.static('node_modules'));
 
-http.createServer(test).listen(8300, function() {
-  console.log('Jasmine tests running on http://localhost:8300');
+http.createServer(test).listen(8400, function() {
+  console.log('Jasmine tests running on http://localhost:8400');
 });

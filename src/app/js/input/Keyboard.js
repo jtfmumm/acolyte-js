@@ -10,9 +10,12 @@ define(function(require) {
             $("body").off("keydown");
             $("body").keydown(this.addKey.bind(this));
         },
-        this.disconnect = function() {
+        this.waitForPause = function() {
             $("body").off("keydown");
             $("body").keydown(this.unpauseOnP.bind(this))
+        },
+        this.restart = function() {
+            this.connect();
         },
         this.addKey = function(e) {
             e.preventDefault();

@@ -42,10 +42,10 @@ define(function(require) {
             this.pauseState = !this.pauseState;
             if (this.pauseState === true) {
                 Console.msg("Game is paused!");
-                this.input.disconnect();
+                this.input.waitForPause();
             } else {
                 Console.msg("Game is unpaused!");
-                this.input.connect();
+                this.input.restart();
             }
         },
         shutdown: function() {
