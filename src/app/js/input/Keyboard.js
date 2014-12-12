@@ -22,7 +22,7 @@ define(function(require) {
             this.addEvent(keyCodeTable[e.keyCode]);
         },
         this.unpauseOnP = function(e) {
-            if (keyCodeTable[e.keyCode] == "PAUSE")
+            if (keyCodeTable[e.keyCode] === "PAUSE")
                 this.addEvent("PAUSE");
         }
     };
