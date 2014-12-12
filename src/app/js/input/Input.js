@@ -11,7 +11,7 @@ define(function(require) {
             if (this.events.length < 3) this.events.unshift(event);
         },
         isReady: function() {
-            return this.events.length > 0; k
+            return this.events.length > 0;
         },
         reset: function() {
             this.events = [];

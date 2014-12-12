@@ -14,16 +14,17 @@ define(function(require) {
             voidType: "water",
             levelMapAlgorithms: LevelMapAlgorithms.world
         });
-        world.prototype = _.extend(Object.getPrototypeOf(world), WorldPrototype);
+        world.prototype = extendWorldPrototype(Object.getPrototypeOf(world));
         world.initializeOccupants();
 
         return world;
     }
 
-    WorldPrototype = {
-        initializeOccupants: function() {
-        }
-    };
+    function extendWorldPrototype(p) {
+        return _.extend(p, {
+            initializeOccupants: function () {}
+        });
+    }
 
     return World;
 });
