@@ -5,7 +5,7 @@ define(function(require) {
 
     var LevelFactory = {
         world: function(parent) {
-            return LevelGenerator.world(parent);
+            return new World(parent);
         },
         shrine: function(parent, parentCoords) {
             return new Shrine(parent, parentCoords);

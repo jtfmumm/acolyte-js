@@ -24,7 +24,6 @@ define(function(require) {
         },
         enterSubLevel: function(levelOrSeed, tile, parentCoords) {
             if (levelOrSeed instanceof Level) {
-                console.log("ENTERING");
                 this.currentLevel.exit();
                 this.currentLevel = levelOrSeed;
                 this.currentLevel.enter();
