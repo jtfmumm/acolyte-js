@@ -4,8 +4,7 @@ define(function(require) {
     var Coords = require("js/utils/Coords");
     var ActiveAgents = require("js/agents/ActiveAgents");
 
-
-    function Agent(world, wCoords) {
+    function Agent(level, wCoords) {
         this.position = wCoords;
         this.level = level;
         this.code = null;
@@ -16,7 +15,7 @@ define(function(require) {
             //Must be implemented
         },
         move: function (posChange) {
-            this.world.moveAgent(this, this.position, posChange);
+            this.level.moveAgent(this, this.position, posChange);
         },
         getCode: function() {
             return this.code;

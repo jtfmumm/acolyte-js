@@ -10,7 +10,6 @@ define(function(require) {
     var Simulator = require("js/game/Simulator");
     var InputProcessor = require("js/input/InputProcessor");
 
-
     var Console = require("js/screens/Console");
     var Calendar = require("js/time/Calendar");
 
