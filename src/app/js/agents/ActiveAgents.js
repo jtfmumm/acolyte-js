@@ -1,4 +1,6 @@
 define(function(require) {
+
+    var ActionProcessor = require("js/agents/ActionProcessor");
     
     var ActiveAgents = {
         waitList: [],

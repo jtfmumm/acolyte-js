@@ -7,7 +7,7 @@ define(function(require) {
 
     function Agent(world, wCoords) {
         this.position = wCoords;
-        this.world = world;
+        this.level = level;
         this.code = null;
     }
 
@@ -21,8 +21,8 @@ define(function(require) {
         getCode: function() {
             return this.code;
         },
-        setPosition: function(wCoords) {
-            this.position = wCoords;
+        setPosition: function(coords) {
+            this.position = coords;
         },
         isImpenetrable: function () {
             return true;

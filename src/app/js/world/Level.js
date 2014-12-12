@@ -37,6 +37,17 @@ define(function(require) {
         placeInitialShrine: function() {
             this.levelMap.getTile(this.focus).updateLandmark("shrine");
         },
+        placeSelf: function(position) {
+            Self.activate();
+            this.placeAgent(Self, position);
+            Self.enterLevel(this, position);
+            this.registerAgent(Self, position);
+        },
+        removeSelf: function() {
+            Self.deactivate();
+            this.unregisterAgent(Self, this.focus);
+            this.removeOccupant(this.focus);
+        },
         setRegistryId: function(registryId) {
             this.registryId = registryId;
         },
@@ -47,22 +58,14 @@ define(function(require) {
             this.updateActiveRegions();
             var timeAbsent = this.calculateTimeAbsent();
             Simulator.catchUpBy(timeAbsent);
-
-            console.log("You were away for " + timeAbsent + "ticks!");
-
             //Self enters
-            Self.activate();
-            this.placeAgent(Self, newFocus);
-            Self.enterLevel(this, newFocus);
-            this.registerAgent(Self, newFocus);
+            this.placeSelf(newFocus);
         },
         exit: function() {
-            Self.deactivate();
+            this.removeSelf();
             this.lastTime = Calendar.getTime();
-            this.unregisterAgent(Self, this.focus);
-            this.removeOccupant(this.focus);
+
             this.deactivate();
-            ActiveAgents.clearAll(); //Should probably move this
             this.updateActiveRegions();
             this.focus = this.startingCoords;
         },
@@ -84,7 +87,6 @@ define(function(require) {
                 this.focus = tryPosition;
                 this.levelMap.moveAgent(self, position, tryPosition);
                 self.setPosition(tryPosition);
-                console.log("Just moved to: ", tryPosition);
                 if (this.levelMap.hasSubLevelAt(tryPosition)) {
                     var tile = this.levelMap.getTile(tryPosition);
                     this.enterSubLevel(tile.getLevel(), tile);

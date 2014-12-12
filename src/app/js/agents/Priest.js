@@ -3,9 +3,9 @@ define(function(require) {
     var Agent = require("js/agents/Agent");
     var MovementAlgs = require("js/movement/MovementAlgs");
 
-    function Priest(world, coords, options) {
+    function Priest(level, coords, options) {
         var options = options || {};
-        Agent.call(this, world, coords);
+        Agent.call(this, level, coords);
         this.code = "priest";
         this.cult = options.cult || "Osiris";
     }
