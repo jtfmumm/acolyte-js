@@ -9,6 +9,9 @@ define(function(require) {
         },
         shrine: function(parent, parentCoords) {
             return new Shrine(parent, parentCoords);
+        },
+        village: function(parent, parentCoords) {
+            return new Village(parent, parentCoords);
         }
     };
 
