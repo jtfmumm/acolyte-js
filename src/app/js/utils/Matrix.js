@@ -99,15 +99,13 @@ define(function(require) {
             });
         },
         getSubMatrix: function(x, y, width, height) {
-            var i, j;
-            var matrix = this.data;
             var subMatrix = [];
             var lastY = y + height;
             var lastX = x + width;
-            for (i = y; i < lastY; i++) {
+            for (var currY = y; currY < lastY; currY++) {
                 subMatrix.push([]);
-                for (j = x; j < lastX; j++) {
-                    subMatrix[i - y].push(matrix[i][j]);
+                for (var currX = x; currX < lastX; currX++) {
+                    subMatrix[currY - y].push(this.getCell(currX, currY));
                 }
             }
             return new Matrix(subMatrix);

@@ -33,9 +33,11 @@ define(function(require) {
         //add building if clear, recurse if not
         var diameter = matrix.getWidth();
         var clearingDiameter = clearance * 2 + 1;
-        var randomCell = matrix.getCell(Rand.rollFromZero(diameter), Rand.rollFromZero(diameter));
-        var topLeftX = randomCell.x - clearance;
-        var topLeftY = randomCell.y - clearance;
+        var randX = Rand.rollFromZero(diameter);
+        var randY = Rand.rollFromZero(diameter);
+        var randomCell = matrix.getCell(randX, randY);
+        var topLeftX = randX - clearance;
+        var topLeftY = randY - clearance;
         var randomCellNeighbors = matrix.getSubMatrix(topLeftX, topLeftY, clearingDiameter, clearingDiameter);
 
         if (randomCell === initialTerrain && randomCellNeighbors.every(isClear)) {

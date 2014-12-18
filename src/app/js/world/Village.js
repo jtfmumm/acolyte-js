@@ -9,12 +9,12 @@ define(function(require) {
         var village = LevelGenerator.generate({
             parent: parent,
             parentCoords: parentCoords,
-            diameter: 100,
-            diameterPerRegion: 100,
+            diameter: 50,
+            diameterPerRegion: 50,
             visibleDiameter: 51,
             voidType: "void",
             levelMapAlgorithms: LevelMapAlgorithms.village,
-            focus: new Coords(50, 99)
+            focus: new Coords(25, 49)
         });
         village.prototype = extendVillagePrototype(Object.getPrototypeOf(village));
         village.initializeOccupants();
