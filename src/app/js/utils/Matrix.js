@@ -58,6 +58,16 @@ define(function(require) {
             });
             return new Matrix(mapped);
         },
+        unfold: function() {
+            var unfoldedArray = [];
+            this.forEach(function(cell) {
+                unfoldedArray.push(cell);
+            });
+            return unfoldedArray;
+        },
+        every: function(fn) {
+            return this.unfold().every(fn);
+        },
         isWithinMatrix: function(row, column) {
             return row >= 0 && column >= 0 && row < this.getHeight() && column < this.getWidth();
         },

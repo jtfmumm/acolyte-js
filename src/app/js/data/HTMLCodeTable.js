@@ -27,6 +27,15 @@ define(function(require) {
             color: "dark-green",
             backgroundColor: "light-green"
         },
+        "path": {
+            symbol: " .",
+            backgroundColor: "tan"
+        },
+        "door": {
+            symbol: " ^",
+            color: "white",
+            backgroundColor: "black"
+        },
         "pillar": {
             symbol: "||",
             backgroundColor: "light-grey"

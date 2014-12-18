@@ -94,6 +94,16 @@ define(function(require) {
             }
             return neighbors;
         },
+        getNeighborsByRadius: function(radius) {
+            var neighbors = [];
+
+            for (var d = 1; d <= radius; d++) {
+                var nextSquare = this.getSquareList(this.minus(d, d), this.plus(d, d));
+                neighbors.concat(nextSquare);
+            }
+
+            return neighbors;
+        },
         minDistanceTo: function(otherCoords) {
             var coordsDifference = this.minus(otherCoords);
             return Math.max(Math.abs(coordsDifference.x), Math.abs(coordsDifference.y));
@@ -101,6 +111,31 @@ define(function(require) {
         manhattanDistanceTo: function(otherCoords) {
             var coordsDifference = this.minus(otherCoords);
             return Math.abs(coordsDifference.x) + Math.abs(coordsDifference.y);
+        },
+        getSquareList: function(topLeftCoords, bottomRightCoords) {
+            var list = [];
+            var minX = topLeftCoords.x,
+                minY = topLeftCoords.y,
+                maxX = bottomRightCoords.x,
+                maxY = bottomRightCoords.y;
+            var i;
+
+            //Horizontal top
+            for (i = minX; i < maxX; i++) {
+                list.push(new Coords(i, minY));
+            }
+            //Vertical right
+            for (i = minY; i < maxY; i++) {
+                list.push(new Coords(maxX, i));
+            }
+            //Horizontal bottom
+            for (i = maxX; i > minX; i--) {
+                list.push(new Coords(i, maxY));
+            }
+            //Vertical left
+            for (i = maxY; i > minY; i--) {
+                list.push(new Coords(minX, i));
+            }
         }
     };
 

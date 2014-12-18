@@ -25,6 +25,16 @@ define(function(require) {
             description: "grass.",
             impenetrable: false
         },
+        "path": {
+            code: "path",
+            description: "a path.",
+            impenetrable: false
+        },
+        "door": {
+            code: "door",
+            description: "a door.",
+            impenetrable: false
+        },
         "pillar": {
             code: "pillar",
             description: "a pillar.",
