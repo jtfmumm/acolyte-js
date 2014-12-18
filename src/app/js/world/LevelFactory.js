@@ -2,6 +2,7 @@ define(function(require) {
 
     var LevelGenerator = require("js/world/LevelGenerator");
     var Shrine = require("js/world/Shrine");
+    var Village = require("js/world/Village");
 
     var LevelFactory = {
         world: function(parent) {

@@ -53,6 +53,10 @@ define(function(require) {
             symbol: "II",
             backgroundColor: "highlight-back"
         },
+        "village": {
+            symbol: "[]",
+            backgroundColor: "highlight-back"
+        },
         //Agents
         "drunk": {
             symbol: " &"

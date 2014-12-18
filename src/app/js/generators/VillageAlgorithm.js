@@ -36,7 +36,7 @@ define(function(require) {
         var randomCell = matrix.getCell(Rand.rollFromZero(diameter), Rand.rollFromZero(diameter));
         var topLeftX = randomCell.x - clearance;
         var topLeftY = randomCell.y - clearance;
-        var randomCellNeighbors = matrix.getSubMap(topLeftX, topLeftY, clearingDiameter, clearingDiameter);
+        var randomCellNeighbors = matrix.getSubMatrix(topLeftX, topLeftY, clearingDiameter, clearingDiameter);
 
         if (randomCell === initialTerrain && randomCellNeighbors.every(isClear)) {
             var bTopLeftX = topLeftX + 1;

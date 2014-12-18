@@ -33,7 +33,8 @@ define(function(require) {
             this.levelManager = new LevelManager();
             var world = new World(this.levelManager);
             this.levelManager.initializeLevel(world);
-            this.levelManager.placeInitialShrine();
+            //Place landmark where Self begins
+            this.levelManager.placeInitialLandmark("village");
             this.levelManager.enterCurrentLevel();
         },
         displayScreens: function() {

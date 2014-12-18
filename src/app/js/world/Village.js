@@ -14,7 +14,7 @@ define(function(require) {
             visibleDiameter: 51,
             voidType: "void",
             levelMapAlgorithms: LevelMapAlgorithms.village,
-            focus: new Coords(50, 50)
+            focus: new Coords(50, 99)
         });
         village.prototype = extendVillagePrototype(Object.getPrototypeOf(village));
         village.initializeOccupants();

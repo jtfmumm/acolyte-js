@@ -34,8 +34,8 @@ define(function(require) {
 
     Level.prototype = {
         //Eventually remove this method
-        placeInitialShrine: function() {
-            this.levelMap.getTile(this.focus).updateLandmark("shrine");
+        placeInitialLandmark: function(landmark) {
+            this.levelMap.getTile(this.focus).updateLandmark(landmark);
         },
         placeSelf: function(position) {
             Self.activate();

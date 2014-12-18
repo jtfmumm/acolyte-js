@@ -19,8 +19,8 @@ define(function(require) {
             this.currentLevel.enter();
         },
         //Eventually remove this method
-        placeInitialShrine: function() {
-            this.currentLevel.placeInitialShrine();
+        placeInitialLandmark: function(landmark) {
+            this.currentLevel.placeInitialLandmark(landmark);
         },
         enterSubLevel: function(levelOrSeed, tile, parentCoords) {
             if (levelOrSeed instanceof Level) {
