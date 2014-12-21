@@ -8,16 +8,16 @@ define(function(require) {
         getShortestCardinalPath: getShortestCardinalPath
     };
 
-    function Astar(startCoords, endCoords, regionMatrix, neighborsFunction) {
+    function Astar(startCoords, endCoords, regionMatrix, neighborsFunction, isToBeAvoided) {
         this.startCoords = startCoords;
         this.endCoords = endCoords;
         this.regionMatrix = regionMatrix;
         this.neighborsFunction = neighborsFunction;
+        this.isToBeAvoided = isToBeAvoided || function(matrix, coords) { return false; };
         this.visited = {};
         this.toVisit = new ComparatorHeap(function(a, b) {
             return a.estimatedCost < b.estimatedCost;
         });
-        console.log(endCoords);
     }
 
     Astar.prototype = {
@@ -35,7 +35,7 @@ define(function(require) {
             var _this = this;
 
             var neighbors = node[this.neighborsFunction]().filter(function(coords) {
-                return !_this._isImpenetrable(coords) && !_this._isVisited(coords);
+                return !_this.isToBeAvoided(_this.regionMatrix, coords) && !_this._isVisited(coords);
             });
             neighbors.forEach(function(coords) {
                 var path = node.clonePath().add(coords);
@@ -54,9 +54,6 @@ define(function(require) {
         },
         _isVisited: function(coords) {
             return this.visited[coords.toString()];
-        },
-        _isImpenetrable: function(coords) {
-            return this.regionMatrix.isImpenetrable(coords);
         },
         _markNodeAsVisited: function(node) {
             this.visited[node.toString()] = true;
@@ -87,16 +84,19 @@ define(function(require) {
         }
     };
 
-    function getShortestPath(start, end, regionMatrix) {
-        var astar = new Astar(start, end, regionMatrix, "getNeighbors");
+    function getShortestPath(matrix, start, end, isToBeAvoided) {
+        isToBeAvoided = isToBeAvoided || function(matrix, coords) { return false; };
+        var astar = new Astar(start, end, matrix, "getNeighbors", isToBeAvoided);
 
         //This returns a Path object
         return astar.getShortestPath();
     }
 
-    function getShortestCardinalPath(start, end, regionMatrix) {
-        var astar = new Astar(start, end, regionMatrix, "getCardinalNeighbors");
+    function getShortestCardinalPath(matrix, start, end, isToBeAvoided) {
+        isToBeAvoided = isToBeAvoided || function(marix, coords) { return false; };
+        var astar = new Astar(start, end, matrix, "getCardinalNeighbors", isToBeAvoided);
 
+        console.log("READY!");
         //This returns a Path object
         return astar.getShortestPath();
     }

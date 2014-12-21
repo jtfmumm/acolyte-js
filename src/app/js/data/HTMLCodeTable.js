@@ -6,7 +6,8 @@ define(function(require) {
             backgroundColor: "highlight-back"
         },
         "wall": {
-            symbol: " #"
+            symbol: " #",
+            backgroundColor: "dark-light-brown-back"
         },
         "palm": {
             symbol: " ("
