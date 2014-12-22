@@ -8,10 +8,12 @@ define(function(require) {
         39: "RIGHT",
         80: "PAUSE", // p
         69: "EXAMINE", // e
+        72: "HELP", // h
         76: "LOOK", // l
         65: "ATTACK", // a
         68: "DEFEND", // d
         78: "NORMAL", // n
+        84: "TALK", // t
 
         49: "SOUTHWEST", //1
         50: "SOUTH", //2

@@ -11,7 +11,7 @@ define(function(require) {
     var Self = {
         isActive: false,
         position: null,
-        nextInputList: [], //Can hold a command and followup commands
+        nextInput: null,
         level: null,
         stats: {
             name: "Acolyte",
@@ -62,11 +62,14 @@ define(function(require) {
             var thisTile = this.level.examineTile(position);
             Console.msg(thisTile);
         },
+        talk: function(position) {
+            Console.msg("Talking!");
+        },
         getCode: function() {
             return "self";
         },
-        setInputList: function(input) {
-            this.nextInputList = input;
+        setNextInput: function(input) {
+            this.nextInput = input;
         },
         act: function() {
             if (this.isActive) {
@@ -75,18 +78,18 @@ define(function(require) {
                     return;
                 }
 
-                if (Directions.isDirection(this.nextInputList[0])) {
-                    this.move(Directions[this.nextInputList[0]]);
+                if (Directions.isDirection(this.nextInput)) {
+                    this.move(Directions[this.nextInput]);
                 } else {
                     this.lookUpAction();
                 }
 
-                this.nextInputList = [];
+                this.nextInput = null;
                 this.updateConsoleStats();
             }
         },
         lookUpAction: function() {
-            switch (this.nextInputList[0]) {
+            switch (this.nextInput) {
                 case "ATTACK":
                     this.stats.combatMode = CombatModes.ATTACK;
                     break;
@@ -96,12 +99,6 @@ define(function(require) {
                 case "NORMAL":
                     this.stats.combatMode = CombatModes.NONE;
                     break;
-                case "LOOK":
-                    if (Directions.isDirection(this.nextInputList[1])) {
-                        this.look(Directions[this.nextInputList[1]]);
-                    } else {
-                        Console.msg("Invalid direction");
-                    }
             }
         },
         isDead: function() {

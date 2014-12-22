@@ -22,28 +22,6 @@ define(function(require) {
             if (nextInput) console.log(nextInput);
 
             this[this.mode](nextInput);
-
-//            if (this.input.waiting && nextInput) {
-//                console.log(nextInput);
-//                switch (nextInput) {
-//                    default:
-//                        Self.setInputList([this.input.pendingCommand, nextInput]);
-//                        break;
-//                }
-//                this.input.toggleWaiting();
-//            } else if (!this.input.waiting) {
-//                switch (nextInput) {
-//                    case "PAUSE":
-//                        this.pause();
-//                        break;
-//                    case "LOOK":
-//                        this.input.toggleWaiting("LOOK");
-//                        break;
-//                    default:
-//                        Self.setInputList([nextInput]);
-//                        break;
-//                }
-//            }
         },
         normal: function(nextInput) {
             switch (nextInput) {
@@ -52,10 +30,23 @@ define(function(require) {
                     break;
                 case "LOOK":
                     this.mode = "look";
-                    Console.msg("Move cursor to target and press enter.");
+                    Console.msg("Look: Move cursor to target and press enter.");
+                    break;
+                case "TALK":
+                    this.mode = "talk";
+                    Console.msg("Talk: Move cursor to target and press enter.");
+                    break;
+                case "HELP":
+                    Console.msg("Arrows or numpad - Move (including diagonal)");
+                    Console.msg("t - Talk");
+                    Console.msg("h - Help");
+                    Console.msg("a - Attack Mode");
+                    Console.msg("d - Defense Mode");
+                    Console.msg("n - Normal Mode");
+                    Console.msg("esc - Return to walking");
                     break;
                 default:
-                    Self.setInputList([nextInput]);
+                    Self.setNextInput(nextInput);
                     break;
             }
         },
@@ -70,8 +61,32 @@ define(function(require) {
                         Cursor.reset();
                         Console.msg("Stopped looking.");
                         break;
+                    case "TALK":
+                        this.mode = "talk";
+                        Console.msg("Choose who to talk to.");
+                        break;
                     case "ENTER":
                         Self.look(Cursor.position);
+                }
+            }
+        },
+        talk: function(nextInput) {
+            if (Directions.isDirection(nextInput)) {
+                Cursor.move(Directions[nextInput]);
+            } else {
+                switch (nextInput) {
+                    case "TALK":
+                    case "ESC":
+                        this.mode = "normal";
+                        Cursor.reset();
+                        Console.msg("Stopped talking.");
+                        break;
+                    case "LOOK":
+                        this.mode = "look";
+                        Console.msg("Choose where to look.");
+                        break;
+                    case "ENTER":
+                        Self.talk(Cursor.position);
                 }
             }
         },
