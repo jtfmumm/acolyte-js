@@ -1,21 +1,11 @@
-Create Level, have World extend Level, Village, etc.
-    - Towns/Villages/etc. have a reference to their Region
-    - Levels have a LevelMap and, for World, a RegionMap (which is a Matrix of Regions)
-Create Factory for Villages, Towns, etc.
-Change RegionMatrix to LevelMap (get rid of WorldCoords)
 Change Region from map to a data store for information about region
     - Regions are now identified by an origin (x, y) and a diameter
     - Regions have a history and an owner
-Create Tile abstraction
 
-
-terrain algos
 arrows
-seeds/child worlds (seeds are like child world futures)
 commands
 	l - look (which direction?)
 	a - attack
 	i - inventory
 	t - talk
 town/fortress/shrine/temple/graveyard/catacombs
-start on shrine
