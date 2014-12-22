@@ -23,19 +23,23 @@ define(function(require) {
             var diameter = options.diameter;
             var totalBuildings = Math.floor(diameter / 5);
             var buildingClearance = 2;
-            var matrix = new Matrix().init(diameter, diameter, function() { return initialTerrain; });
+            var terrainsMatrix = new Matrix().init(diameter, diameter, function() { return initialTerrain; });
+            var levels = [];
 
             for (var i = 0; i < totalBuildings; i++) {
-                _addBuilding(matrix, buildingClearance);
+                _addBuildingToTerrainsAndLevels(terrainsMatrix, levels, buildingClearance);
             }
 
-            _drawPaths(matrix);
+            _drawPaths(terrainsMatrix);
 
-            return matrix;
+            return {
+                terrains: terrainsMatrix,
+                levels: levels
+            };
         }
     };
 
-    function _addBuilding(matrix, clearance) {
+    function _addBuildingToTerrainsAndLevels(matrix, levels, clearance) {
         //Choose a random cell, check if the surrounding area is clear for a building,
         //add building if clear, recurse if not
         var diameter = matrix.getWidth();
@@ -60,13 +64,20 @@ define(function(require) {
             var doorCellX = bTopLeftX + 1;
             var doorCellY = bTopLeftY + 2;
             matrix.setCell(doorCellX, doorCellY, terrainByValue[4]);
+            levels.push({
+                coords: new Coords(doorCellX, doorCellY),
+                level: "house"
+            });
             //Add another point to eventually form paths
             pathPoints.push(new Coords(doorCellX, doorCellY + 1));
         } else {
-            _addBuilding(matrix, clearance);
+            _addBuildingToTerrainsAndLevels(matrix, levels, clearance);
         }
 
-        return matrix;
+        return {
+            terrains: matrix,
+            levels: levels
+        };
     }
 
     function _drawPaths(matrix) {

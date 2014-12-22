@@ -4,6 +4,7 @@ define(function(require) {
     var JustSand = require("js/generators/JustSand");
     var ShrineAlgorithm = require("js/generators/ShrineAlgorithm");
     var VillageAlgorithm = require("js/generators/VillageAlgorithm");
+    var HouseAlgorithm = require("js/generators/HouseAlgorithm");
 
     var LevelMapAlgorithms = {
         world: {
@@ -12,8 +13,9 @@ define(function(require) {
         shrine: {
             terrains: ShrineAlgorithm
         },
-        village: {
-            terrains: VillageAlgorithm
+        village: VillageAlgorithm.generate,
+        house: {
+            terrains: HouseAlgorithm
         }
     };
 

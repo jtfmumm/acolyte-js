@@ -89,7 +89,7 @@ define(function(require) {
                 self.setPosition(tryPosition);
                 if (this.levelMap.hasSubLevelAt(tryPosition)) {
                     var tile = this.levelMap.getTile(tryPosition);
-                    this.enterSubLevel(tile.getLevel(), tile);
+                    this.enterSubLevel(tile.getLevel(), tile, this.focus);
                 }
             } else if (this.levelMap.isReturnPoint(tryPosition)) {
                 this.enterParentLevel();
@@ -139,8 +139,8 @@ define(function(require) {
         shortestPath: function(startCoords, endCoords) {
             return AstarPathfinder.getShortestPath(startCoords, endCoords, this.levelMap);
         },
-        enterSubLevel: function(sublevel, tile) {
-            this.parent.enterSubLevel(sublevel, tile, this.focus);
+        enterSubLevel: function(sublevel, tile, focus) {
+            this.parent.enterSubLevel(sublevel, tile, focus);
         },
         enterParentLevel: function(parent, parentCoords) {
             var parent = parent || this.parent;
