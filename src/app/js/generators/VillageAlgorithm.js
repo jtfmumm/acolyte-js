@@ -3,6 +3,7 @@ define(function(require) {
     var Rand = require("js/utils/Rand");
     var Coords = require("js/utils/Coords");
     var Matrix = require("js/utils/Matrix");
+    var Path = require("js/movement/Path");
 
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
 
@@ -73,15 +74,16 @@ define(function(require) {
         var pathTiles = [];
 
         var startingTile = new Coords(Math.floor(matrix.getWidth() / 2), matrix.getHeight() - 1);
-        var startingPath = AstarPathfinder.getShortestCardinalPath(matrix, startingTile, pathPoints[0], isToBeAvoided);
-        pathTiles.push(startingTile);
-        pathTiles = pathTiles.concat(startingPath.toArray());
+//        var startingPath = AstarPathfinder.getShortestCardinalPath(matrix, startingTile, pathPoints[0], isToBeAvoided);
+//        pathTiles.push(startingTile);
+//        pathTiles = pathTiles.concat(startingPath.toArray());
 
         //Iterate through and get cardinal path from each point to the next (stopping before the last)
-        for (var i = 0; i < pathPoints.length - 1; i++) {
-            var nextPath = AstarPathfinder.getShortestCardinalPath(matrix, pathPoints[i], pathPoints[i + 1], isToBeAvoided);
+        for (var i = 0; i < pathPoints.length; i++) {
+//            var nextPath = AstarPathfinder.getShortestCardinalPath(matrix, pathPoints[i], pathPoints[i + 1], isToBeAvoided);
             //Add initial point on path
             pathTiles.push(pathPoints[i]);
+            var nextPath = findPathToEntrance(pathPoints[i], startingTile, matrix);
 
             pathTiles = pathTiles.concat(nextPath.toArray());
         }
@@ -93,26 +95,88 @@ define(function(require) {
         return matrix;
     }
 
+    //This algorithm assumes there is always space between two buildings
+    //If two buildings can touch, then this algorithm can fail to find a path
     function findPathToEntrance(start, entrance, matrix) {
         //Randomly initialize starting axis direction
-        var currentAxis = Rand.roll(2) === 1 ? "x" : "y";
+        var currentAxis = Rand.rolledByOdds(0.5) ? "x" : "y";
+        var lastPosition = null;
         var currentPosition = start;
+        var path = new Path().add(currentPosition);
 
-        while (currentPosition !== entrance) {
+        while (!_.isEqual(currentPosition, entrance) && !_.isEqual(lastPosition, currentPosition)) {
+            lastPosition = currentPosition;
             currentAxis = chooseNextAxis(currentAxis);
+            currentPosition = chooseNextPosition(lastPosition, entrance, currentAxis, matrix);
+            path.add(currentPosition);
+        }
+
+        return path;
+    }
+
+    function chooseNextPosition(position, goal, axis, matrix) {
+        if (axisToward(axis, position, goal) === 0) axis = switchAxis(axis);
+
+        var tryMove = axisMove(position, goal, axis);
+
+        if (isToBeAvoided(matrix, tryMove)) {
+            return axisMove(position, goal, switchAxis(axis));
+        } else {
+            return tryMove;
         }
     }
 
     function chooseNextAxis(current) {
-        var roll = Rand.;
+        //3 in 4 chance axis remains the same
+        return (Rand.rolledByOdds(0.75)) ? current : switchAxis(current);
+    }
+
+    function axisMove(position, goal, axis) {
+        if (axis === "x") {
+            return position.plus(xToward(position, goal), 0);
+        } else if (axis === "y") {
+            return position.plus(0, yToward(position, goal));
+        }
+    }
+
+    function switchAxis(axis) {
+        if (axis === "x") {
+            return "y"
+        } else if (axis === "y") {
+            return "x"
+        } else {
+            throw new Error("Switch axis requires 'x' or 'y'!");
+        }
+    }
+
+    function axisToward(axis, start, end) {
+        if (axis === "x") {
+            return xToward(start, end);
+        } else if (axis === "y") {
+            return yToward(start, end);
+        } else {
+            throw new Error("axisToward requires 'x' or 'y'!");
+        }
     }
 
     function xToward(start, end) {
-        return (start.x < end.x) ? 1 : -1;
+        if (start.x < end.x) {
+            return 1;
+        } else if (start.x > end.x) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     function yToward(start, end) {
-        return (start.y < end.y) ? 1 : -1;
+        if (start.y < end.y) {
+            return 1;
+        } else if (start.y > end.y) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     function isToBeAvoided(matrix, coords) {
