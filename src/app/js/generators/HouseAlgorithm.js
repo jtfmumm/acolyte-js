@@ -8,7 +8,7 @@ define(function(require) {
     var HouseAlgorithm = {
         generate: function(options) {
             var diameter = options.diameter;
-            var matrix = new Matrix().init(diameter, diameter, function() { return "grass"; });
+            var matrix = new Matrix().init(diameter, diameter, function() { return "floor"; });
 
             return matrix;
         }

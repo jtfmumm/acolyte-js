@@ -32,6 +32,10 @@ define(function(require) {
             symbol: " .",
             backgroundColor: "tan"
         },
+        "floor": {
+            symbol: " ;",
+            backgroundColor: "light-grey"
+        },
         "door": {
             symbol: " ^",
             color: "white",

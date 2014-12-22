@@ -30,6 +30,11 @@ define(function(require) {
             description: "a path.",
             impenetrable: false
         },
+        "floor": {
+            code: "floor",
+            description: "the floor.",
+            impenetrable: false
+        },
         "door": {
             code: "door",
             description: "a door.",
