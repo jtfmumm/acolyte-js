@@ -8,6 +8,7 @@ define(function(require) {
         this.position = wCoords;
         this.level = level;
         this.code = null;
+        this.highlighted = false;
     }
 
     Agent.prototype = {
@@ -25,6 +26,12 @@ define(function(require) {
         },
         isImpenetrable: function () {
             return true;
+        },
+        toggleHighlighted: function() {
+            this.highlighted = !this.highlighted;
+        },
+        isHighlighted: function() {
+            return this.highlighted;
         }
     };
 

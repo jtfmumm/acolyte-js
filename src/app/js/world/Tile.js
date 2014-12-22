@@ -96,11 +96,11 @@ define(function(require) {
         isReturnPoint: function() {
             return this.returnPoint;
         },
-        toggleHighlight: function() {
+        toggleHighlighted: function() {
             this.highlighted = !this.highlighted;
         },
         isHighlighted: function() {
-            return this.highlighted;
+            return this.highlighted || (this.occupant && this.occupant.isHighlighted());
         }
     };
 

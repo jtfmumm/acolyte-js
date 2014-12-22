@@ -2,8 +2,8 @@ define(function(require) {
     return {
         //Terrains
         "self": {
-            symbol: " @",
-            backgroundColor: "highlight-back"
+            symbol: " @"
+//            backgroundColor: "highlight-back"
         },
         "wall": {
             symbol: " #",
