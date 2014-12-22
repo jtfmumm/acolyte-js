@@ -1,5 +1,7 @@
 define(function(require) {
     return {
+        13: "ENTER",
+        27: "ESC",
         38: "UP",
         40: "DOWN",
         37: "LEFT",

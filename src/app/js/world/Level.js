@@ -97,7 +97,7 @@ define(function(require) {
                 this.focus = tryPosition;
                 this.levelMap.moveAgent(self, position, tryPosition);
                 self.setPosition(tryPosition);
-                Cursor.move(position, posChange);
+                Cursor.move(posChange);
                 if (this.levelMap.hasSubLevelAt(tryPosition)) {
                     var tile = this.levelMap.getTile(tryPosition);
                     this.enterSubLevel(tile.getLevel(), tile, this.focus);

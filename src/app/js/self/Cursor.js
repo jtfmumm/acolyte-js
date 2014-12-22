@@ -15,13 +15,15 @@ define(function(require) {
             this.level = level;
             this.position = coords;
         },
-        move: function(position, posChange) {
-            this.level.moveCursor(position, posChange);
+        move: function(posChange) {
+            this.level.moveCursor(this.position, posChange);
         },
         setPosition: function(position) {
             this.position = position;
         },
         reset: function() {
+            this.level.removeCursor(this.position);
+            this.level.placeCursor(Self.getPosition());
             this.position = Self.getPosition();
         }
 

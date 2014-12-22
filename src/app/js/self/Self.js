@@ -25,6 +25,9 @@ define(function(require) {
 //            this.highlighted = true;
             this.updateConsoleStats();
         },
+        describe: function() {
+            return "a very attractive character.";
+        },
         enterLevel: function(level, coords) {
             this.level = level;
             this.position = coords;
@@ -55,8 +58,8 @@ define(function(require) {
         move: function(posChange) {
             this.level.moveSelf(this, this.position, posChange);
         },
-        look: function(posChange) {
-            var thisTile = this.level.examineTile(this.position.plus(posChange));
+        look: function(position) {
+            var thisTile = this.level.examineTile(position);
             Console.msg(thisTile);
         },
         getCode: function() {
