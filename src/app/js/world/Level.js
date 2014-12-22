@@ -91,6 +91,12 @@ define(function(require) {
         removeOccupant: function(coords) {
             this.levelMap.removeOccupant(coords);
         },
+        hasOccupantAt: function(coords) {
+            return this.levelMap.hasOccupantAt(coords);
+        },
+        talkTo: function(coords) {
+            return this.levelMap.talkTo(coords);
+        },
         moveSelf: function(self, position, posChange) {
             var tryPosition = position.plus(posChange);
             if (!this.levelMap.isImpenetrable(tryPosition)) {

@@ -32,6 +32,9 @@ define(function(require) {
         },
         isHighlighted: function() {
             return this.highlighted;
+        },
+        talk: function() {
+            return "Hi there, weirdo.";
         }
     };
 

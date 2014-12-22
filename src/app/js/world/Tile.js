@@ -71,6 +71,12 @@ define(function(require) {
         removeOccupant: function() {
             this.occupant = null;
         },
+        hasOccupant: function() {
+            return Boolean(this.occupant);
+        },
+        getOccupant: function() {
+            return this.occupant;
+        },
         updateLandmark: function(landmark) {
             this.landmark = landmark;
             if (landmarkTypes[landmark].seed) this.level = landmarkTypes[landmark].seed;

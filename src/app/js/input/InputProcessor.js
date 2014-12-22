@@ -8,7 +8,6 @@ define(function(require) {
 
     var InputProcessor = {
         input: null,
-        pauseState: false,
         mode: "normal",
         init: function(input) {
             this.input = input;
@@ -19,14 +18,15 @@ define(function(require) {
         },
         processNextKey: function() {
             var nextInput = this.input.nextInput();
-            if (nextInput) console.log(nextInput);
+//            if (nextInput) console.log(nextInput);
 
             this[this.mode](nextInput);
         },
         normal: function(nextInput) {
             switch (nextInput) {
                 case "PAUSE":
-                    this.pause();
+                    this.mode = "pause";
+                    Console.msg("Game is paused!");
                     break;
                 case "LOOK":
                     this.mode = "look";
@@ -86,18 +86,14 @@ define(function(require) {
                         Console.msg("Choose where to look.");
                         break;
                     case "ENTER":
-                        Self.talk(Cursor.position);
+                        Self.talkTo(Cursor.position);
                 }
             }
         },
-        pause: function() {
-            this.pauseState = !this.pauseState;
-            if (this.pauseState === true) {
-                Console.msg("Game is paused!");
-                this.input.waitForPause();
-            } else {
+        pause: function(nextInput) {
+            if (nextInput === "PAUSE" || nextInput === "ESC") {
+                this.mode = "normal";
                 Console.msg("Game is unpaused!");
-                this.input.restart();
             }
         },
         shutdown: function() {

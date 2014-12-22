@@ -7,6 +7,7 @@ define(function(require) {
     var Directions = require("js/movement/Directions");
     var Console = require("js/screens/Console");
     var CombatModes = require("js/data/CombatModes");
+    var Talk = require("js/talk/Talk");
 
     var Self = {
         isActive: false,
@@ -27,6 +28,9 @@ define(function(require) {
         },
         describe: function() {
             return "a very attractive character.";
+        },
+        talk: function() {
+            return "Talking to myself...";
         },
         enterLevel: function(level, coords) {
             this.level = level;
@@ -62,8 +66,8 @@ define(function(require) {
             var thisTile = this.level.examineTile(position);
             Console.msg(thisTile);
         },
-        talk: function(position) {
-            Console.msg("Talking!");
+        talkTo: function(position) {
+            Talk.talkTo(this.level.talkTo(position));
         },
         getCode: function() {
             return "self";

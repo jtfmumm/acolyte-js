@@ -70,6 +70,12 @@ define(function(require) {
         removeOccupant: function(coords) {
             this.getTile(coords).occupant = null;
         },
+        hasOccupantAt: function(coords) {
+            this.getTile(coords).hasOccupant();
+        },
+        talkTo: function(coords) {
+            return this.getTile(coords).getOccupant();
+        },
         isWithinBoundaries: function(coords) {
             return this.tileMap.isWithinMatrix(coords.x, coords.y);
         },
