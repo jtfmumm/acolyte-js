@@ -1,21 +1,23 @@
 define(function(require) {
 
     var _ = require("lodash");
+    var Rand = require("js/utils/Rand");
     var LevelGenerator = require("js/world/LevelGenerator");
     var Priest = require("js/agents/Priest");
     var Coords = require("js/utils/Coords");
     var LevelMapAlgorithms = require("js/generators/LevelMapAlgorithms");
 
     function House(parent, parentCoords) {
+        var diameter = Rand.randInt(4, 7);
         var house = LevelGenerator.generate({
             parent: parent,
             parentCoords: parentCoords,
-            diameter: 5,
-            diameterPerRegion: 5,
+            diameter: diameter,
+            diameterPerRegion: diameter,
             visibleDiameter: 51,
             voidType: "void",
             levelMapAlgorithms: LevelMapAlgorithms.house,
-            focus: new Coords(Math.floor(5 / 2), 4)
+            focus: new Coords(Math.floor(diameter / 2), diameter - 1)
         });
         house.prototype = extendHousePrototype(Object.getPrototypeOf(house));
         house.initializeOccupants();
