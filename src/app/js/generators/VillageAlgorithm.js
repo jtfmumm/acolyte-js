@@ -93,6 +93,28 @@ define(function(require) {
         return matrix;
     }
 
+    function findPathToEntrance(start, entrance, matrix) {
+        //Randomly initialize starting axis direction
+        var currentAxis = Rand.roll(2) === 1 ? "x" : "y";
+        var currentPosition = start;
+
+        while (currentPosition !== entrance) {
+            currentAxis = chooseNextAxis(currentAxis);
+        }
+    }
+
+    function chooseNextAxis(current) {
+        var roll = Rand.;
+    }
+
+    function xToward(start, end) {
+        return (start.x < end.x) ? 1 : -1;
+    }
+
+    function yToward(start, end) {
+        return (start.y < end.y) ? 1 : -1;
+    }
+
     function isToBeAvoided(matrix, coords) {
         return matrix.getCell(coords.x, coords.y) === "wall" ||
             matrix.getCell(coords.x, coords.y) === "door";

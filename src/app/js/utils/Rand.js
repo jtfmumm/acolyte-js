@@ -17,6 +17,11 @@ define(function(require) {
         return normalizeRand((high - low + 1), low);
     }
 
+    function rolledByOdds(odds) {
+        if (odds < 0 || odds > 1) throw new Error("Rand.rolledByOdds requires a value from 0 to 1");
+        return Math.random() < odds;
+    }
+
     function pickItem(items) {
         //Takes an array of items
         var high = items.length;
@@ -53,6 +58,7 @@ define(function(require) {
     return {
         roll: roll,
         rollFromZero: rollFromZero,
+        rolledByOdds: rolledByOdds,
         randInt: randInt,
         pickItem: pickItem,
         pickEntryKey: pickEntryKey,
