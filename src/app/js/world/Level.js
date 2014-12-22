@@ -8,6 +8,7 @@ define(function(require) {
     var LevelSubMapper = require("js/world/LevelSubMapper");
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
     var Self = require("js/self/Self");
+    var Cursor = require("js/self/Cursor");
     var Calendar = require("js/time/Calendar");
     var Simulator = require("js/game/Simulator");
     var ActiveAgents = require("js/agents/ActiveAgents");
@@ -42,11 +43,20 @@ define(function(require) {
             this.placeAgent(Self, position);
             Self.enterLevel(this, position);
             this.registerAgent(Self, position);
+            this.placeCursor(position);
+            Cursor.enterLevel(this, position);
         },
         removeSelf: function() {
             Self.deactivate();
             this.unregisterAgent(Self, this.focus);
             this.removeOccupant(this.focus);
+            this.removeCursor(this.focus);
+        },
+        placeCursor: function(position) {
+            this.levelMap.placeCursor(position);
+        },
+        removeCursor: function(position) {
+            this.levelMap.removeCursor(position);
         },
         setRegistryId: function(registryId) {
             this.registryId = registryId;
@@ -87,6 +97,7 @@ define(function(require) {
                 this.focus = tryPosition;
                 this.levelMap.moveAgent(self, position, tryPosition);
                 self.setPosition(tryPosition);
+                Cursor.move(position, posChange);
                 if (this.levelMap.hasSubLevelAt(tryPosition)) {
                     var tile = this.levelMap.getTile(tryPosition);
                     this.enterSubLevel(tile.getLevel(), tile, this.focus);
@@ -105,6 +116,13 @@ define(function(require) {
                     this.getRegion(position).unregisterAgent(agent);
                     this.getRegion(tryPosition).registerAgent(agent);
                 }
+            }
+        },
+        moveCursor: function(position, posChange) {
+            var tryPosition = position.plus(posChange);
+            if (this.levelMap.isWithinBoundaries(tryPosition)) {
+                this.levelMap.moveCursor(Cursor, position, tryPosition);
+                Cursor.setPosition(tryPosition);
             }
         },
         registerAgent: function(agent, coords) {

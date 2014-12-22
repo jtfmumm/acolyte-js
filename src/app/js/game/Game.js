@@ -9,6 +9,7 @@ define(function(require) {
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
     var Simulator = require("js/game/Simulator");
     var InputProcessor = require("js/input/InputProcessor");
+    var Cursor = require("js/self/Cursor");
 
     var Console = require("js/screens/Console");
     var Calendar = require("js/time/Calendar");
@@ -25,6 +26,7 @@ define(function(require) {
 
             this.initializeLevelManager();
             Self.init(this.input);
+            Cursor.init(Self);
 
             this.displayScreens();
             this.watchInput();

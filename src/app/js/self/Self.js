@@ -22,7 +22,7 @@ define(function(require) {
 
         init: function(input) {
             this.input = input;
-            this.highlighted = true;
+//            this.highlighted = true;
             this.updateConsoleStats();
         },
         enterLevel: function(level, coords) {
@@ -45,6 +45,12 @@ define(function(require) {
         },
         setPosition: function(position) {
             this.position = position;
+        },
+        getPosition: function() {
+            return this.position;
+        },
+        getLevel: function() {
+            return this.level;
         },
         move: function(posChange) {
             this.level.moveSelf(this, this.position, posChange);

@@ -54,6 +54,16 @@ define(function(require) {
             this.removeOccupant(oldCoords);
             this.addOccupant(newCoords, agent);
         },
+        placeCursor: function(coords) {
+            this.getTile(coords).toggleHighlighted();
+        },
+        removeCursor: function(coords) {
+            this.getTile(coords).toggleHighlighted();
+        },
+        moveCursor: function(cursor, oldCoords, newCoords) {
+            this.getTile(oldCoords).toggleHighlighted();
+            this.getTile(newCoords).toggleHighlighted();
+        },
         addOccupant: function(coords, newOccupant) {
             this.getTile(coords).occupant = newOccupant;
         },
