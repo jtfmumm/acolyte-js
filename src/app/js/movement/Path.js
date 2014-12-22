@@ -17,6 +17,14 @@ define(function(require) {
         },
         size: function() {
             return this.steps.length;
+        },
+        forEach: function(fn) {
+            for (var i = 0; i < this.steps.length; i++) {
+                fn(this.next());
+            }
+        },
+        toArray: function() {
+            return this.steps;
         }
     };
 

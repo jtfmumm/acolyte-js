@@ -6,15 +6,17 @@ define(function(require) {
     var LevelMapAlgorithms = require("js/generators/LevelMapAlgorithms");
 
     function Village(parent, parentCoords) {
+        var diameter = 50;
+        var focus = new Coords(Math.floor(diameter / 2), diameter - 1);
         var village = LevelGenerator.generate({
             parent: parent,
             parentCoords: parentCoords,
-            diameter: 50,
-            diameterPerRegion: 50,
+            diameter: diameter,
+            diameterPerRegion: diameter,
             visibleDiameter: 51,
             voidType: "void",
             levelMapAlgorithms: LevelMapAlgorithms.village,
-            focus: new Coords(25, 49)
+            focus: focus
         });
         village.prototype = extendVillagePrototype(Object.getPrototypeOf(village));
         village.initializeOccupants();

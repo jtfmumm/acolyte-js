@@ -28,7 +28,7 @@ define(function(require) {
                 _addBuilding(matrix, buildingClearance);
             }
 
-//            _drawPaths(matrix);
+            _drawPaths(matrix);
 
             return matrix;
         }
@@ -60,7 +60,7 @@ define(function(require) {
             var doorCellY = bTopLeftY + 2;
             matrix.setCell(doorCellX, doorCellY, terrainByValue[4]);
             //Add another point to eventually form paths
-            pathPoints.push(new Coords(doorCellX, doorCellY));
+            pathPoints.push(new Coords(doorCellX, doorCellY + 1));
         } else {
             _addBuilding(matrix, clearance);
         }
@@ -72,11 +72,18 @@ define(function(require) {
         //Connect path points using astar
         var pathTiles = [];
 
+        var startingTile = new Coords(Math.floor(matrix.getWidth() / 2), matrix.getHeight() - 1);
+        var startingPath = AstarPathfinder.getShortestCardinalPath(matrix, startingTile, pathPoints[0], isToBeAvoided);
+        pathTiles.push(startingTile);
+        pathTiles = pathTiles.concat(startingPath.toArray());
+
         //Iterate through and get cardinal path from each point to the next (stopping before the last)
         for (var i = 0; i < pathPoints.length - 1; i++) {
             var nextPath = AstarPathfinder.getShortestCardinalPath(matrix, pathPoints[i], pathPoints[i + 1], isToBeAvoided);
-            console.log(nextPath);
-            pathTiles.concat(nextPath);
+            //Add initial point on path
+            pathTiles.push(pathPoints[i]);
+
+            pathTiles = pathTiles.concat(nextPath.toArray());
         }
 
         pathTiles.forEach(function(coords) {
@@ -88,7 +95,7 @@ define(function(require) {
 
     function isToBeAvoided(matrix, coords) {
         return matrix.getCell(coords.x, coords.y) === "wall" ||
-            matrix.getCell(coords.x, coords.y === "door");
+            matrix.getCell(coords.x, coords.y) === "door";
     }
 
     function isClear(cell) {

@@ -1,5 +1,16 @@
 define(function(require) {
 
+    var directions = {
+        north: new Coords(0, -1),
+        south: new Coords(0, 1),
+        east: new Coords(1, 0),
+        west: new Coords(-1, 0),
+        northWest: new Coords(-1, -1),
+        southWest: new Coords(-1, 1),
+        northEast: new Coords(1, -1),
+        southEast: new Coords(1, 1)
+    };
+
     function Coords(x, y) {
         this.x = x;
         this.y = y;
@@ -81,17 +92,18 @@ define(function(require) {
             var neighbors = [];
 
             for (var prop in this.directions) {
-                neighbors.push(this.plus(this.directions[prop]));
+                neighbors.push(this.plus(directions[prop]));
             }
             return neighbors;
         },
         getCardinalNeighbors: function() {
+            var _this = this;
             var neighbors = [];
-            var cardinalDirections = [this.directions.north, this.directions.east, this.directions.south, this.directions.west];
+            var cardinalDirections = [Coords.directions.north, Coords.directions.east, Coords.directions.south, Coords.directions.west];
 
-            for (var direction in cardinalDirections) {
-                neighbors.push(this.plus(direction));
-            }
+            cardinalDirections.forEach(function(direction) {
+                neighbors.push(_this.plus(direction));
+            });
             return neighbors;
         },
         getNeighborsByRadius: function(radius) {
@@ -136,16 +148,6 @@ define(function(require) {
             for (i = maxY; i > minY; i--) {
                 list.push(new Coords(minX, i));
             }
-        },
-        directions: {
-            north: new Coords(0, -1),
-            south: new Coords(0, 1),
-            east: new Coords(1, 0),
-            west: new Coords(-1, 0),
-            northWest: new Coords(-1, -1),
-            southWest: new Coords(-1, 1),
-            northEast: new Coords(1, -1),
-            southEast: new Coords(1, 1)
         }
     };
 
@@ -175,6 +177,8 @@ define(function(require) {
         else
             return new Coords(args[0], args[1]);
     };
+
+    c = Coords;
 
 
     return Coords;

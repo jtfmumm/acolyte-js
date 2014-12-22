@@ -1,4 +1,7 @@
 define(function(require) {
+    var trampoline = require("js/utils/trampoline");
+
+    var count = 0;
 
     var ComparatorHeap = require("js/utils/ComparatorHeap");
     var Path = require("js/movement/Path");
@@ -28,35 +31,45 @@ define(function(require) {
             return this._shortestPathFrom(initialNode);
         },
         _shortestPathFrom: function(node) {
-            if (node.coords.isEqual(this.endCoords)) {
-                return node.path;
-            }
-
             var _this = this;
+            var __shortestPathFrom = function(node) {
+                if (node.coords.isEqual(_this.endCoords)) {
+                    return node.path;
+                }
 
-            var neighbors = node[this.neighborsFunction]().filter(function(coords) {
-                return !_this.isToBeAvoided(_this.regionMatrix, coords) && !_this._isVisited(coords);
-            });
-            neighbors.forEach(function(coords) {
-                var path = node.clonePath().add(coords);
-                var estimatedCost = node.getPathSize() + coords.minDistanceTo(_this.endCoords);
-                _this.toVisit.insert(new Node(coords, path, estimatedCost));
-            });
+                var neighbors = node[_this.neighborsFunction]().filter(function (coords) {
+                    return _this._withinRange(coords) && !_this.isToBeAvoided(_this.regionMatrix, coords) && !_this._isVisited(coords);
+                });
+                neighbors.forEach(function (coords) {
+                    var path = node.clonePath().add(coords);
+                    var estimatedCost = node.getPathSize() + coords.minDistanceTo(_this.endCoords);
+                    _this.toVisit.insert(new Node(coords, path, estimatedCost));
+                });
 
-            this._markNodeAsVisited(node);
+                _this._markNodeAsVisited(node);
 
-            if (this.toVisit.size()) {
-                return this._shortestPathFrom(this.toVisit.pop());
-            } else {
-                //There's no path possible
-                return false;
-            }
+                if (_this.toVisit.size()) {
+                    return __shortestPathFrom.bind(_this, _this.toVisit.pop());
+                } else {
+                    //There's no path possible
+                    return false;
+                }
+            };
+
+            //tail call optimization with trampoline
+            return trampoline(__shortestPathFrom, node);
         },
         _isVisited: function(coords) {
             return this.visited[coords.toString()];
         },
         _markNodeAsVisited: function(node) {
             this.visited[node.toString()] = true;
+        },
+        _withinRange: function(coords) {
+            return coords.x < this.regionMatrix.getWidth() &&
+                coords.y < this.regionMatrix.getHeight() &&
+                coords.x >= 0 &&
+                coords.y >= 0;
         }
     };
 
@@ -96,7 +109,6 @@ define(function(require) {
         isToBeAvoided = isToBeAvoided || function(marix, coords) { return false; };
         var astar = new Astar(start, end, matrix, "getCardinalNeighbors", isToBeAvoided);
 
-        console.log("READY!");
         //This returns a Path object
         return astar.getShortestPath();
     }
