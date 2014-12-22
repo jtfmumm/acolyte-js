@@ -5,6 +5,8 @@ define(function(require) {
     var HTMLCodeTable = require("js/data/HTMLCodeTable");
     var Self = require("js/self/Self");
 
+    var highlightedColor = "highlight-back";
+
     function HTMLDisplay() {
         this.cache = {};
         this.displayEl = document.getElementById("display");
@@ -47,6 +49,9 @@ define(function(require) {
             var color = tileObject.color ? tileObject.color : "black";
             var backColor;
             switch(true) {
+                case Boolean(tile.isHighlighted()):
+                    backColor = highlightedColor;
+                    break;
                 case Boolean(tileObject.backgroundColor):
                     backColor = tileObject.backgroundColor;
                     break;

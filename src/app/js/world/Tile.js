@@ -13,6 +13,7 @@ define(function(require) {
         this.elevation = options.elevation || 0;
         this.returnPoint = options.returnPoint || false;
         this.level = options.level || null;
+        this.highlighted = false;
     }
 
     Tile.prototype = {
@@ -94,6 +95,12 @@ define(function(require) {
         },
         isReturnPoint: function() {
             return this.returnPoint;
+        },
+        toggleHighlight: function() {
+            this.highlighted = !this.highlighted;
+        },
+        isHighlighted: function() {
+            return this.highlighted;
         }
     };
 
