@@ -12,6 +12,8 @@ define(function(require) {
     var Calendar = require("js/time/Calendar");
     var Simulator = require("js/game/Simulator");
     var ActiveAgents = require("js/agents/ActiveAgents");
+    var ActiveLocation = require("js/world/ActiveLocation");
+    var Population = require("js/population/Population");
 
     function Level(options) {
         options = options || {};
@@ -24,6 +26,7 @@ define(function(require) {
         this.regionManager = options.regionManager || null;
         this.startingCoords = options.focus || new Coords(Math.floor(this.diameter / 2), Math.floor(this.diameter / 2));
         this.focus = this.startingCoords;
+        this.population = new Population();
 
         this.lastTime = Calendar.getTime();
 
@@ -62,6 +65,7 @@ define(function(require) {
             this.registryId = registryId;
         },
         enter: function(coords) {
+            ActiveLocation.add(this);
             //Prepare level
             var newFocus = coords ? coords : this.focus;
             this.focus = newFocus;
@@ -72,6 +76,7 @@ define(function(require) {
             this.placeSelf(newFocus);
         },
         exit: function() {
+            ActiveLocation.remove(this);
             this.removeSelf();
             this.lastTime = Calendar.getTime();
 
@@ -176,6 +181,12 @@ define(function(require) {
                 1000,
                 noLessThanZero(Calendar.getTime() - this.lastTime)
             );
+        },
+        playPopulationGame: function() {
+            this.population.playRound();
+        },
+        addAgentToPopulation: function(agent) {
+            this.population.add(agent);
         }
     };
 

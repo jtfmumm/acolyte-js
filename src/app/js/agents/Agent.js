@@ -3,12 +3,18 @@ define(function(require) {
 
     var Coords = require("js/utils/Coords");
     var ActiveAgents = require("js/agents/ActiveAgents");
+    var Uid = require("js/utils/Uid");
+    var SocialAttitudes = require("js/agents/social/SocialAttitudes");
+
+    var agentIdGenerator = Uid.makeGenerator();
 
     function Agent(level, wCoords) {
+        this.id = agentIdGenerator();
         this.position = wCoords;
         this.level = level;
         this.code = null;
         this.highlighted = false;
+        this.socialAttitudes = new SocialAttitudes();
     }
 
     Agent.prototype = {
@@ -20,6 +26,9 @@ define(function(require) {
         },
         getCode: function() {
             return this.code;
+        },
+        getId: function() {
+            return this.id;
         },
         setPosition: function(coords) {
             this.position = coords;

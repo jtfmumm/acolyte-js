@@ -31,6 +31,7 @@ define(function(require) {
                 var tile = this.levelMap.getTile(priestCoords);
                 tile.updateOccupant(priest);
                 this.registerAgent(priest, new Coords(0, 0));
+                this.population.add(priest);
             }
         });
     }
