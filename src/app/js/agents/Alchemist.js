@@ -6,17 +6,17 @@ define(function(require) {
     var Personality = require("js/agents/stats/Personality");
     var Conversation = require("js/talk/Conversation");
 
-    function Priest(level, coords, options) {
+    function Alchemist(level, coords, options) {
         options = options || {};
         Agent.call(this, level, coords);
-        this.code = "priest";
-        this.cult = options.cult || "Osiris";
-        this.personality = new Personality({occupation: "priest"});
+        this.code = "alchemist";
+        this.personality = new Personality({occupation: "alchemist"});
         this.conversation = new Conversation({personality: this.personality});
     }
 
-    Priest.prototype = npcMixin({
+    Alchemist.prototype = npcMixin({
     });
 
-    return Priest;
+    return Alchemist;
+
 });

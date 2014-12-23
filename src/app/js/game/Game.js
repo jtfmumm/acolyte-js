@@ -36,7 +36,7 @@ define(function(require) {
             var world = new World(this.levelManager);
             this.levelManager.initializeLevel(world);
             //Place landmark where Self begins
-            this.levelManager.placeInitialLandmark("village");
+            this.levelManager.placeInitialLandmark("shrine");
             this.levelManager.enterCurrentLevel();
         },
         displayScreens: function() {

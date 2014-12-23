@@ -63,6 +63,9 @@ define(function(require) {
             backgroundColor: "highlight-back"
         },
         //Agents
+        "alchemist": {
+            symbol: " A"
+        },
         "drunk": {
             symbol: " &"
         },

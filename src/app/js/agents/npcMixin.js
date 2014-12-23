@@ -9,8 +9,11 @@ define(function(require) {
             var posChange = MovementAlgs.drunk();
             this.move(posChange);
         },
+        describe: function() {
+            return this.personality ? this.personality.describe() : "someone.";
+        },
         talk: function() {
-            return "Good day to you, weirdo sir!";
+            return this.conversation ? this.conversation.talk() : "Hello, weird one.";
         }
     });
 

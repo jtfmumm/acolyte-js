@@ -24,8 +24,7 @@ define(function(require) {
 
     function pickItem(items) {
         //Takes an array of items
-        var high = items.length;
-        var pick = roll(high) - 1;
+        var pick = rollFromZero(items.length);
         return items[pick];
     }
 
