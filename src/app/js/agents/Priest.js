@@ -1,6 +1,7 @@
 define(function(require) {
     var _ = require("lodash");
     var Agent = require("js/agents/Agent");
+    var npcMixin = require("js/agents/npcMixin");
     var MovementAlgs = require("js/movement/MovementAlgs");
 
     function Priest(level, coords, options) {
@@ -10,10 +11,7 @@ define(function(require) {
         this.cult = options.cult || "Osiris";
     }
 
-    Priest.prototype = _.extend(Object.create(Agent.prototype), {
-        act: function () {
-            this.move(MovementAlgs.drunk());
-        },
+    Priest.prototype = npcMixin({
         describe: function() {
             return "a priest of " + this.cult + ".";
         }

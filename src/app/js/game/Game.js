@@ -55,7 +55,6 @@ define(function(require) {
         },
         nextStep: function() {
             InputProcessor.processNextKey();
-            Simulator.nextStep();
             this.displayScreens();
         },
         endGame: function() {

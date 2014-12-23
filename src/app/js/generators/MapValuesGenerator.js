@@ -10,6 +10,7 @@ define(function(require) {
     function MapValuesGenerator(options) {
         this.diameter = options.diameter;
         this.diameterPerRegion = options.diameterPerRegion;
+        this.focus = options.focus;
         this.values = new Matrix().init(this.diameter, this.diameter);
         this.genAlgorithm = options.genAlgorithm;
     }
@@ -19,6 +20,7 @@ define(function(require) {
             return this.genAlgorithm.generate({
                 diameter: this.diameter,
                 diameterPerRegion: this.diameterPerRegion,
+                focus: this.focus
             });
         }
     };

@@ -8,7 +8,7 @@ define(function(require) {
     var LevelMapAlgorithms = require("js/generators/LevelMapAlgorithms");
 
     function House(parent, parentCoords) {
-        var diameter = Rand.randInt(4, 7);
+        var diameter = Rand.randInt(5, 8);
         var house = LevelGenerator.generate({
             parent: parent,
             parentCoords: parentCoords,

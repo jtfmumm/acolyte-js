@@ -8,6 +8,7 @@ define(function(require) {
         this.diameter = options.diameter;
         this.diameterPerRegion = options.diameterPerRegion || null;
         this.levelMapAlgorithms = options.levelMapAlgorithms;
+        this.focus = options.focus;
     }
 
     LevelMapGenerator.prototype = {
@@ -28,7 +29,8 @@ define(function(require) {
         generateValuesFromAlgFunction: function(levelMapValueMatrices) {
             var valueSet = this.levelMapAlgorithms({
                 diameter: this.diameter,
-                diameterPerRegion: this.diameterPerRegion
+                diameterPerRegion: this.diameterPerRegion,
+                focus: this.focus
             });
 
             for (var valueType in valueSet) {
@@ -41,7 +43,8 @@ define(function(require) {
             var genOptions = {
                 diameter: this.diameter,
                 diameterPerRegion: this.diameterPerRegion,
-                genAlgorithm: algorithm
+                genAlgorithm: algorithm,
+                focus: this.focus
             };
             var generator = new MapValuesGenerator(genOptions);
             return generator.generateValues();

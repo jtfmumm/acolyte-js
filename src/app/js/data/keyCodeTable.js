@@ -13,6 +13,7 @@ define(function(require) {
         65: "ATTACK", // a
         68: "DEFEND", // d
         78: "NORMAL", // n
+        81: "QUIT", // q (context-dependent)
         84: "TALK", // t
 
         49: "SOUTHWEST", //1

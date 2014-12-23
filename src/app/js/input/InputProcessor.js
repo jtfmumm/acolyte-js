@@ -4,6 +4,7 @@ define(function(require) {
     var Cursor = require("js/self/Cursor");
     var Console = require("js/screens/Console");
     var Directions = require("js/movement/Directions");
+    var Simulator = require("js/game/Simulator");
 
 
     var InputProcessor = {
@@ -47,6 +48,7 @@ define(function(require) {
                     break;
                 default:
                     Self.setNextInput(nextInput);
+                    Simulator.nextStep();
                     break;
             }
         },
@@ -57,6 +59,7 @@ define(function(require) {
                 switch (nextInput) {
                     case "LOOK":
                     case "ESC":
+                    case "QUIT":
                         this.mode = "normal";
                         Cursor.reset();
                         Console.msg("Stopped looking.");
@@ -77,6 +80,7 @@ define(function(require) {
                 switch (nextInput) {
                     case "TALK":
                     case "ESC":
+                    case "QUIT":
                         this.mode = "normal";
                         Cursor.reset();
                         Console.msg("Stopped talking.");

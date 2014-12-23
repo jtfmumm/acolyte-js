@@ -115,6 +115,22 @@ define(function(require) {
             var height = bottomY - topY + 1;
             return this.getSubMatrix(topX, topY, width, height);
         },
+        setEdges: function(value) {
+            var i,
+                firstRow = this.data[0],
+                lastRow = this.data[this.data.length - 1];
+
+            //Set top and bottom edges
+            for (i = 0; i < firstRow.length; i++) {
+                firstRow[i] = value;
+                lastRow[i] = value;
+            }
+            //Set left and right edges
+            for (i = 0; i < this.data.length; i++) {
+                this.data[i][0] = value;
+                this.data[i][this.data.length - 1] = value;
+            }
+        },
         getSubMatrixByDirectionFrom: function(direction, column, row) {
             switch(direction) {
                 case "northwest":

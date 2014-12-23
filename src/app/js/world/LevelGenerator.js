@@ -30,7 +30,8 @@ define(function(require) {
                 diameter: diameter,
                 diameterPerRegion: diameterPerRegion,
                 voidType: voidType,
-                levelMapAlgorithms: options.levelMapAlgorithms
+                levelMapAlgorithms: options.levelMapAlgorithms,
+                focus: focus
             });
             var regionManager = new RegionManager({
                 diameter: diameter,

@@ -14,6 +14,7 @@ define(function(require) {
         this.diameterPerRegion = options.diameterPerRegion || null;
         this.parentFocus = options.parentFocus || null;
         this.levelMapAlgorithms = options.levelMapAlgorithms;
+        this.focus = options.focus;
 
         this.voidType = options.voidType;
         this.voidTile = new VoidTile(this.voidType);
@@ -22,7 +23,8 @@ define(function(require) {
         this.levelMapGenerator = new LevelMapGenerator({
             diameter: this.diameter,
             diameterPerRegion: this.diameterPerRegion,
-            levelMapAlgorithms: this.levelMapAlgorithms
+            levelMapAlgorithms: this.levelMapAlgorithms,
+            focus: this.focus
         });
         this.initialize();
 
