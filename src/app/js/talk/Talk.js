@@ -4,7 +4,11 @@ define(function(require) {
 
     var Talk = {
         talkTo: function(agent) {
-            if (agent) Console.msg(agent.talk());
+            if (agent) {
+                Console.msg(agent.talk());
+            } else {
+                Console.msg("There is no one to talk to there!");
+            }
         }
     };
 
