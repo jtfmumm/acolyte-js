@@ -6,6 +6,8 @@ define(function(require) {
     var Priest = require("js/agents/Priest");
     var Coords = require("js/utils/Coords");
     var LevelMapAlgorithms = require("js/generators/LevelMapAlgorithms");
+    var NPC = require("js/agents/NPC");
+    var Occupation = require("js/agents/occupations/Occupation");
 
     function House(parent, parentCoords) {
         var diameter = Rand.randInt(5, 8);
@@ -28,11 +30,15 @@ define(function(require) {
     function extendHousePrototype(p) {
         return _.extend(p, {
             initializeOccupants: function () {
-//                var priestCoords = this.findEmptyTileCoords();
-//                var priest = new Priest(this, priestCoords);
-//                var tile = this.levelMap.getTile(priestCoords);
-//                tile.updateOccupant(priest);
-//                this.registerAgent(priest, new Coords(0, 0));
+                for (var i = 0; i < 1; i++) {
+                    var nextCoords = this.findEmptyTileCoords();
+                    var occupation = Occupation.generateByLocationType("village");
+                    var npc = new NPC(this, nextCoords, occupation);
+                    var tile = this.levelMap.getTile(nextCoords);
+                    tile.updateOccupant(npc);
+                    this.registerAgent(npc, nextCoords);
+                    this.parent.population.add(npc);
+                }
             }
         });
     }

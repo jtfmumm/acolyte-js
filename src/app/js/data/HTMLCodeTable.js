@@ -64,13 +64,54 @@ define(function(require) {
         },
         //Agents
         "alchemist": {
-            symbol: " A"
+            symbol: " A",
+            color: "white",
+            backgroundColor: "blue"
         },
-        "drunk": {
-            symbol: " &"
+        "artist": {
+            symbol: " A",
+            color: "white",
+            backgroundColor: "blue"
+        },
+        "baker": {
+            symbol: " B",
+            color: "white",
+            backgroundColor: "blue"
+        },
+        "bard": {
+            symbol: " B",
+            color: "white",
+            backgroundColor: "blue"
+        },
+        "carpenter": {
+            symbol: " C",
+            color: "white",
+            backgroundColor: "blue"
+        },
+        "cottager": {
+            symbol: " C",
+            color: "white",
+            backgroundColor: "blue"
+        },
+        "farmer": {
+            symbol: " F",
+            color: "white",
+            backgroundColor: "blue"
+        },
+        "potter": {
+            symbol: " P",
+            color: "white",
+            backgroundColor: "blue"
         },
         "priest": {
-            symbol: " P"
+            symbol: " P",
+            color: "white",
+            backgroundColor: "blue"
+        },
+        "tailor": {
+            symbol: " T",
+            color: "white",
+            backgroundColor: "blue"
         },
         //Elevations
         "-2": {

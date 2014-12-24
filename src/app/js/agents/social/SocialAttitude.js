@@ -1,7 +1,8 @@
 define(function(require) {
 
-    function SocialAttitude() {
+    function SocialAttitude(target) {
         this.like = 0;
+        this.target = target;
     }
 
     SocialAttitude.prototype = {
@@ -10,6 +11,9 @@ define(function(require) {
         },
         getLike: function() {
             return this.like;
+        },
+        getTarget: function() {
+            return this.target;
         }
     };
 

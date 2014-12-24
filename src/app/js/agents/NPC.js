@@ -13,7 +13,10 @@ define(function(require) {
         this.type = options.type || generateType();
         this.code = this.type;
         this.personality = new Personality({occupation: this.type});
-        this.conversation = new Conversation({personality: this.personality});
+        this.conversation = new Conversation({
+            personality: this.personality,
+            socialAttitudes: this.socialAttitudes
+        });
     }
 
     NPC.prototype = npcMixin({});

@@ -1,6 +1,7 @@
 define(function(require) {
 
     var SocialAttitude = require("js/agents/social/SocialAttitude");
+    var Rand = require("js/utils/Rand");
 
     function SocialAttitudes() {
         //Hash of agent ids to SocialAttitudes (toward the corresponding agent)
@@ -19,7 +20,15 @@ define(function(require) {
         },
         addAgent: function(agent) {
             var agentId = agent.getId();
-            if (!this.attitudes[agentId]) this.attitudes[agentId] = new SocialAttitude();
+            if (!this.attitudes[agentId]) this.attitudes[agentId] = new SocialAttitude(agent);
+        },
+        hasAttitude: function() {
+            var keys = Object.keys(this.attitudes);
+            return keys.length ? true : false;
+        },
+        getRandomAttitude: function() {
+            var key = Rand.pickItem(Object.keys(this.attitudes));
+            return this.attitudes[key];
         }
     };
 

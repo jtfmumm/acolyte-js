@@ -12,7 +12,9 @@ define(function(require) {
         this.friendly = Math.random();
         this.mystical = Math.random();
         this.dogmatic = Math.random();
+        this.manipulative = Math.random();
         this.brave = Math.random();
+        this.trusting = Math.random();
         this.intelligent = Math.random();
     }
 

@@ -1,9 +1,16 @@
 define(function(require) {
 
     return {
+        village: ["baker", "bard", "carpenter", "cottager", "farmer", "potter", "tailor"],
+        town: ["alchemist", "artist", "baker", "bard", "carpenter", "cottager", "farmer", "potter", "tailor"],
+        manor: ["baron"],
         alchemist: {
             man: "Alchemist",
             woman: "Alchemist"
+        },
+        artist: {
+            man: "Artist",
+            woman: "Artist"
         },
         baker: {
             man: "Baker",
@@ -55,5 +62,3 @@ define(function(require) {
         }
     }
 });
-
-//        var types = ["alchemist", "baker", "bard", "carpenter", "cottager", "farmer", "potter", "tailor"];
