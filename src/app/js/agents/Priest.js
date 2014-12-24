@@ -9,6 +9,7 @@ define(function(require) {
     function Priest(level, coords, options) {
         options = options || {};
         Agent.call(this, level, coords);
+        this.type = "priest";
         this.code = "priest";
         this.cult = options.cult || "Osiris";
         this.personality = new Personality({occupation: "priest"});

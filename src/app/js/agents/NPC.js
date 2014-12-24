@@ -5,18 +5,23 @@ define(function(require) {
     var MovementAlgs = require("js/movement/MovementAlgs");
     var Personality = require("js/agents/stats/Personality");
     var Conversation = require("js/talk/Conversation");
+    var Rand = require("js/utils/Rand");
 
-    function Alchemist(level, coords, options) {
+    function NPC(level, coords, options) {
         options = options || {};
         Agent.call(this, level, coords);
-        this.code = "alchemist";
-        this.personality = new Personality({occupation: "alchemist"});
+        this.type = options.type || generateType();
+        this.code = this.type;
+        this.personality = new Personality({occupation: this.type});
         this.conversation = new Conversation({personality: this.personality});
     }
 
-    Alchemist.prototype = npcMixin({
-    });
+    NPC.prototype = npcMixin({});
 
-    return Alchemist;
+    function generateType() {
+        var types = ["alchemist", "baker", "bard", "carpenter", "cottager", "farmer", "potter", "tailor"];
+        return Rand.pickItem(types);
+    }
 
+    return NPC;
 });
