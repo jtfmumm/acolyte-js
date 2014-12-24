@@ -15,7 +15,6 @@ define(function(require) {
             return this.personality ? this.personality.describe() : "someone.";
         },
         talk: function() {
-            console.log(this.socialAttitudes);
             return this.conversation ? this.conversation.talk() : "Hello, weird one.";
         },
         //Play round in population game
