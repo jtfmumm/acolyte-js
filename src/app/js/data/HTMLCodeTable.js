@@ -66,7 +66,13 @@ define(function(require) {
             symbol: "[]",
             backgroundColor: "highlight-back"
         },
-        //Agents
+        //Monsters
+        "skeleton": {
+            symbol: " s",
+            color: "white",
+            backgroundColor: "red"
+        },
+        //NPCs
         "alchemist": {
             symbol: " A",
             color: "white",

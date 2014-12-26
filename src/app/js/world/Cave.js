@@ -5,11 +5,11 @@ define(function(require) {
     var LevelGenerator = require("js/world/LevelGenerator");
     var Coords = require("js/utils/Coords");
     var LevelMapAlgorithms = require("js/generators/LevelMapAlgorithms");
-    var NPC = require("js/agents/NPC");
+    var Monster = require("js/agents/Monster");
     var Occupation = require("js/agents/occupations/Occupation");
 
     function Cave(parent, parentCoords) {
-        var diameter = Rand.randInt(50, 80);
+        var diameter = Rand.randInt(20, 30);
         var cave = LevelGenerator.generate({
             parent: parent,
             parentCoords: parentCoords,
@@ -29,6 +29,13 @@ define(function(require) {
     function extendCavePrototype(p) {
         return _.extend(p, {
             initializeOccupants: function () {
+                for (var i = 0; i < 1; i++) {
+                    var nextCoords = this.findEmptyTileCoords();
+                    var tile = this.levelMap.getTile(nextCoords);
+                    var monster = new Monster(this, nextCoords);
+                    tile.updateOccupant(monster);
+                    this.registerAgent(monster, nextCoords);
+                }
             }
         });
     }
