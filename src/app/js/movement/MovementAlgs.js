@@ -12,6 +12,7 @@ define(function(require) {
         drunk: function() {
             return Rand.pickItem(cardinalDirections);
         },
+        //Requires caching last move
         biasedDrunk: function(direction) {
             var biasedCardinal = cardinalDirections.slice(0);
             biasedCardinal.push(direction);
