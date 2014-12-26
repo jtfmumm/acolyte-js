@@ -81,7 +81,6 @@ define(function(require) {
             this.lastTime = Calendar.getTime();
 
             this.deactivate();
-            this.updateActiveRegions();
             this.focus = this.startingCoords;
         },
         placeAgent: function(agent, coords) {
