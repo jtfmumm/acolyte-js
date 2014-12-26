@@ -1,14 +1,15 @@
 define(function(require) {
 
     var LevelGenerator = require("js/world/LevelGenerator");
-    var Shrine = require("js/world/Shrine");
+    var Cave = require("js/world/Cave");
     var House = require("js/world/House");
+    var Shrine = require("js/world/Shrine");
     var Village = require("js/world/Village");
 
     var LevelFactory = {
-//        cave: function(parent, parentCoords) {
-//            return new Cave(parent, parentCoords);
-//        },
+        cave: function(parent, parentCoords) {
+            return new Cave(parent, parentCoords);
+        },
         house: function(parent, parentCoords) {
             return new House(parent, parentCoords);
         },

@@ -54,6 +54,10 @@ define(function(require) {
             backgroundColor: "black"
         },
         //Landmarks
+        "cave": {
+            symbol: "OO",
+            backgroundColor: "highlight-back"
+        },
         "shrine": {
             symbol: "II",
             backgroundColor: "highlight-back"
