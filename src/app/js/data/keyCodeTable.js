@@ -1,20 +1,24 @@
 define(function(require) {
     return {
-        13: "ENTER",
-        27: "ESC",
         38: "UP",
         40: "DOWN",
         37: "LEFT",
         39: "RIGHT",
-        80: "PAUSE", // p
-        69: "EXAMINE", // e
+
+        13: "ENTER",
+        27: "ESC",
+        65: "ATTACK", // a
+        67: "C",
+        68: "DEFEND", // d
+        69: "EDIT", // e
         72: "HELP", // h
         76: "LOOK", // l
-        65: "ATTACK", // a
-        68: "DEFEND", // d
         78: "NORMAL", // n
+        80: "PAUSE", // p
         81: "QUIT", // q (context-dependent)
+        83: "S",
         84: "TALK", // t
+        86: "V",
 
         49: "SOUTHWEST", //1
         50: "SOUTH", //2

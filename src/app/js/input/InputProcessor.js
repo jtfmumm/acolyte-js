@@ -37,6 +37,10 @@ define(function(require) {
                     this.mode = "talk";
                     Console.msg("Talk: Move cursor to target and press enter.");
                     break;
+                case "EDIT":
+                    this.mode = "edit";
+                    Console.msg("Choose where to edit.");
+                    break;
                 case "HELP":
                     Console.msg("Arrows or numpad - Move (including diagonal)");
                     Console.msg("t - Talk");
@@ -68,6 +72,10 @@ define(function(require) {
                         this.mode = "talk";
                         Console.msg("Choose who to talk to.");
                         break;
+                    case "EDIT":
+                        this.mode = "edit";
+                        Console.msg("Choose where to edit.");
+                        break;
                     case "ENTER":
                         Self.look(Cursor.position);
                 }
@@ -89,8 +97,45 @@ define(function(require) {
                         this.mode = "look";
                         Console.msg("Choose where to look.");
                         break;
+                    case "EDIT":
+                        this.mode = "edit";
+                        Console.msg("Choose where to edit.");
+                        break;
                     case "ENTER":
                         Self.talkTo(Cursor.position);
+                }
+            }
+        },
+        edit: function(nextInput) {
+            if (Directions.isDirection(nextInput)) {
+                Cursor.move(Directions[nextInput]);
+            } else {
+                switch (nextInput) {
+                    case "EDIT":
+                    case "ESC":
+                    case "QUIT":
+                        this.mode = "normal";
+                        Cursor.reset();
+                        Console.msg("Stopped editing.");
+                        break;
+                    case "LOOK":
+                        this.mode = "look";
+                        Console.msg("Choose where to look.");
+                        break;
+                    case "TALK":
+                        this.mode = "talk";
+                        Console.msg("Choose who to talk to.");
+                        break;
+                    case "V":
+                        console.log("hi");
+                        Self.placeLevel(Cursor.position, "village");
+                        break;
+                    case "S":
+                        Self.placeLevel(Cursor.position, "shrine");
+                        break;
+                    case "C":
+                        Self.placeLevel(Cursor.position, "cave");
+                        break;
                 }
             }
         },

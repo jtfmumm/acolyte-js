@@ -6,17 +6,20 @@ define(function(require) {
     var Village = require("js/world/Village");
 
     var LevelFactory = {
-        world: function(parent) {
-            return new World(parent);
+//        cave: function(parent, parentCoords) {
+//            return new Cave(parent, parentCoords);
+//        },
+        house: function(parent, parentCoords) {
+            return new House(parent, parentCoords);
         },
         shrine: function(parent, parentCoords) {
             return new Shrine(parent, parentCoords);
         },
+        world: function(parent) {
+            return new World(parent);
+        },
         village: function(parent, parentCoords) {
             return new Village(parent, parentCoords);
-        },
-        house: function(parent, parentCoords) {
-            return new House(parent, parentCoords);
         }
     };
 

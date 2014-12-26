@@ -187,6 +187,10 @@ define(function(require) {
         },
         addAgentToPopulation: function(agent) {
             this.population.add(agent);
+        },
+        ///For dev editing of map
+        placeLevel: function(coords, levelSeed) {
+            this.levelMap.placeLevel(coords, levelSeed);
         }
     };
 

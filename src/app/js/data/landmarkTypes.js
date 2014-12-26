@@ -1,6 +1,12 @@
 define(function(require) {
 
     return {
+        cave: {
+            code: "cave",
+            description: "a cave.",
+            impenetrable: false,
+            seed: "cave"
+        },
         shrine: {
             code: "shrine",
             description: "a shrine.",

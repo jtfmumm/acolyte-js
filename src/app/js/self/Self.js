@@ -122,6 +122,10 @@ define(function(require) {
         },
         isHighlighted: function() {
             return this.highlighted;
+        },
+        ///For dev editing of map
+        placeLevel: function(coords, levelSeed) {
+            this.level.placeLevel(coords, levelSeed);
         }
     };
 

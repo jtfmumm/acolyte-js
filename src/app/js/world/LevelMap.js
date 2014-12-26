@@ -112,6 +112,10 @@ define(function(require) {
         },
         isReturnPoint: function(coords) {
             return this.getTile(coords).isReturnPoint();
+        },
+        ///For dev editing of map
+        placeLevel: function(coords, levelSeed) {
+            this.getTile(coords).updateLandmark(levelSeed);
         }
     };
 
