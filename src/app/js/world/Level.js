@@ -135,6 +135,12 @@ define(function(require) {
                 Cursor.setPosition(tryPosition);
             }
         },
+        attackAgent: function(attacker, attackerPosition, direction) {
+            var target = attackerPosition.plus(direction);
+            if (this.levelMap.hasOccupantAt(target)) {
+                this.levelMap.getTile(target).getOccupant().damage(attacker);
+            }
+        },
         registerAgent: function(agent, coords) {
             this.regionManager.registerAgent(agent, coords);
         },

@@ -73,7 +73,7 @@ define(function(require) {
             this.getTile(coords).occupant = null;
         },
         hasOccupantAt: function(coords) {
-            this.getTile(coords).hasOccupant();
+            return this.getTile(coords).hasOccupant();
         },
         talkTo: function(coords) {
             return this.getTile(coords).getOccupant();

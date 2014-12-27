@@ -66,6 +66,12 @@ define(function(require) {
             var thisTile = this.level.examineTile(position);
             Console.msg(thisTile);
         },
+        attack: function(direction) {
+            this.level.attackAgent(this, this.position, direction);
+        },
+        rollToHit: function(targetArmorClass) {
+            return 100;
+        },
         talkTo: function(position) {
             Talk.talkTo(this.level.talkTo(position));
         },

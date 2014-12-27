@@ -62,7 +62,7 @@ define(function(require) {
         },
         attack: function(nextInput) {
             if (Directions.isDirection(nextInput)) {
-                Console.msg("Attacking!");
+                Self.attack(Directions[nextInput]);
                 this.mode = "normal";
             } else {
                 Console.msg("Invalid direction!");

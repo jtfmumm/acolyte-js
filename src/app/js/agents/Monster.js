@@ -12,6 +12,8 @@ define(function(require) {
         Agent.call(this, level, coords);
         this.type = options.type || generateType();
         this.code = this.type;
+        this.hp = 5;
+        this.armorClass = 10;
     }
 
     Monster.prototype = monsterMixin({});

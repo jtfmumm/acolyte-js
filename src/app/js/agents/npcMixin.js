@@ -8,7 +8,7 @@ define(function(require) {
 
     var npc = _.extend(Object.create(Agent.prototype), {
         act: function() {
-            var posChange = MovementAlgs.drunk();
+            var posChange = MovementAlgs.biasedDrunk(this.lastMove);
             this.move(posChange);
         },
         describe: function() {
