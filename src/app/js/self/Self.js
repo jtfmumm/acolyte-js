@@ -70,7 +70,7 @@ define(function(require) {
             this.level.attackAgent(this, this.position, direction);
         },
         rollToHit: function(targetArmorClass) {
-            return 100;
+            return Rand.roll(20);
         },
         talkTo: function(position) {
             Talk.talkTo(this.level.talkTo(position));

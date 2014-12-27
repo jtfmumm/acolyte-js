@@ -14,7 +14,7 @@ define(function(require) {
         removeAgent: function(agent) {
             var agentIdx = this.activeList.indexOf(agent);
             if (agentIdx !== -1) {
-                this.activeList.slice(agentIdx, 1);
+                this.activeList.splice(agentIdx, 1);
             } else {
                 console.error("That agent is not in this list!", agent);
             }

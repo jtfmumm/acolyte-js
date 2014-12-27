@@ -30,6 +30,9 @@ define(function(require) {
             if (damage) {
                 this.hp -= damage;
                 Console.msg(attacker.describe() + " hits " + this.describe() + " for " + damage + " damage!");
+                if (this.isDead()) {
+                    this.fall();
+                }
             } else {
                 Console.msg(attacker.describe() + " misses!");
             }
@@ -57,6 +60,14 @@ define(function(require) {
         },
         talk: function() {
             return "Hi there, weirdo.";
+        },
+        isDead: function() {
+            return this.hp <= 0;
+        },
+        fall: function() {
+            Console.msg(this.describe() + " has been slain!");
+            this.level.unregisterAgent(this, this.position);
+            this.level.removeAgent(this.position);
         }
     };
 

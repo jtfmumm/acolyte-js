@@ -37,7 +37,7 @@ define(function(require) {
             cost: 350, 
             name: "Great Shield"
         }
-    }
+    };
 
     var weapons = {
         handAxe: {
@@ -214,5 +214,9 @@ define(function(require) {
         greatShield: "Great Shield"
     };
 
-    return equipment;
+    return {
+        armor: armor,
+        weapons: weapons,
+        itemNames: itemNames
+    };
 });

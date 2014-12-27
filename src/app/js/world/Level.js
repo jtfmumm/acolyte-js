@@ -86,6 +86,9 @@ define(function(require) {
         placeAgent: function(agent, coords) {
             this.levelMap.placeAgent(agent, coords);
         },
+        removeAgent: function(coords) {
+            this.removeOccupant(coords);
+        },
         display: function(display) {
             this.visibleMapManager.display(display, this.focus);
         },
