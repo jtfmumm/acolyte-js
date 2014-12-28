@@ -106,6 +106,11 @@ define(function(require) {
             });
             return neighbors;
         },
+        isCardinalNeighbor: function(target) {
+            return this.getCardinalNeighbors().some(function(neighbor) {
+                return neighbor.isEqual(target);
+            });
+        },
         getNeighborsByRadius: function(radius) {
             var neighbors = [];
 

@@ -14,6 +14,9 @@ define(function(require) {
         position: null,
         nextInput: null,
         level: null,
+        baseArmorClass: 11,
+        armorClass: 11,
+        hitDie: 8,
         stats: {
             name: "Acolyte",
             level: 1,
@@ -70,7 +73,19 @@ define(function(require) {
             this.level.attackAgent(this, this.position, direction);
         },
         rollToHit: function(targetArmorClass) {
-            return Rand.roll(20);
+            return Rand.roll(this.hitDie);
+        },
+        damage: function(attacker) {
+            var damage = attacker.rollToHit(this.armorClass);
+            if (damage) {
+                this.stats.hp -= damage;
+                Console.msg(attacker.describe() + " hits " + this.describe() + " for " + damage + " damage!");
+//                if (this.isDead()) {
+//                    this.fall();
+//                }
+            } else {
+                Console.msg(attacker.describe() + " misses!");
+            }
         },
         talkTo: function(position) {
             Talk.talkTo(this.level.talkTo(position));

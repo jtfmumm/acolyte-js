@@ -1,6 +1,7 @@
 define(function(require) {
     "use strict";
 
+    var Rand = require("js/utils/Rand");
     var Coords = require("js/utils/Coords");
     var ActiveAgents = require("js/agents/ActiveAgents");
     var Uid = require("js/utils/Uid");
@@ -14,7 +15,8 @@ define(function(require) {
         this.position = wCoords;
         this.level = level;
         this.hp = 1;
-        this.armorClass = 0;
+        this.armorClass = 10;
+        this.hitDie = 1;
         this.code = null;
         this.lastMove = new Coords(0, 0);
         this.highlighted = false;
@@ -36,6 +38,9 @@ define(function(require) {
             } else {
                 Console.msg(attacker.describe() + " misses!");
             }
+        },
+        rollToHit: function(targetArmorClass) {
+            return Rand.roll(this.hitDie);
         },
         move: function (posChange) {
             this.level.moveAgent(this, this.position, posChange);

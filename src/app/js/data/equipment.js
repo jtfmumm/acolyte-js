@@ -2,25 +2,25 @@ define(function(require) {
 
     var armor = {
         none: {
-            ac: 11, 
+            ac: 0,
             weight: 0, 
             cost: 0,
             name: "No Armor"
         }, 
         leather: {
-            ac: 13, 
+            ac: 3,
             weight: 15, 
             cost: 200, 
             name: "Leather Armor"
         }, 
         chainMail: {
-            ac: 15, 
+            ac: 5,
             weight: 40, 
             cost: 600, 
             name: "Chain Mail"
         }, 
         plateMail: {
-            ac: 17, 
+            ac: 7,
             weight: 50, 
             cost: 3000, 
             name: "Plate Mail"
