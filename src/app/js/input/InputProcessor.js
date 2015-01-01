@@ -29,10 +29,10 @@ define(function(require) {
                     this.mode = "pause";
                     Console.msg("Game is paused!");
                     break;
-//                case "ATTACK":
-//                    this.mode = "attack";
-//                    Console.msg("Attack: Which direction?");
-//                    break;
+                case "FIRE":
+                    this.mode = "fire";
+                    Console.msg("Attack: Which direction?");
+                    break;
                 case "LOOK":
                     this.mode = "look";
                     Console.msg("Look: Move cursor to target and press enter.");
@@ -52,6 +52,7 @@ define(function(require) {
                     Console.msg("a - Attack Mode");
                     Console.msg("d - Defense Mode");
                     Console.msg("n - Normal Mode");
+                    Console.msg("f - Fire (arrow, bolt, etc.)");
                     Console.msg("esc - Return to walking");
                     break;
                 default:
@@ -60,9 +61,9 @@ define(function(require) {
                     break;
             }
         },
-        attack: function(nextInput) {
+        fire: function(nextInput) {
             if (Directions.isDirection(nextInput)) {
-                Self.attack(Directions[nextInput]);
+                Self.fire(Directions[nextInput]);
                 this.mode = "normal";
             } else {
                 Console.msg("Invalid direction!");

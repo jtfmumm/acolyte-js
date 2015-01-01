@@ -5,37 +5,43 @@ define(function(require) {
             ac: 0,
             weight: 0, 
             cost: 0,
-            name: "No Armor"
+            name: "No Armor",
+            armorType: "armor"
         }, 
         leather: {
             ac: 3,
             weight: 15, 
             cost: 200, 
-            name: "Leather Armor"
-        }, 
+            name: "Leather Armor",
+            armorType: "armor"
+        },
         chainMail: {
             ac: 5,
             weight: 40, 
             cost: 600, 
-            name: "Chain Mail"
+            name: "Chain Mail",
+            armorType: "armor"
         }, 
         plateMail: {
             ac: 7,
             weight: 50, 
             cost: 3000, 
-            name: "Plate Mail"
+            name: "Plate Mail",
+            armorType: "armor"
         }, 
         buckler: {
             ac: 1, 
             weight: 5, 
             cost: 70, 
-            name: "Buckler"
+            name: "Buckler",
+            armorType: "shield"
         }, 
         greatShield: {
             ac: 2, 
             weight: 10, 
             cost: 350, 
-            name: "Great Shield"
+            name: "Great Shield",
+            armorType: "shield"
         }
     };
 

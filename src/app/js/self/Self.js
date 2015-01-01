@@ -9,17 +9,18 @@ define(function(require) {
     var CombatModes = require("js/data/CombatModes");
     var Talk = require("js/talk/Talk");
     var Dice = require("js/rules/Dice");
-
+    var Inventory = require("js/inventory/Inventory");
+    var Holding = require("js/inventory/Holding");
 
     var Self = {
         isActive: false,
         position: null,
         nextInput: null,
         level: null,
-        baseArmorClass: 10,
-        armorClass: 10,
-        attackDice: new Dice(1, 4),
         hitBonus: 0,
+        inventory: new Inventory(),
+        holding: new Holding(),
+        maxWeight: 100,
         stats: {
             name: "Acolyte",
             level: 1,
@@ -29,7 +30,6 @@ define(function(require) {
 
         init: function(input) {
             this.input = input;
-//            this.highlighted = true;
             this.updateConsoleStats();
         },
         describe: function() {
@@ -83,17 +83,30 @@ define(function(require) {
         attack: function(direction) {
             this.level.attackAgent(this, this.position, direction);
         },
+        fire: function(direction) {
+            if (this.canFire()) {
+                Console.msg("Fire!");
+            } else {
+                Console.msg("Nothing to fire!");
+            }
+        },
+        canFire: function() {
+            return true;
+        },
         rollToHit: function(targetArmorClass) {
             return Rand.roll(20) > targetArmorClass;
         },
         rollToDamage: function() {
-            return this.attackDice.roll() + this.hitBonus;
+            return this.getAttackDice().roll() + this.hitBonus;
         },
         loseHP: function(damage) {
             this.stats.hp -= damage;
         },
+        getAttackDice: function() {
+            return this.holding.getAttackDice();
+        },
         getArmorClass: function() {
-            return this.armorClass;
+            return this.holding.getArmorClass();
         },
         talkTo: function(position) {
             Talk.talkTo(this.level.talkTo(position));
@@ -137,6 +150,13 @@ define(function(require) {
                 case "NORMAL":
                     this.stats.combatMode = CombatModes.NONE;
                     break;
+            }
+        },
+        addToInventory: function(item) {
+            if (!this.inventory.isOverLimitAfterItem(this.maxWeight, item)) {
+                this.inventory.addItem(item);
+            } else {
+                Console.msg("You're holding too much weight!");
             }
         },
         isDead: function() {

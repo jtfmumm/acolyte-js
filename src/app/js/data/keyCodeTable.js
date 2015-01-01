@@ -11,6 +11,7 @@ define(function(require) {
         67: "C",
         68: "DEFEND", // d
         69: "EDIT", // e
+        70: "FIRE", // f
         72: "HELP", // h
         76: "LOOK", // l
         78: "NORMAL", // n
