@@ -14,6 +14,7 @@ define(function(require) {
     var ActiveAgents = require("js/agents/ActiveAgents");
     var ActiveLocation = require("js/world/ActiveLocation");
     var Population = require("js/population/Population");
+    var Combat = require("js/rules/Combat");
 
     function Level(options) {
         options = options || {};
@@ -139,9 +140,10 @@ define(function(require) {
             }
         },
         attackAgent: function(attacker, attackerPosition, direction) {
-            var target = attackerPosition.plus(direction);
-            if (this.levelMap.hasOccupantAt(target)) {
-                this.levelMap.getTile(target).getOccupant().damage(attacker);
+            var targetCoords = attackerPosition.plus(direction);
+            if (this.levelMap.hasOccupantAt(targetCoords)) {
+                var defender = this.levelMap.getTile(targetCoords).getOccupant();
+                Combat.attack(attacker, defender);
             }
         },
         registerAgent: function(agent, coords) {

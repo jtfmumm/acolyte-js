@@ -29,10 +29,10 @@ define(function(require) {
                     this.mode = "pause";
                     Console.msg("Game is paused!");
                     break;
-                case "ATTACK":
-                    this.mode = "attack";
-                    Console.msg("Attack: Which direction?");
-                    break;
+//                case "ATTACK":
+//                    this.mode = "attack";
+//                    Console.msg("Attack: Which direction?");
+//                    break;
                 case "LOOK":
                     this.mode = "look";
                     Console.msg("Look: Move cursor to target and press enter.");

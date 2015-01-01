@@ -16,15 +16,15 @@ define(function(require) {
                 this.approachTarget(Self.position);
             }
         },
-        canAttack: function(target) {
-            return this.position.isCardinalNeighbor(target);
+        canAttack: function(targetCoords) {
+            return this.position.isCardinalNeighbor(targetCoords);
         },
-        attack: function(target) {
-            this.level.attackAgent(this, this.position, target.minus(this.position));
+        attack: function(targetCoords) {
+            this.level.attackAgent(this, this.position, targetCoords.minus(this.position));
         },
-        approachTarget: function(target) {
-            var xDiff = target.x - this.position.x;
-            var yDiff = target.y - this.position.y;
+        approachTarget: function(targetCoords) {
+            var xDiff = targetCoords.x - this.position.x;
+            var yDiff = targetCoords.y - this.position.y;
             if (xDiff > 0 && yDiff > 0) {
                 var roll = Rand.pickItem([new Coords(1, 0), new Coords(0, 1)]);
                 this.move(roll);

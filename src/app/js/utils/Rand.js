@@ -8,6 +8,15 @@ define(function(require) {
         return normalizeRand(sides, 1);
     }
 
+    function rolls(count, sides) {
+        var sum = 0;
+        while (count > 0) {
+            sum += roll(sides);
+            count--;
+        }
+        return sum;
+    }
+
     function rollFromZero(sides) {
         if (sides < 1) throw new Error("Rand.rollFromZero requires 1 or more sides.");
         return normalizeRand(sides, 0);
@@ -56,6 +65,7 @@ define(function(require) {
 
     return {
         roll: roll,
+        rolls: rolls,
         rollFromZero: rollFromZero,
         rolledByOdds: rolledByOdds,
         randInt: randInt,

@@ -8,15 +8,18 @@ define(function(require) {
     var Console = require("js/screens/Console");
     var CombatModes = require("js/data/CombatModes");
     var Talk = require("js/talk/Talk");
+    var Dice = require("js/rules/Dice");
+
 
     var Self = {
         isActive: false,
         position: null,
         nextInput: null,
         level: null,
-        baseArmorClass: 11,
-        armorClass: 11,
-        hitDie: 8,
+        baseArmorClass: 10,
+        armorClass: 10,
+        attackDice: new Dice(1, 4),
+        hitBonus: 0,
         stats: {
             name: "Acolyte",
             level: 1,
@@ -38,6 +41,7 @@ define(function(require) {
         enterLevel: function(level, coords) {
             this.level = level;
             this.position = coords;
+            this.stats.combatMode = CombatModes.NONE;
         },
         getStats: function() {
             return this.stats;
@@ -69,23 +73,27 @@ define(function(require) {
             var thisTile = this.level.examineTile(position);
             Console.msg(thisTile);
         },
+        attackOrMove: function(direction) {
+            if (this.level.hasOccupantAt(this.position.plus(direction))) {
+                this.attack(direction);
+            } else {
+                this.move(direction);
+            }
+        },
         attack: function(direction) {
             this.level.attackAgent(this, this.position, direction);
         },
         rollToHit: function(targetArmorClass) {
-            return Rand.roll(this.hitDie);
+            return Rand.roll(20) > targetArmorClass;
         },
-        damage: function(attacker) {
-            var damage = attacker.rollToHit(this.armorClass);
-            if (damage) {
-                this.stats.hp -= damage;
-                Console.msg(attacker.describe() + " hits " + this.describe() + " for " + damage + " damage!");
-//                if (this.isDead()) {
-//                    this.fall();
-//                }
-            } else {
-                Console.msg(attacker.describe() + " misses!");
-            }
+        rollToDamage: function() {
+            return this.attackDice.roll() + this.hitBonus;
+        },
+        loseHP: function(damage) {
+            this.stats.hp -= damage;
+        },
+        getArmorClass: function() {
+            return this.armorClass;
         },
         talkTo: function(position) {
             Talk.talkTo(this.level.talkTo(position));
@@ -104,7 +112,12 @@ define(function(require) {
                 }
 
                 if (Directions.isDirection(this.nextInput)) {
-                    this.move(Directions[this.nextInput]);
+                    var direction = Directions[this.nextInput];
+                    if (this.stats.combatMode === CombatModes.ATTACK) {
+                        this.attackOrMove(direction);
+                    } else {
+                        this.move(direction);
+                    }
                 } else {
                     this.lookUpAction();
                 }
