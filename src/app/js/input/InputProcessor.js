@@ -1,26 +1,26 @@
 define(function(require) {
 
     var Self = require("js/self/Self");
-//    var Game = require("js/game/Game");
     var Cursor = require("js/self/Cursor");
     var Console = require("js/screens/Console");
     var Directions = require("js/movement/Directions");
     var Simulator = require("js/game/Simulator");
+    var Screen = require("js/screens/Screen");
+    var screens = require("js/screens/screens");
 
 
-    var InputProcessor = {
-        input: null,
-        mode: "normal",
-        init: function(input) {
-            this.input = input;
-            this.input.connect();
-        },
+    function InputProcessor(inputDevice) {
+        this.input = inputDevice;
+        this.input.connect();
+        this.mode = "normal";
+    }
+
+    InputProcessor.prototype = {
         isReady: function() {
             return this.input.isReady();
         },
         processNextKey: function() {
             var nextInput = this.input.nextInput();
-//            if (nextInput) console.log(nextInput);
 
             this[this.mode](nextInput);
         },
@@ -44,7 +44,7 @@ define(function(require) {
                     break;
                 case "INVENTORY":
                     this.mode = "inventory";
-                    Game.displayInventory();
+                    Screen.switchTo(screens.INVENTORY);
                     break;
                 case "EDIT":
                     this.mode = "edit";
@@ -134,7 +134,7 @@ define(function(require) {
                     case "ESC":
                     case "QUIT":
                         this.mode = "normal";
-                        Game.displayMap();
+                        Screen.switchTo(screens.MAP);
                         break;
                     case "ENTER":
 //                        Self.talkTo(Cursor.position);

@@ -1,33 +1,24 @@
 define(function(require) {
+    var _ = require("lodash");
     var $ = require("jquery");
     var keyCodeTable = require("js/data/keyCodeTable");
     var Input = require("js/input/Input");
 
     var Keyboard = function() {
         Input.call(this);
+    };
 
-        this.connect = function() {
+    Keyboard.prototype = _.extend(Object.create(Input.prototype), {
+        connect: function() {
             $("body").off("keydown");
             $("body").keydown(this.addKey.bind(this));
         },
-        this.waitForPause = function() {
-            $("body").off("keydown");
-            $("body").keydown(this.unpauseOnP.bind(this))
-        },
-        this.restart = function() {
-            this.connect();
-        },
-        this.addKey = function(e) {
+        addKey: function(e) {
             e.preventDefault();
             this.addEvent(keyCodeTable[e.keyCode]);
-        },
-        this.unpauseOnP = function(e) {
-            if (keyCodeTable[e.keyCode] === "PAUSE")
-                this.addEvent("PAUSE");
         }
-    };
+    });
 
-    Keyboard.prototype = Object.create(Input.prototype);
 
     return new Keyboard();
 });
