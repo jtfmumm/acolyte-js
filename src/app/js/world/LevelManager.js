@@ -42,8 +42,12 @@ define(function(require) {
         enterCurrentLevel: function(coords) {
             this.currentLevel.enter(coords);
         },
-        display: function(display) {
-            this.currentLevel.display(display);
+        display: function(screen) {
+            screen.display(this.currentLevel);
+//            this.currentLevel.display(display);
+        },
+        getVisibleMap: function() {
+            return this.currentLevel.getVisibleMap();
         }
     };
 

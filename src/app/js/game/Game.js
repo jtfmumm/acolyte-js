@@ -7,9 +7,9 @@ define(function(require) {
     var Self = require("js/self/Self");
     var TestWorldGenerator = require("js/test-worlds/TestWorldGenerator");
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
-    var Simulator = require("js/game/Simulator");
     var InputProcessor = require("js/input/InputProcessor");
     var Cursor = require("js/self/Cursor");
+    var Screen = require("js/screens/Screen");
 
     var Console = require("js/screens/Console");
     var Calendar = require("js/time/Calendar");
@@ -17,6 +17,7 @@ define(function(require) {
 
     function Game() {
         this.display = new HTMLDisplay();
+        this.screen = null;
         this.levelManager = null;
     }
 
@@ -25,6 +26,7 @@ define(function(require) {
             InputProcessor.init(inputDevice);
 
             this.initializeLevelManager();
+            this.initializeScreen();
             Self.init(this.input);
             Cursor.init(Self);
 
@@ -39,9 +41,15 @@ define(function(require) {
             this.levelManager.placeInitialLandmark("village");
             this.levelManager.enterCurrentLevel();
         },
+        initializeScreen: function() {
+            this.screen = new Screen(this.display, this.levelManager);
+        },
         displayScreens: function() {
-            this.levelManager.display(this.display);
+            this.screen.display();
             Console.display(this.display, Self.getStats());
+        },
+        displayInventory: function() {
+            this.screen.renderInventory();
         },
         watchInput: function() {
             var _this = this;

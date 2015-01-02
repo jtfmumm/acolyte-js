@@ -9,8 +9,12 @@ define(function(require) {
     var CombatModes = require("js/data/CombatModes");
     var Talk = require("js/talk/Talk");
     var Dice = require("js/rules/Dice");
+    var Item = require("js/inventory/Item");
+    var Weapon = require("js/inventory/Weapon");
+    var Armor = require("js/inventory/Armor");
     var Inventory = require("js/inventory/Inventory");
     var Holding = require("js/inventory/Holding");
+    var equipment = require("js/data/equipment");
 
     var Self = {
         isActive: false,
@@ -18,7 +22,7 @@ define(function(require) {
         nextInput: null,
         level: null,
         hitBonus: 0,
-        inventory: new Inventory(),
+        inventory: new Inventory(new Armor(equipment.armor.plateMail), new Weapon(equipment.weapons.shortsword)),
         holding: new Holding(),
         maxWeight: 100,
         stats: {
@@ -158,6 +162,12 @@ define(function(require) {
             } else {
                 Console.msg("You're holding too much weight!");
             }
+        },
+        equipWeapon: function(weapon) {
+            this.holding.equipWeapon(weapon);
+        },
+        equipArmor: function(armor) {
+            this.holding.equipArmor(armor);
         },
         isDead: function() {
             return this.stats.hp < 1;

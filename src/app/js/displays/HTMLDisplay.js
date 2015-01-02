@@ -42,6 +42,8 @@ define(function(require) {
             this.consoleEl.innerHTML = text;
             this.consoleEl.className = Self.getStats().combatMode;
         },
+        renderInventory: function(inventory) {
+        },
         compileMapHTML: function(tile) {
             var tileObject = HTMLCodeTable[tile.getDisplayCode()];
             var tileTerrain = HTMLCodeTable[tile.getTerrainCode()];

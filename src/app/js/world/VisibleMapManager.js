@@ -15,6 +15,10 @@ define(function(require) {
             this.updateMap(focus);
             display.renderMap(this.visibleMap);
         },
+        getVisibleMap: function(focus) {
+            this.updateMap(focus);
+            return this.visibleMap;
+        },
         updateMap: function(focus) {
             this.visibleMap = LevelSubMapper.getSubMap(this.levelMap, focus, Math.floor(this.visibleDiameter / 2));
         }

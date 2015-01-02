@@ -93,6 +93,9 @@ define(function(require) {
         display: function(display) {
             this.visibleMapManager.display(display, this.focus);
         },
+        getVisibleMap: function() {
+            return this.visibleMapManager.getVisibleMap(this.focus);
+        },
         addOccupant: function(coords, occupant) {
             this.levelMap.addOccupant(coords, occupant);
         },

@@ -1,6 +1,7 @@
 define(function(require) {
 
     var Self = require("js/self/Self");
+//    var Game = require("js/game/Game");
     var Cursor = require("js/self/Cursor");
     var Console = require("js/screens/Console");
     var Directions = require("js/movement/Directions");
@@ -40,6 +41,10 @@ define(function(require) {
                 case "TALK":
                     this.mode = "talk";
                     Console.msg("Talk: Move cursor to target and press enter.");
+                    break;
+                case "INVENTORY":
+                    this.mode = "inventory";
+                    Game.displayInventory();
                     break;
                 case "EDIT":
                     this.mode = "edit";
@@ -117,6 +122,22 @@ define(function(require) {
                         break;
                     case "ENTER":
                         Self.talkTo(Cursor.position);
+                }
+            }
+        },
+        inventory: function(nextInput) {
+            if (Directions.isDirection(nextInput)) {
+//                Cursor.move(Directions[nextInput]);
+            } else {
+                switch (nextInput) {
+                    case "INVENTORY":
+                    case "ESC":
+                    case "QUIT":
+                        this.mode = "normal";
+                        Game.displayMap();
+                        break;
+                    case "ENTER":
+//                        Self.talkTo(Cursor.position);
                 }
             }
         },
