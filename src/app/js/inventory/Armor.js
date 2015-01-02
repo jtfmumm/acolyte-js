@@ -4,7 +4,7 @@ define(function(require) {
     var Dice = require("js/rules/Dice");
 
     function Armor(stats) {
-        Item.call(this, "armor", stats);
+        Item.call(this, stats, "armor");
 
         this.armorClassModifier = this.stats.ac;
         this.armorType = this.stats.armorType;

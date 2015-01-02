@@ -68,7 +68,8 @@ define(function(require) {
             name: "Great-Axe"
         }, 
         shortbow: {
-            dmg: 0, 
+            //dmg refers to hitting with the bow itself
+            dmg: 2,
             weight: 2, 
             cost: 250, 
             hands: 2, 
@@ -83,7 +84,8 @@ define(function(require) {
             name: "Shortbow Arrow"
         }, 
         longbow: {
-            dmg: 0, 
+            //dmg refers to hitting with the bow itself
+            dmg: 2,
             weight: 3, 
             cost: 60, 
             hands: 2, 
@@ -98,7 +100,8 @@ define(function(require) {
             name: "Longbow Arrow"
         }, 
         lightCrossbow: {
-            dmg: 0, 
+            //dmg refers to hitting with the bow itself
+            dmg: 2,
             weight: 7, 
             cost: 300, 
             hands: 2, 
@@ -113,7 +116,8 @@ define(function(require) {
             name: "Light Quarrel"
         }, 
         heavyCrossbow: {
-            dmg: 0, 
+            //dmg refers to hitting with the bow itself
+            dmg: 2,
             weight: 14, 
             cost: 500, 
             hands: 2, 

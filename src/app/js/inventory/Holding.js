@@ -38,6 +38,15 @@ define(function(require) {
             this.attackDice = weapon.getAttackDice();
         },
         equipArmor: function(armor) {
+            if (armor.isBodyArmor()) {
+                this.equipBodyArmor(armor);
+            } else if (armor.isShield()) {
+                this.equipShield(armor);
+            } else if (armor.isHelmet()) {
+                this.equipHelmet(armor);
+            }
+        },
+        equipBodyArmor: function(armor) {
             this.armor = armor;
             this.recalculateArmorClass();
         },

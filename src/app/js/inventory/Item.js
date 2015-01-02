@@ -1,15 +1,11 @@
 define(function(require) {
 
-    function Item(type, stats) {
-        this.held = false;
-        this.type = type;
+    function Item(stats, type) {
         this.stats = stats;
+        this.type = type || "item";
     }
 
     Item.prototype = {
-        isHeld: function() {
-            return this.held;
-        },
         getName: function() {
             return this.stats.name;
         },

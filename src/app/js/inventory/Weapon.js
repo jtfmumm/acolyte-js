@@ -4,7 +4,7 @@ define(function(require) {
     var Dice = require("js/rules/Dice");
 
     function Weapon(stats) {
-        Item.call(this, "weapon", stats);
+        Item.call(this, stats, "weapon");
 
         this.attackDice = new Dice(1, this.stats.dmg);
     }

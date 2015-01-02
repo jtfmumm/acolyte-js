@@ -13,6 +13,7 @@ define(function(require) {
         69: "EDIT", // e
         70: "FIRE", // f
         72: "HELP", // h
+        73: "INVENTORY", // i
         76: "LOOK", // l
         78: "NORMAL", // n
         80: "PAUSE", // p

@@ -1,7 +1,7 @@
 define(function(require) {
 
     function Inventory() {
-        this.items = [];
+        this.items = Array.prototype.slice.call(arguments);
         this.gp = 0;
         this.sp = 0;
         this.cp = 0;
