@@ -42,7 +42,7 @@ define(function(require) {
             backgroundColor: "black"
         },
         "pillar": {
-            symbol: "|",
+            symbol: "I",
             backgroundColor: "light-grey"
         },
         "altar": {
@@ -55,15 +55,15 @@ define(function(require) {
         },
         //Landmarks
         "cave": {
-            symbol: "O",
+            symbol: "&#171;",
             backgroundColor: "highlight-back"
         },
         "shrine": {
-            symbol: "I",
+            symbol: "&#8225;",
             backgroundColor: "highlight-back"
         },
         "village": {
-            symbol: "]",
+            symbol: "&#167;",
             backgroundColor: "highlight-back"
         },
         //Monsters
