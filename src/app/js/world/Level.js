@@ -201,6 +201,12 @@ define(function(require) {
         addAgentToPopulation: function(agent) {
             this.population.add(agent);
         },
+        canDropItemAt: function(coords) {
+            return this.levelMap.canDropItemAt(coords);
+        },
+        dropItem: function(item, coords) {
+            this.levelMap.dropItem(item, coords);
+        },
         ///For dev editing of map
         placeLevel: function(coords, levelSeed) {
             this.levelMap.placeLevel(coords, levelSeed);

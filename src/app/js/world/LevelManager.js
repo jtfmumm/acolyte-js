@@ -48,6 +48,12 @@ define(function(require) {
         },
         getVisibleMap: function() {
             return this.currentLevel.getVisibleMap();
+        },
+        canDropItemAt: function(coords) {
+            return this.currentLevel.canDropItemAt(coords);
+        },
+        dropItem: function(item, coords) {
+            this.currentLevel.dropItem(item, coords);
         }
     };
 

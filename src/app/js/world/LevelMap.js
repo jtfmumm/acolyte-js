@@ -113,6 +113,12 @@ define(function(require) {
         isReturnPoint: function(coords) {
             return this.getTile(coords).isReturnPoint();
         },
+        canDropItemAt: function(coords) {
+            return this.getTile(coords).canPlaceItem();
+        },
+        dropItem: function(item, coords) {
+            this.getTile(coords).placeItem(item);
+        },
         ///For dev editing of map
         placeLevel: function(coords, levelSeed) {
             this.getTile(coords).updateLandmark(levelSeed);

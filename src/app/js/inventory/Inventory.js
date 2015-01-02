@@ -2,10 +2,13 @@ define(function(require) {
 
     function Inventory() {
         this.items = Array.prototype.slice.call(arguments);
-        this.gp = 0;
-        this.sp = 0;
-        this.cp = 0;
+        this.coins = {
+            gp: 0,
+            sp: 0,
+            cp: 0
+        };
         this.weight = 0;
+        this.selected = 0;
     }
 
     Inventory.prototype = {
@@ -13,31 +16,40 @@ define(function(require) {
             this.items.push(item);
             this.weight += item.getWeight();
         },
-        removeItem: function(item) {
+        takeItem: function(item) {
             var idx = this.items.indexOf(item);
-            this.items.splice(idx, 1);
+            if (this.selected >= idx) this.selectPrevious();
+            return this.items.splice(idx, 1);
         },
-        isOverLimitAfterItem: function(limit, item) {
-            return (this.weight + item.getWeight()) > limit;
-        },
-        canSpend: function(amount) {
-            return (this.gp + (this.sp / 10) + (this.cp / 100)) > amount;
-        },
-        spend: function(amount) {
-            if (!this.canSpend(amount)) throw new Error("Inventory: Cannot spend more than one has.");
+        getSelected: function() {
+            if (!this.items.length) return null;
 
-            while (amount > 0 && (this.cp / 100) >= 1) {
-                this.cp -= 100;
-                amount--;
+            return this.items[this.selected];
+        },
+        getWeight: function() {
+            return this.weight;
+        },
+        getCoins: function() {
+            return this.coins;
+        },
+        setCoins: function(coins) {
+            this.coins = coins;
+        },
+        selectNext: function() {
+            if (!this.items.length) {
+                this.selected = 0;
+                return;
             }
-            while (amount > 0 && (this.sp / 10) >= 1) {
-                this.sp -= 10;
-                amount--;
+            var next = this.selected + 1;
+            this.selected = next % this.items.length;
+        },
+        selectPrevious: function() {
+            if (!this.items.length) {
+                this.selected = 0;
+                return;
             }
-            while (amount > 0 && this.gp > 0) {
-                this.gp--;
-                amount--;
-            }
+            var prev = this.items.length + (this.selected - 1);
+            this.selected = prev % this.items.length;
         }
     };
 

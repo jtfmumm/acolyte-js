@@ -14,6 +14,12 @@ define(function(require) {
         },
         getCost: function() {
             return this.stats.cost;
+        },
+        isWeapon: function() {
+            return this.type === "weapon";
+        },
+        isArmor: function() {
+            return this.type === "armor";
         }
     };
 

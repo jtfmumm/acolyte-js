@@ -11,6 +11,7 @@ define(function(require) {
         this.landmark = options.landmark || null;
         this.terrain = options.terrain || "plains";
         this.elevation = options.elevation || 0;
+        this.items = options.items || [];
         this.returnPoint = options.returnPoint || false;
         this.level = options.level || null;
         this.highlighted = false;
@@ -107,6 +108,20 @@ define(function(require) {
         },
         isHighlighted: function() {
             return this.highlighted || (this.occupant && this.occupant.isHighlighted());
+        },
+        canPlaceItem: function() {
+            return !this.landmark;
+        },
+        placeItem: function(item) {
+            this.items.push(item);
+        },
+        takeItem: function(item) {
+            var idx = this.items.indexOf(item);
+            if (idx !== -1) {
+                return this.items.splice(idx, 1);
+            } else {
+                throw new Error("Tile: Cannot take item that doesn't exist!");
+            }
         }
     };
 

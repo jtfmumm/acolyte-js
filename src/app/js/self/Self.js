@@ -22,8 +22,8 @@ define(function(require) {
         nextInput: null,
         level: null,
         hitBonus: 0,
-        inventory: new Inventory(new Armor(equipment.armor.plateMail), new Weapon(equipment.weapons.shortsword)),
-        holding: new Holding(),
+        attackDice: new Dice(1, 4),
+        armorClass: 10,
         maxWeight: 100,
         stats: {
             name: "Acolyte",
@@ -162,6 +162,15 @@ define(function(require) {
             } else {
                 Console.msg("You're holding too much weight!");
             }
+        },
+        setAttackDice: function(dice) {
+            this.attackDice = dice;
+        },
+        setHitBonus: function(bonus) {
+            this.hitBonus = bonus;
+        },
+        setArmorClass: function(val) {
+            this.armorClass = val;
         },
         equipWeapon: function(weapon) {
             this.holding.equipWeapon(weapon);
