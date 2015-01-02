@@ -1,7 +1,7 @@
 define(function(require) {
 
     function Inventory() {
-        this.items = [];
+        this.items = Array.prototype.slice.call(arguments);
         this.coins = {
             gp: 0,
             sp: 0,
@@ -24,7 +24,10 @@ define(function(require) {
         getItems: function() {
             return this.items;
         },
-        getSelected: function() {
+        getSelectedIndex: function() {
+            return this.selected;
+        },
+        getSelectedItem: function() {
             if (!this.items.length) return null;
 
             return this.items[this.selected];

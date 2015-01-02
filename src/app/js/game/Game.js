@@ -28,7 +28,7 @@ define(function(require) {
         init: function(inputDevice) {
             this.initializeLevelManager();
             this.initializeScreen();
-            this.inputProcessor = new InputProcessor(inputDevice, this.screen);
+            this.inputProcessor = new InputProcessor(inputDevice, this.inventoryManager, this.screen);
             Self.init(this.input);
             Cursor.init(Self);
 

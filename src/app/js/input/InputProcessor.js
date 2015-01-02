@@ -1,5 +1,6 @@
 define(function(require) {
 
+    var _ = require("lodash");
     var Self = require("js/self/Self");
     var Cursor = require("js/self/Cursor");
     var Console = require("js/screens/Console");
@@ -8,8 +9,9 @@ define(function(require) {
     var ScreenMethods = require("js/screens/ScreenMethods");
 
 
-    function InputProcessor(inputDevice, screen) {
+    function InputProcessor(inputDevice, inventoryManager, screen) {
         this.input = inputDevice;
+        this.inventoryManager = inventoryManager;
         this.screen = screen;
         this.input.connect();
         this.mode = "normal";
@@ -127,7 +129,11 @@ define(function(require) {
         },
         inventory: function(nextInput) {
             if (Directions.isDirection(nextInput)) {
-//                Cursor.move(Directions[nextInput]);
+                if (nextInput === "DOWN" || nextInput === "RIGHT") {
+                    this.inventoryManager.selectNext();
+                } else if (nextInput === "UP" || nextInput === "LEFT") {
+                    this.inventoryManager.selectPrevious();
+                }
             } else {
                 switch (nextInput) {
                     case "INVENTORY":
@@ -137,7 +143,8 @@ define(function(require) {
                         this.screen.switchTo(ScreenMethods.MAP);
                         break;
                     case "ENTER":
-//                        Self.talkTo(Cursor.position);
+                        this.inventoryManager.toggleEquipSelected();
+                        break;
                 }
             }
         },

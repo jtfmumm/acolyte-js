@@ -1,19 +1,26 @@
 define(function(require) {
 
-    function ItemDisplayData(name, selectType) {
+    function ItemDisplayData(name, equipType) {
         this.name = name;
-        this.selectType = selectType;
+        this.equipType = equipType || null;
+        this.selected = false;
     }
 
     ItemDisplayData.prototype = {
         getName: function() {
             return this.name;
         },
-        getSelectType: function() {
-            return this.selectType;
+        getEquipType: function() {
+            return this.equipType;
         },
-        setSelectType: function(type) {
-            this.selectType = type;
+        setEquipType: function(type) {
+            this.equipType = type;
+        },
+        toggleSelect: function() {
+            this.selected = !this.selected;
+        },
+        isSelected: function() {
+            return this.selected;
         }
     };
 

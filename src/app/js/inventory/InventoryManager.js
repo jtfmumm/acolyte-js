@@ -6,6 +6,9 @@ define(function(require) {
     var Inventory = require("js/inventory/Inventory");
     var ItemDisplayData = require("js/inventory/ItemDisplayData");
     var Dice = require("js/rules/Dice");
+    var Weapon = require("js/inventory/Weapon");
+    var Armor = require("js/inventory/Armor");
+    var equipment = require("js/data/equipment");
 
     var empty = {
         attackDice: new Dice(1, 4),
@@ -19,7 +22,7 @@ define(function(require) {
 
 
     function InventoryManager() {
-        this.inventory = new Inventory();
+        this.inventory = new Inventory(new Weapon(equipment.weapons.shortsword), new Weapon(equipment.weapons.longsword), new Armor(equipment.armor.plateMail));
         this.weapon = empty;
         this.armor = empty;
         this.shield = empty;
@@ -53,8 +56,8 @@ define(function(require) {
             }
         },
         toggleEquipSelected: function() {
-            var selected = this.inventory.getSelected();
-            if (selected) this.toggleEquipItem(selected);
+            var selectedItem = this.inventory.getSelectedItem();
+            if (selectedItem) this.toggleEquipItem(selectedItem);
         },
         toggleEquipItem: function(item) {
             if (item.isWeapon()) {
@@ -164,10 +167,11 @@ define(function(require) {
             });
             var weaponIdx = items.indexOf(this.weapon);
             var armorIndices = [items.indexOf(this.armor), items.indexOf(this.shield), items.indexOf(this.helmet)];
-            if (weaponIdx !== -1) displayData[weaponIdx].setSelectType("weapon");
+            if (weaponIdx !== -1) displayData[weaponIdx].setEquipType("W");
             armorIndices.forEach(function(idx) {
-                if (idx !== -1) displayData[idx].setSelectType("armor");
+                if (idx !== -1) displayData[idx].setEquipType("A");
             });
+            if (displayData.length) displayData[this.inventory.getSelectedIndex()].toggleSelect();
             return displayData;
         }
     };

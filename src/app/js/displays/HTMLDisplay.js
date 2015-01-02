@@ -43,7 +43,28 @@ define(function(require) {
             this.consoleEl.className = Self.getStats().combatMode;
         },
         renderInventory: function(inventory) {
-            console.log("INVENTORY!!!!");
+            var div, el;
+            var newDiv = document.createElement('div');
+            var heading = document.createElement('div');
+            heading.innerHTML = "INVENTORY";
+            newDiv.appendChild(heading);
+            for (var i = 0; i < inventory.length; i++) {
+                var nextItem = inventory[i];
+                div = document.createElement('div');
+                el = document.createElement('span');
+                el.innerHTML = nextItem.getName();
+                if (nextItem.getEquipType()) {
+                    el.innerHTML = el.innerHTML + " - " + nextItem.getEquipType();
+                }
+                if (nextItem.isSelected()) el.classList.add("background-" + highlightedColor);
+                div.appendChild(el);
+                newDiv.appendChild(div);
+            }
+
+            if (this.displayEl.firstChild) {
+                this.displayEl.removeChild(this.displayEl.firstChild);
+            }
+            this.displayEl.appendChild(newDiv);
         },
         compileMapHTML: function(tile) {
             var tileObject = HTMLCodeTable[tile.getDisplayCode()];
