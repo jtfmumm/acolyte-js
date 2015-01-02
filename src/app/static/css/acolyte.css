@@ -19,6 +19,11 @@
     height: 500px;
 }
 
+.tile {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
 .combat-attack {
     color: yellow;
     background-color: red;

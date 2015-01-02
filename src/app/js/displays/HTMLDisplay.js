@@ -94,6 +94,7 @@ define(function(require) {
             } else {
                 var el = document.createElement('span');
                 el.innerHTML = symbol;
+                el.classList.add("tile");
                 el.classList.add(color);
                 el.classList.add("background-" + backColor);
                 this.cache[newEl] = el;

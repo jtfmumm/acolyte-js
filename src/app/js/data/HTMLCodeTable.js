@@ -2,124 +2,124 @@ define(function(require) {
     return {
         //Terrains
         "self": {
-            symbol: " @"
+            symbol: "@"
 //            backgroundColor: "highlight-back"
         },
         "wall": {
-            symbol: " #",
+            symbol: "#",
             backgroundColor: "dark-light-brown-back"
         },
         "palm": {
-            symbol: " ("
+            symbol: "("
         },
         "plains": {
-            symbol: " ."
+            symbol: "."
         },
         "forest": {
-            symbol: " F",
+            symbol: "F",
             color: "dark-light-green-back"
         },
         "water": {
-            symbol: "&nbsp;&nbsp;",
+            symbol: "&nbsp;",
             backgroundColor: "blue"
         },
         "grass": {
-            symbol: " ,",
+            symbol: ",",
             color: "dark-green",
             backgroundColor: "light-green"
         },
         "path": {
-            symbol: " .",
+            symbol: ".",
             backgroundColor: "tan"
         },
         "floor": {
-            symbol: " ;",
+            symbol: ";",
             backgroundColor: "light-grey"
         },
         "door": {
-            symbol: " ^",
+            symbol: "^",
             color: "white",
             backgroundColor: "black"
         },
         "pillar": {
-            symbol: "||",
+            symbol: "|",
             backgroundColor: "light-grey"
         },
         "altar": {
-            symbol: " .",
+            symbol: ".",
             backgroundColor: "dark-white"
         },
         "void": {
-            symbol: "&nbsp;&nbsp;",
+            symbol: "&nbsp;",
             backgroundColor: "black"
         },
         //Landmarks
         "cave": {
-            symbol: "OO",
+            symbol: "O",
             backgroundColor: "highlight-back"
         },
         "shrine": {
-            symbol: "II",
+            symbol: "I",
             backgroundColor: "highlight-back"
         },
         "village": {
-            symbol: "[]",
+            symbol: "]",
             backgroundColor: "highlight-back"
         },
         //Monsters
         "skeleton": {
-            symbol: " s",
+            symbol: "s",
             color: "white",
             backgroundColor: "red"
         },
         //NPCs
         "alchemist": {
-            symbol: " A",
+            symbol: "A",
             color: "white",
             backgroundColor: "blue"
         },
         "artist": {
-            symbol: " A",
+            symbol: "A",
             color: "white",
             backgroundColor: "blue"
         },
         "baker": {
-            symbol: " B",
+            symbol: "B",
             color: "white",
             backgroundColor: "blue"
         },
         "bard": {
-            symbol: " B",
+            symbol: "B",
             color: "white",
             backgroundColor: "blue"
         },
         "carpenter": {
-            symbol: " C",
+            symbol: "C",
             color: "white",
             backgroundColor: "blue"
         },
         "cottager": {
-            symbol: " C",
+            symbol: "C",
             color: "white",
             backgroundColor: "blue"
         },
         "farmer": {
-            symbol: " F",
+            symbol: "F",
             color: "white",
             backgroundColor: "blue"
         },
         "potter": {
-            symbol: " P",
+            symbol: "P",
             color: "white",
             backgroundColor: "blue"
         },
         "priest": {
-            symbol: " P",
+            symbol: "P",
             color: "white",
             backgroundColor: "blue"
         },
         "tailor": {
-            symbol: " T",
+            symbol: "T",
             color: "white",
             backgroundColor: "blue"
         },
