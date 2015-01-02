@@ -1,7 +1,7 @@
 define(function(require) {
 
     function Inventory() {
-        this.items = Array.prototype.slice.call(arguments);
+        this.items = [];
         this.coins = {
             gp: 0,
             sp: 0,
@@ -20,6 +20,9 @@ define(function(require) {
             var idx = this.items.indexOf(item);
             if (this.selected >= idx) this.selectPrevious();
             return this.items.splice(idx, 1);
+        },
+        getItems: function() {
+            return this.items;
         },
         getSelected: function() {
             if (!this.items.length) return null;

@@ -4,6 +4,7 @@ define(function(require) {
     var LevelManager = require("js/world/LevelManager");
     var Console = require("js/screens/Console");
     var Inventory = require("js/inventory/Inventory");
+    var ItemDisplayData = require("js/inventory/ItemDisplayData");
     var Dice = require("js/rules/Dice");
 
     var empty = {
@@ -17,13 +18,16 @@ define(function(require) {
     };
 
 
-    var InventoryManager = {
-        inventory: new Inventory(),
-        weapon: empty,
-        armor: empty,
-        shield: empty,
-        helmet: empty,
+    function InventoryManager() {
+        this.inventory = new Inventory();
+        this.weapon = empty;
+        this.armor = empty;
+        this.shield = empty;
+        this.helmet = empty;
+        this.baseArmorClass = 10;
+    }
 
+    InventoryManager.prototype = {
         selectNext: function() {
             this.inventory.selectNext();
         },
@@ -35,6 +39,11 @@ define(function(require) {
             this.inventory.addItem(item);
         },
         dropItem: function(item) {
+            if (this.isHeld(item)) {
+                Console.msg("You're holding that!");
+                return;
+            }
+
             var coords = Self.getPosition();
             if (LevelManager.canDropItemAt(coords)) {
                 var dropped = this.inventory.takeItem(item);
@@ -43,42 +52,59 @@ define(function(require) {
                 Console.msg("Nowhere to drop it here!");
             }
         },
-        equipSelected: function() {
+        toggleEquipSelected: function() {
             var selected = this.inventory.getSelected();
-            if (selected) this.equipItem(selected);
+            if (selected) this.toggleEquipItem(selected);
         },
-        equipItem: function(item) {
+        toggleEquipItem: function(item) {
             if (item.isWeapon()) {
-                this.equipWeapon(item);
+                this.toggleEquipWeapon(item);
             } else if (item.isArmor()) {
-                this.equipArmor(item);
+                this.toggleEquipArmor(item);
             } else {
                 Console.msg("You can only equip weapons and armor!");
             }
         },
-        equipWeapon: function(weapon) {
-            this.weapon = weapon;
-            Self.setAttackDice(weapon.getAttackDice());
-        },
-        equipArmor: function(armor) {
-            if (armor.isBodyArmor()) {
-                this.equipBodyArmor(armor);
-            } else if (armor.isShield()) {
-                this.equipShield(armor);
-            } else if (armor.isHelmet()) {
-                this.equipHelmet(armor);
+        toggleEquipWeapon: function(weapon) {
+            if (this.weapon === weapon) {
+                this.weapon = empty;
+                Self.setAttackDice(empty.getAttackDice());
+            } else {
+                this.weapon = weapon;
+                Self.setAttackDice(weapon.getAttackDice());
             }
         },
-        equipBodyArmor: function(armor) {
-            this.armor = armor;
+        toggleEquipArmor: function(armor) {
+            if (armor.isBodyArmor()) {
+                this.toggleEquipBodyArmor(armor);
+            } else if (armor.isShield()) {
+                this.toggleEquipShield(armor);
+            } else if (armor.isHelmet()) {
+                this.toggleEquipHelmet(armor);
+            }
+        },
+        toggleEquipBodyArmor: function(armor) {
+            if (this.armor === armor) {
+                this.armor = empty;
+            } else {
+                this.armor = armor;
+            }
             this.recalculateArmorClass();
         },
-        equipShield: function(shield) {
-            this.shield = shield;
+        toggleEquipShield: function(shield) {
+            if (this.shield === shield) {
+                this.shield = empty;
+            } else {
+                this.shield = shield;
+            }
             this.recalculateArmorClass();
         },
-        equipHelmet: function(helmet) {
-            this.helmet = helmet;
+        toggleEquipHelmet: function(helmet) {
+            if (this.helmet === helmet) {
+                this.helmet = empty;
+            } else {
+                this.helmet = helmet;
+            }
             this.recalculateArmorClass();
         },
         unequipAll: function() {
@@ -130,6 +156,19 @@ define(function(require) {
                 invCoins.gp--;
                 amount--;
             }
+        },
+        getDisplayData: function() {
+            var items = this.inventory.getItems();
+            var displayData = items.map(function(item) {
+               return new ItemDisplayData(item.getName());
+            });
+            var weaponIdx = items.indexOf(this.weapon);
+            var armorIndices = [items.indexOf(this.armor), items.indexOf(this.shield), items.indexOf(this.helmet)];
+            if (weaponIdx !== -1) displayData[weaponIdx].setSelectType("weapon");
+            armorIndices.forEach(function(idx) {
+                if (idx !== -1) displayData[idx].setSelectType("armor");
+            });
+            return displayData;
         }
     };
 

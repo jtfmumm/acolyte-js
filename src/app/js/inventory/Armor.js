@@ -1,5 +1,6 @@
 define(function(require) {
 
+    var _ = require("lodash");
     var Item = require("js/inventory/Item");
     var Dice = require("js/rules/Dice");
 
@@ -10,7 +11,7 @@ define(function(require) {
         this.armorType = this.stats.armorType;
     }
 
-    Armor.prototype = {
+    Armor.prototype = _.extend(Object.create(Item.prototype), {
         getArmorClassModifier: function() {
             return this.armorClassModifier;
         },
@@ -23,7 +24,7 @@ define(function(require) {
         isHelmet: function() {
             return this.armorType === "helmet";
         }
-    };
+    });
 
     return Armor;
 });

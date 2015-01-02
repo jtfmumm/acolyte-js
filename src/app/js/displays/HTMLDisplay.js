@@ -43,6 +43,7 @@ define(function(require) {
             this.consoleEl.className = Self.getStats().combatMode;
         },
         renderInventory: function(inventory) {
+            console.log("INVENTORY!!!!");
         },
         compileMapHTML: function(tile) {
             var tileObject = HTMLCodeTable[tile.getDisplayCode()];

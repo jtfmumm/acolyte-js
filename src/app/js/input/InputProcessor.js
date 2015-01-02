@@ -5,12 +5,12 @@ define(function(require) {
     var Console = require("js/screens/Console");
     var Directions = require("js/movement/Directions");
     var Simulator = require("js/game/Simulator");
-    var Screen = require("js/screens/Screen");
-    var screens = require("js/screens/screens");
+    var ScreenMethods = require("js/screens/ScreenMethods");
 
 
-    function InputProcessor(inputDevice) {
+    function InputProcessor(inputDevice, screen) {
         this.input = inputDevice;
+        this.screen = screen;
         this.input.connect();
         this.mode = "normal";
     }
@@ -44,7 +44,7 @@ define(function(require) {
                     break;
                 case "INVENTORY":
                     this.mode = "inventory";
-                    Screen.switchTo(screens.INVENTORY);
+                    this.screen.switchTo(ScreenMethods.INVENTORY);
                     break;
                 case "EDIT":
                     this.mode = "edit";
@@ -134,7 +134,7 @@ define(function(require) {
                     case "ESC":
                     case "QUIT":
                         this.mode = "normal";
-                        Screen.switchTo(screens.MAP);
+                        this.screen.switchTo(ScreenMethods.MAP);
                         break;
                     case "ENTER":
 //                        Self.talkTo(Cursor.position);

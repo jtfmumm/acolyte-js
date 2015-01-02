@@ -13,7 +13,6 @@ define(function(require) {
     var Weapon = require("js/inventory/Weapon");
     var Armor = require("js/inventory/Armor");
     var Inventory = require("js/inventory/Inventory");
-    var Holding = require("js/inventory/Holding");
     var equipment = require("js/data/equipment");
 
     var Self = {
@@ -107,10 +106,10 @@ define(function(require) {
             this.stats.hp -= damage;
         },
         getAttackDice: function() {
-            return this.holding.getAttackDice();
+            return this.attackDice;
         },
         getArmorClass: function() {
-            return this.holding.getArmorClass();
+            return this.armorClass;
         },
         talkTo: function(position) {
             Talk.talkTo(this.level.talkTo(position));

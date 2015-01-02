@@ -5,6 +5,7 @@ define(function(require) {
     var World = require("js/world/World");
     var HTMLDisplay = require("js/displays/HTMLDisplay");
     var Self = require("js/self/Self");
+    var InventoryManager = require("js/inventory/InventoryManager");
     var TestWorldGenerator = require("js/test-worlds/TestWorldGenerator");
     var AstarPathfinder = require("js/algorithms/AstarPathfinder");
     var InputProcessor = require("js/input/InputProcessor");
@@ -19,14 +20,15 @@ define(function(require) {
         this.display = new HTMLDisplay();
         this.screen = null;
         this.levelManager = null;
+        this.inputProcessor = null;
+        this.inventoryManager = new InventoryManager();
     }
 
     Game.prototype = {
         init: function(inputDevice) {
-            InputProcessor.init(inputDevice);
-
             this.initializeLevelManager();
             this.initializeScreen();
+            this.inputProcessor = new InputProcessor(inputDevice, this.screen);
             Self.init(this.input);
             Cursor.init(Self);
 
@@ -42,7 +44,7 @@ define(function(require) {
             this.levelManager.enterCurrentLevel();
         },
         initializeScreen: function() {
-            this.screen = new Screen(this.display, this.levelManager);
+            this.screen = new Screen(this.display, this.levelManager, this.inventoryManager);
         },
         displayScreens: function() {
             this.screen.display();
@@ -55,19 +57,19 @@ define(function(require) {
             var _this = this;
             if (Self.isDead()) this.endGame();
             setTimeout(function() {
-                if (InputProcessor.isReady()) {
+                if (_this.inputProcessor.isReady()) {
                     _this.nextStep();
                 }
                 _this.watchInput();
             }, 1);
         },
         nextStep: function() {
-            InputProcessor.processNextKey();
+            this.inputProcessor.processNextKey();
             this.displayScreens();
         },
         endGame: function() {
             Console.msg("Game over!");
-            InputProcessor.shutdown();
+            this.inputProcessor.shutdown();
         },
 //        test: function(inputDevice, testMap) {
 //            this.input = inputDevice;
