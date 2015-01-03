@@ -56,6 +56,7 @@ define(function(require) {
                     Console.msg("Arrows or numpad - Move (including diagonal)");
                     Console.msg("t - Talk");
                     Console.msg("h - Help");
+                    Console.msg("i - Inventory");
                     Console.msg("a - Attack Mode");
                     Console.msg("d - Defense Mode");
                     Console.msg("n - Normal Mode");

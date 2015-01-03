@@ -6,6 +6,7 @@ define(function(require) {
     var Inventory = require("js/inventory/Inventory");
     var ItemDisplayData = require("js/inventory/ItemDisplayData");
     var Dice = require("js/rules/Dice");
+    var Item = require("js/inventory/Item");
     var Weapon = require("js/inventory/Weapon");
     var Armor = require("js/inventory/Armor");
     var equipment = require("js/data/equipment");
@@ -22,7 +23,7 @@ define(function(require) {
 
 
     function InventoryManager() {
-        this.inventory = new Inventory(new Weapon(equipment.weapons.shortsword), new Weapon(equipment.weapons.longsword), new Armor(equipment.armor.plateMail));
+        this.inventory = new Inventory(new Item(equipment.items.book), new Weapon(equipment.weapons.shortsword), new Weapon(equipment.weapons.longsword), new Armor(equipment.armor.plateMail));
         this.weapon = empty;
         this.armor = empty;
         this.shield = empty;

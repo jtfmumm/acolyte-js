@@ -196,6 +196,14 @@ define(function(require) {
         }
     };
 
+    var items = {
+        book: {
+            weight: 1,
+            cost: 1,
+            name: "Book"
+        }
+    };
+
     var itemNames = {
         handAxe: "Hand-Axe", 
         battleAxe: "Battle-Axe", 
@@ -227,6 +235,7 @@ define(function(require) {
     return {
         armor: armor,
         weapons: weapons,
+        items: items,
         itemNames: itemNames
     };
 });
