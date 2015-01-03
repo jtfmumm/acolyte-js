@@ -15,7 +15,7 @@ define(function(require) {
             parentCoords: parentCoords,
             diameter: diameter,
             diameterPerRegion: diameter,
-            visibleDiameter: 51,
+            visibleDiameter: 3,
             voidType: "void",
             levelMapAlgorithms: LevelMapAlgorithms.cave,
             focus: new Coords(Math.floor(diameter / 2), diameter - 1)

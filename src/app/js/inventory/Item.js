@@ -3,6 +3,7 @@ define(function(require) {
     function Item(stats, type) {
         this.stats = stats;
         this.type = type || "item";
+        this.useType = "none";
     }
 
     Item.prototype = {
@@ -14,6 +15,9 @@ define(function(require) {
         },
         getCost: function() {
             return this.stats.cost;
+        },
+        getUseType: function() {
+            return this.useType;
         },
         isWeapon: function() {
             return this.type === "weapon";

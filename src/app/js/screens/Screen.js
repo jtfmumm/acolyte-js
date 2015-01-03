@@ -18,7 +18,7 @@ define(function(require) {
             this[this.currentMethod]();
         },
         renderMap: function() {
-            var tileMap = this.levelManager.getVisibleMap();
+            var tileMap = this.levelManager.getDisplayMap();
             this._display.renderMap(tileMap);
         },
         renderInventory: function() {

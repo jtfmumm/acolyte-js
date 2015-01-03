@@ -204,6 +204,16 @@ define(function(require) {
         }
     };
 
+    var lightSources = {
+        torch: {
+            weight: 1,
+            cost: 1,
+            name: "Torch",
+            lightDiameter: 10,
+            duration: 500
+        }
+    };
+
     var itemNames = {
         handAxe: "Hand-Axe", 
         battleAxe: "Battle-Axe", 
@@ -236,6 +246,7 @@ define(function(require) {
         armor: armor,
         weapons: weapons,
         items: items,
+        lightSources: lightSources,
         itemNames: itemNames
     };
 });

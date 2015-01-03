@@ -46,8 +46,8 @@ define(function(require) {
             screen.display(this.currentLevel);
 //            this.currentLevel.display(display);
         },
-        getVisibleMap: function() {
-            return this.currentLevel.getVisibleMap();
+        getDisplayMap: function() {
+            return this.currentLevel.getDisplayMap();
         },
         canDropItemAt: function(coords) {
             return this.currentLevel.canDropItemAt(coords);

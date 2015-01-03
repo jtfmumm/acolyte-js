@@ -9,6 +9,7 @@ define(function(require) {
     var Item = require("js/inventory/Item");
     var Weapon = require("js/inventory/Weapon");
     var Armor = require("js/inventory/Armor");
+    var LightSource = require("js/inventory/LightSource");
     var equipment = require("js/data/equipment");
 
     var empty = {
@@ -23,7 +24,7 @@ define(function(require) {
 
 
     function InventoryManager() {
-        this.inventory = new Inventory(new Item(equipment.items.book), new Weapon(equipment.weapons.shortsword), new Weapon(equipment.weapons.longsword), new Armor(equipment.armor.plateMail));
+        this.inventory = new Inventory(new LightSource(equipment.lightSources.torch), new Item(equipment.items.book), new Weapon(equipment.weapons.shortsword), new Weapon(equipment.weapons.longsword), new Armor(equipment.armor.plateMail));
         this.weapon = empty;
         this.armor = empty;
         this.shield = empty;
@@ -54,6 +55,16 @@ define(function(require) {
                 LevelManager.dropItem(dropped, coords);
             } else {
                 Console.msg("Nowhere to drop it here!");
+            }
+        },
+        useSelected: function() {
+            var selected = this.inventory.getSelectedItem();
+
+            if (selected.getUseType() === "none") {
+                Console.msg("Can't use this item.");
+            } else if (selected.getUseType() === "remove") {
+                Self.useItem(selected);
+                this.inventory.takeSelected();
             }
         },
         toggleEquipSelected: function() {

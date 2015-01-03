@@ -53,6 +53,10 @@ define(function(require) {
             symbol: "&nbsp;",
             backgroundColor: "black"
         },
+        "light-edge": {
+            symbol: "/",
+            backgroundColor: "dark-grey"
+        },
         //Landmarks
         "cave": {
             symbol: "&#171;",

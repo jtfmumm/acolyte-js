@@ -20,6 +20,7 @@ define(function(require) {
         81: "QUIT", // q (context-dependent)
         83: "S",
         84: "TALK", // t
+        85: "USE", // u
         86: "V",
 
         49: "SOUTHWEST", //1

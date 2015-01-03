@@ -7,7 +7,6 @@ define(function(require) {
 
     var HouseAlgorithm = {
         generate: function(options) {
-            console.log(options);
             var diameter = options.diameter;
             var focus = options.focus;
             var matrix = new Matrix().init(diameter, diameter, function() { return "floor"; });

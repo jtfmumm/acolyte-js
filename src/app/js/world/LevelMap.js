@@ -94,6 +94,9 @@ define(function(require) {
                 return this.voidTile;
             }
         },
+        getVoidTile: function() {
+            return this.voidTile;
+        },
         findEmptyTileCoords: function() {
             var coords = null;
             var tried = {};

@@ -18,8 +18,14 @@ define(function(require) {
         },
         takeItem: function(item) {
             var idx = this.items.indexOf(item);
+            var taken = this.items.splice(idx, 1);
             if (this.selected >= idx) this.selectPrevious();
-            return this.items.splice(idx, 1);
+            return taken;
+        },
+        takeSelected: function() {
+            var taken = this.items.splice(this.selected, 1);
+            this.selectPrevious();
+            return taken;
         },
         getItems: function() {
             return this.items;

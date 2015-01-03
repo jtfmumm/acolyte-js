@@ -46,6 +46,12 @@ define(function(require) {
         getMatrix: function() {
             return this.data;
         },
+        getCenterX: function() {
+            return Math.floor(this.getHeight() / 2);
+        },
+        getCenterY: function() {
+            return Math.floor(this.getWidth() / 2);
+        },
         flatJoin: function(delimiter, lineDelimiter) {
             var flattenedArr = this.data.map(function(subArr) {
                 return subArr.join(delimiter);
@@ -129,6 +135,25 @@ define(function(require) {
             for (i = 0; i < this.data.length; i++) {
                 this.data[i][0] = value;
                 this.data[i][this.data.length - 1] = value;
+            }
+        },
+        setInternalBorder: function(value, diameter) {
+            diameter = diameter + 2;
+            var radius = Math.floor(diameter / 2);
+            var originX = this.getCenterX() - radius;
+            var targetX = this.getCenterX() + radius;
+            var originY = this.getCenterY() - radius;
+            var targetY = this.getCenterY() + radius;
+
+            //Set top and bottom edges
+            for (var x = originX; x <= targetX; x++) {
+                this.setCell(x, originY, value);
+                this.setCell(x, targetY, value);
+            }
+            //Set left and right edges
+            for (var y = originY; y <= targetY; y++) {
+                this.setCell(originX, y, value);
+                this.setCell(targetX, y, value);
             }
         },
         getSubMatrixByDirectionFrom: function(direction, column, row) {

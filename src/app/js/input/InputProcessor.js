@@ -143,6 +143,9 @@ define(function(require) {
                         this.mode = "normal";
                         this.screen.switchTo(ScreenMethods.MAP);
                         break;
+                    case "USE":
+                        this.inventoryManager.useSelected();
+                        break;
                     case "ENTER":
                         this.inventoryManager.toggleEquipSelected();
                         break;

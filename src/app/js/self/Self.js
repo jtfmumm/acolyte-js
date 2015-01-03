@@ -24,6 +24,7 @@ define(function(require) {
         attackDice: new Dice(1, 4),
         armorClass: 10,
         maxWeight: 100,
+        lightSource: null,
         stats: {
             name: "Acolyte",
             level: 1,
@@ -111,6 +112,26 @@ define(function(require) {
         getArmorClass: function() {
             return this.armorClass;
         },
+        carryLightSource: function(lightSource) {
+            this.lightSource = lightSource;
+        },
+        castLight: function(lightDiameter) {
+            this.level.castLight(lightDiameter);
+        },
+        extinguishLight: function() {
+            this.level.extinguishLight();
+            this.lightSource = null;
+        },
+        isCastingLight: function() {
+            return Boolean(this.lightSource);
+        },
+        useItem: function(item) {
+            if (item.type === "light source") {
+                this.carryLightSource(item);
+            } else {
+                Console.msg("I don't know what to do with this!");
+            }
+        },
         talkTo: function(position) {
             Talk.talkTo(this.level.talkTo(position));
         },
@@ -125,6 +146,10 @@ define(function(require) {
                 if (this.stats.hp < 1) {
                     Console.msg("You have fallen!");
                     return;
+                }
+
+                if (this.isCastingLight()) {
+                    this.lightSource.update(this);
                 }
 
                 if (Directions.isDirection(this.nextInput)) {
@@ -155,13 +180,6 @@ define(function(require) {
                     break;
             }
         },
-        addToInventory: function(item) {
-            if (!this.inventory.isOverLimitAfterItem(this.maxWeight, item)) {
-                this.inventory.addItem(item);
-            } else {
-                Console.msg("You're holding too much weight!");
-            }
-        },
         setAttackDice: function(dice) {
             this.attackDice = dice;
         },
@@ -170,12 +188,6 @@ define(function(require) {
         },
         setArmorClass: function(val) {
             this.armorClass = val;
-        },
-        equipWeapon: function(weapon) {
-            this.holding.equipWeapon(weapon);
-        },
-        equipArmor: function(armor) {
-            this.holding.equipArmor(armor);
         },
         isDead: function() {
             return this.stats.hp < 1;

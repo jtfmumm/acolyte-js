@@ -3,10 +3,14 @@ define(function(require) {
     var Directions = require("js/movement/Directions");
     var Coords = require("js/utils/Coords");
     var Matrix = require("js/utils/Matrix");
+    var VoidTile = require("js/world/VoidTile");
+
+    var voidTile = new VoidTile();
+    var lightEdgeTile = new VoidTile("light-edge");
 
     var LevelSubMapper = {
-        getSubMap: function(levelMap, focus, radius) {
-            var diameter = (radius * 2) + 1;
+        getSubMap: function(levelMap, focus, diameter) {
+            var radius = Math.floor(diameter / 2);
             var subMap = new Matrix().init(diameter, diameter);
 
             var originX = focus.x - radius;
@@ -14,6 +18,30 @@ define(function(require) {
             for (var y = 0; y < diameter; y++) {
                 for (var x = 0; x < diameter; x++) {
                     subMap.setCell(x, y, levelMap.getTile(new Coords(x + originX, y + originY)));
+                }
+            }
+
+            return subMap;
+        },
+        getLitSubMap: function(levelMap, focus, displayDiameter, visibleDiameter) {
+            var adjustedX, adjustedY, xDiff, yDiff;
+            var radius = Math.floor(displayDiameter / 2);
+            var visibleRadius = Math.floor(visibleDiameter / 2);
+            var subMap = new Matrix().init(displayDiameter, displayDiameter);
+
+            var originX = focus.x - radius;
+            var originY = focus.y - radius;
+            for (var y = 0; y < displayDiameter; y++) {
+                for (var x = 0; x < displayDiameter; x++) {
+                    adjustedX = x + originX;
+                    adjustedY = y + originY;
+                    xDiff = Math.abs(adjustedX - focus.x);
+                    yDiff = Math.abs(adjustedY - focus.y);
+                    if (xDiff <= visibleRadius && yDiff <= visibleRadius) {
+                        subMap.setCell(x, y, levelMap.getTile(new Coords(adjustedX, adjustedY)));
+                    } else {
+                        subMap.setCell(x, y, voidTile);
+                    }
                 }
             }
 

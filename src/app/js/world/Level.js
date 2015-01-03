@@ -22,7 +22,8 @@ define(function(require) {
         this.parentCoords = options.parentCoords || null;
         this.registryId = null;
         this.diameter = options.diameter || 1;
-        this.visibleDiameter = options.visibleDiameter || 1;
+        this.baseVisibleDiameter = options.visibleDiameter || 1;
+        this.visibleDiameter = this.baseVisibleDiameter;
         this.levelMap = options.levelMap || null;
         this.regionManager = options.regionManager || null;
         this.startingCoords = options.focus || new Coords(Math.floor(this.diameter / 2), Math.floor(this.diameter / 2));
@@ -74,6 +75,7 @@ define(function(require) {
             var timeAbsent = this.calculateTimeAbsent();
             Simulator.catchUpBy(timeAbsent);
             //Self enters
+            this.extinguishLight();
             this.placeSelf(newFocus);
         },
         exit: function() {
@@ -93,8 +95,8 @@ define(function(require) {
         display: function(display) {
             this.visibleMapManager.display(display, this.focus);
         },
-        getVisibleMap: function() {
-            return this.visibleMapManager.getVisibleMap(this.focus);
+        getDisplayMap: function() {
+            return this.visibleMapManager.getDisplayMap(this.focus);
         },
         addOccupant: function(coords, occupant) {
             this.levelMap.addOccupant(coords, occupant);
@@ -206,6 +208,12 @@ define(function(require) {
         },
         dropItem: function(item, coords) {
             this.levelMap.dropItem(item, coords);
+        },
+        castLight: function(lightDiameter) {
+            this.visibleMapManager.castLight(lightDiameter);
+        },
+        extinguishLight: function() {
+            this.visibleMapManager.updateVisibleDiameter(this.baseVisibleDiameter);
         },
         ///For dev editing of map
         placeLevel: function(coords, levelSeed) {
