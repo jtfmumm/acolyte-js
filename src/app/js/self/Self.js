@@ -121,6 +121,7 @@ define(function(require) {
         extinguishLight: function() {
             this.level.extinguishLight();
             this.lightSource = null;
+            Console.msg("Your light is extinguished!");
         },
         isCastingLight: function() {
             return Boolean(this.lightSource);

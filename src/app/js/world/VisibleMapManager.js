@@ -6,12 +6,15 @@ define(function(require) {
     var VoidTile = require("js/world/VoidTile");
 
     var lightEdgeTile = new VoidTile("light-edge");
+    var shadowEdgeTile = new VoidTile("shadow-edge");
 
     function VisibleMapManager(levelMap, visibleDiameter) {
         this.displayDiameter = 51;
-        this.visibleDiameter = visibleDiameter;
+        this.baseVisibleDiameter = visibleDiameter;
+        this.visibleDiameter = this.baseVisibleDiameter;
         this.levelMap = levelMap;
         this.displayMap = new Matrix();
+        this.visionEdgeTile = shadowEdgeTile;
     }
 
     VisibleMapManager.prototype = {
@@ -26,13 +29,18 @@ define(function(require) {
         updateMap: function(focus) {
             this.displayMap = LevelSubMapper.getLitSubMap(this.levelMap, focus, this.displayDiameter, this.visibleDiameter);
             if (this.displayDiameter > this.visibleDiameter) {
-                this.displayMap.setInternalBorder(lightEdgeTile, this.visibleDiameter);
+                this.displayMap.setInternalBorder(this.visionEdgeTile, this.visibleDiameter);
             }
         },
         castLight: function(lightDiameter) {
             if (lightDiameter > this.visibleDiameter) {
                 this.visibleDiameter = lightDiameter;
             }
+            this.visionEdgeTile = lightEdgeTile;
+        },
+        extinguishLight: function() {
+            this.visibleDiameter = this.baseVisibleDiameter;
+            this.visionEdgeTile = shadowEdgeTile;
         },
         updateVisibleDiameter: function(newDiameter) {
             this.visibleDiameter = newDiameter;

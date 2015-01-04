@@ -22,8 +22,7 @@ define(function(require) {
         this.parentCoords = options.parentCoords || null;
         this.registryId = null;
         this.diameter = options.diameter || 1;
-        this.baseVisibleDiameter = options.visibleDiameter || 1;
-        this.visibleDiameter = this.baseVisibleDiameter;
+        this.visibleDiameter = options.visibleDiameter || 1;
         this.levelMap = options.levelMap || null;
         this.regionManager = options.regionManager || null;
         this.startingCoords = options.focus || new Coords(Math.floor(this.diameter / 2), Math.floor(this.diameter / 2));
@@ -213,7 +212,7 @@ define(function(require) {
             this.visibleMapManager.castLight(lightDiameter);
         },
         extinguishLight: function() {
-            this.visibleMapManager.updateVisibleDiameter(this.baseVisibleDiameter);
+            this.visibleMapManager.extinguishLight();
         },
         ///For dev editing of map
         placeLevel: function(coords, levelSeed) {

@@ -55,6 +55,10 @@ define(function(require) {
         },
         "light-edge": {
             symbol: "/",
+            backgroundColor: "highlight-back"
+        },
+        "shadow-edge": {
+            symbol: "/",
             backgroundColor: "dark-grey"
         },
         //Landmarks
